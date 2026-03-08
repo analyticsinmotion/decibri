@@ -37,6 +37,7 @@
         ["OS=='win'", {
           "sources": [
             "deps/portaudio/src/os/win/pa_win_util.c",
+            "deps/portaudio/src/os/win/pa_win_version.c",
             "deps/portaudio/src/os/win/pa_win_waveformat.c",
             "deps/portaudio/src/os/win/pa_win_hostapis.c",
             "deps/portaudio/src/os/win/pa_win_coinitialize.c",

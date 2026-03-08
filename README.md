@@ -74,15 +74,20 @@ Creates a Readable stream that captures from the system default microphone.
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `sampleRate` | number | `16000` | Samples per second |
-| `channels` | number | `1` | Number of input channels |
-| `framesPerBuffer` | number | `1600` | Frames per audio callback (chunk size) |
+| `sampleRate` | number | `16000` | Samples per second (1000–384000) |
+| `channels` | number | `1` | Number of input channels (1–32) |
+| `framesPerBuffer` | number | `1600` | Frames per audio callback (64–65536) |
+| `device` | number | system default | Device index from `MicStream.devices()`; omit to use the system default |
 
 Standard Node.js `Readable` stream options (e.g. `highWaterMark`) are also accepted.
 
 ### `mic.stop()`
 
 Stops microphone capture and ends the stream. Safe to call multiple times.
+
+### Event: `'backpressure'`
+
+Emitted when `push()` returns `false`, meaning the stream's internal buffer is full and the consumer is reading too slowly. Because a microphone cannot be paused, audio chunks will continue to arrive. Callers should drain the stream or drop data to avoid unbounded memory growth.
 
 ### `mic.isOpen`
 

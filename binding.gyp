@@ -25,7 +25,8 @@
 
       "defines": [
         "NAPI_DISABLE_CPP_EXCEPTIONS",
-        "NAPI_VERSION=6"
+        "NAPI_VERSION=6",
+        "MICSTREAM_VERSION=\"<!@(node -p \"require('./package.json').version\")\""
       ],
 
       "cflags!": ["-fno-exceptions"],

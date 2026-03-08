@@ -1,24 +1,9 @@
 'use strict';
 
 const { Readable } = require('stream');
-const prebuildInstall = require('prebuild-install');
 
-// Load the pre-built binary (or fall back to compiled build/ output)
-let binding;
-try {
-  binding = require('prebuild-install/src/util').requireAddon(__dirname, 'micstream');
-} catch (_) {
-  // prebuild-install helper unavailable — try the standard build output
-  try {
-    binding = require('./build/Release/micstream');
-  } catch (err) {
-    throw new Error(
-      'micstream: failed to load native addon.\n' +
-      'If you are building from source, run: npm run build\n' +
-      `Original error: ${err.message}`
-    );
-  }
-}
+// Load the pre-built binary (falls back to compiled build/ output)
+const binding = require('node-gyp-build')(__dirname);
 
 const { MicStream: NativeMicStream } = binding;
 
@@ -33,12 +18,18 @@ const { MicStream: NativeMicStream } = binding;
  *   - Sample rate: 16000 Hz  (default — ideal for speech/wake-word)
  *   - Channels:    1 (mono)  (default)
  *
+ * @fires MicStream#backpressure - Emitted when the stream's internal buffer is
+ *   full and the consumer is reading too slowly. The microphone cannot be
+ *   paused, so chunks will continue to arrive; callers should drain or drop
+ *   data as appropriate.
+ *
  * @example
  * const mic = new MicStream();
  * mic.on('data', (chunk) => {
  *   // chunk is a Buffer of Int16 PCM samples
  * });
  * mic.on('error', (err) => console.error(err));
+ * mic.on('backpressure', () => console.warn('Consumer too slow'));
  *
  * // Stop after 5 seconds
  * setTimeout(() => mic.stop(), 5000);
@@ -46,21 +37,26 @@ const { MicStream: NativeMicStream } = binding;
 class MicStream extends Readable {
   /**
    * @param {object} [options]
-   * @param {number} [options.sampleRate=16000]        Samples per second
-   * @param {number} [options.channels=1]              Number of input channels
-   * @param {number} [options.framesPerBuffer=1600]    Frames per audio callback (chunk size)
+   * @param {number} [options.sampleRate=16000]        Samples per second (1000–384000)
+   * @param {number} [options.channels=1]              Number of input channels (1–32)
+   * @param {number} [options.framesPerBuffer=1600]    Frames per audio callback (64–65536)
+   * @param {number} [options.device]                  Device index from MicStream.devices(); omit to use system default
    */
   constructor(options = {}) {
     const {
       sampleRate       = 16000,
       channels         = 1,
       framesPerBuffer  = 1600,
+      device,
       ...streamOptions
     } = options;
 
     super({ ...streamOptions, objectMode: false });
 
-    this._native  = new NativeMicStream({ sampleRate, channels, framesPerBuffer });
+    const nativeOpts = { sampleRate, channels, framesPerBuffer };
+    if (device !== undefined) nativeOpts.device = device;
+
+    this._native  = new NativeMicStream(nativeOpts);
     this._started = false;
   }
 
@@ -71,6 +67,7 @@ class MicStream extends Readable {
 
     this._native.start((err, chunk) => {
       if (err) {
+        this._started = false;
         this.destroy(err);
         return;
       }

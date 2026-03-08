@@ -1,7 +1,6 @@
 #include <napi.h>
 #include <portaudio.h>
 #include <vector>
-#include <mutex>
 #include <atomic>
 #include <cstring>
 
@@ -11,6 +10,8 @@
 #define DEFAULT_CHANNELS       1
 // 100ms of audio per chunk at 16kHz — low enough latency, not too chatty
 #define DEFAULT_FRAMES_PER_BUFFER 1600
+// -1 means "use the system default input device"
+#define DEFAULT_DEVICE         -1
 
 // ─── MicStream class ─────────────────────────────────────────────────────────
 
@@ -39,10 +40,12 @@ public:
   MicStream(const Napi::CallbackInfo& info)
       : Napi::ObjectWrap<MicStream>(info),
         stream_(nullptr),
+        tsfn_(),
         running_(false),
         sampleRate_(DEFAULT_SAMPLE_RATE),
         channels_(DEFAULT_CHANNELS),
-        framesPerBuffer_(DEFAULT_FRAMES_PER_BUFFER) {
+        framesPerBuffer_(DEFAULT_FRAMES_PER_BUFFER),
+        device_(DEFAULT_DEVICE) {
 
     Napi::Env env = info.Env();
 
@@ -52,6 +55,10 @@ public:
 
       if (opts.Has("sampleRate") && opts.Get("sampleRate").IsNumber()) {
         sampleRate_ = opts.Get("sampleRate").As<Napi::Number>().Int32Value();
+        if (sampleRate_ < 1000 || sampleRate_ > 384000) {
+          Napi::RangeError::New(env, "sampleRate must be between 1000 and 384000").ThrowAsJavaScriptException();
+          return;
+        }
       }
       if (opts.Has("channels") && opts.Get("channels").IsNumber()) {
         channels_ = opts.Get("channels").As<Napi::Number>().Int32Value();
@@ -66,6 +73,9 @@ public:
           Napi::RangeError::New(env, "framesPerBuffer must be between 64 and 65536").ThrowAsJavaScriptException();
           return;
         }
+      }
+      if (opts.Has("device") && opts.Get("device").IsNumber()) {
+        device_ = opts.Get("device").As<Napi::Number>().Int32Value();
       }
     }
 
@@ -166,16 +176,35 @@ private:
         1     // single producer (audio thread)
     );
 
-    // Locate the default input device
-    PaDeviceIndex deviceIndex = Pa_GetDefaultInputDevice();
-    if (deviceIndex == paNoDevice) {
-      tsfn_.Release();
-      Napi::Error::New(env, "No microphone found. Check system audio input settings.")
-          .ThrowAsJavaScriptException();
-      return env.Undefined();
+    // Resolve the device index — use the caller-specified device if set,
+    // otherwise fall back to the system default input device.
+    PaDeviceIndex deviceIndex;
+    if (device_ >= 0) {
+      deviceIndex = static_cast<PaDeviceIndex>(device_);
+      if (deviceIndex >= Pa_GetDeviceCount()) {
+        tsfn_.Release();
+        Napi::RangeError::New(env,
+            "device index out of range — call MicStream.devices() to list available devices")
+            .ThrowAsJavaScriptException();
+        return env.Undefined();
+      }
+    } else {
+      deviceIndex = Pa_GetDefaultInputDevice();
+      if (deviceIndex == paNoDevice) {
+        tsfn_.Release();
+        Napi::Error::New(env, "No microphone found. Check system audio input settings.")
+            .ThrowAsJavaScriptException();
+        return env.Undefined();
+      }
     }
 
     const PaDeviceInfo* deviceInfo = Pa_GetDeviceInfo(deviceIndex);
+    if (deviceInfo == nullptr || deviceInfo->maxInputChannels < 1) {
+      tsfn_.Release();
+      Napi::Error::New(env, "Selected device is not a valid input device.")
+          .ThrowAsJavaScriptException();
+      return env.Undefined();
+    }
 
     PaStreamParameters inputParams;
     inputParams.device                    = deviceIndex;
@@ -246,6 +275,11 @@ private:
   }
 
   // ── MicStream.devices() — static ─────────────────────────────────────────
+  //
+  // PortAudio v19 reference-counts Pa_Initialize / Pa_Terminate calls, so
+  // it is safe to call them here even when a MicStream instance is actively
+  // capturing. The instance's init increments the ref count to 1; this call
+  // bumps it to 2 then back to 1 at the end — the live stream is unaffected.
 
   static Napi::Value GetDevices(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
@@ -286,7 +320,7 @@ private:
     Napi::Object v = Napi::Object::New(env);
     const PaVersionInfo* vi = Pa_GetVersionInfo();
     v.Set("portaudio", Napi::String::New(env, vi ? vi->versionText : Pa_GetVersionText()));
-    v.Set("micstream",  Napi::String::New(env, "0.1.0"));
+    v.Set("micstream",  Napi::String::New(env, MICSTREAM_VERSION));
     return v;
   }
 
@@ -298,6 +332,7 @@ private:
   int                      sampleRate_;
   int                      channels_;
   int                      framesPerBuffer_;
+  int                      device_;
 };
 
 // ─── Module entry point ──────────────────────────────────────────────────────

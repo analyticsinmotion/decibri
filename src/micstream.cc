@@ -4,6 +4,10 @@
 #include <atomic>
 #include <cstring>
 
+#ifdef PA_USE_WASAPI
+#include <pa_win_wasapi.h>
+#endif
+
 // ─── Defaults ────────────────────────────────────────────────────────────────
 // Optimised for speech/wake-word: 16kHz mono 16-bit
 #define DEFAULT_SAMPLE_RATE    16000
@@ -211,7 +215,19 @@ private:
     inputParams.channelCount              = channels_;
     inputParams.sampleFormat              = paInt16;
     inputParams.suggestedLatency          = deviceInfo->defaultLowInputLatency;
+#ifdef PA_USE_WASAPI
+    // Enable Windows Audio Session API automatic format conversion so that
+    // any requested sample rate is accepted even when it differs from the
+    // device's native mix format (e.g. 16kHz from a 48kHz webcam mic).
+    PaWasapiStreamInfo wasapiInfo = {};
+    wasapiInfo.size        = sizeof(PaWasapiStreamInfo);
+    wasapiInfo.hostApiType = paWASAPI;
+    wasapiInfo.version     = 1;
+    wasapiInfo.flags       = paWinWasapiAutoConvert;
+    inputParams.hostApiSpecificStreamInfo = &wasapiInfo;
+#else
     inputParams.hostApiSpecificStreamInfo = nullptr;
+#endif
 
     PaError err = Pa_OpenStream(
         &stream_,

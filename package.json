@@ -1,0 +1,40 @@
+{
+  "name": "@analyticsinmotion/micstream",
+  "version": "0.1.0",
+  "description": "Cross-platform microphone audio capture for Node.js with pre-built binaries. No build tools required.",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/analyticsinmotion/micstream.git"
+  },
+  "keywords": [
+    "microphone",
+    "audio",
+    "capture",
+    "stream",
+    "pcm",
+    "portaudio",
+    "native",
+    "prebuilt"
+  ],
+  "scripts": {
+    "install": "prebuild-install --runtime napi || node-gyp rebuild",
+    "build": "node-gyp rebuild",
+    "prebuild:all": "prebuild --runtime napi --target 6 --strip --upload-all",
+    "test": "node test/basic.js"
+  },
+  "dependencies": {
+    "prebuild-install": "^7.1.1"
+  },
+  "devDependencies": {
+    "node-addon-api": "^7.0.0",
+    "node-gyp": "^10.0.0",
+    "prebuild": "^13.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "os": ["win32", "darwin", "linux"],
+  "cpu": ["x64", "arm64"]
+}

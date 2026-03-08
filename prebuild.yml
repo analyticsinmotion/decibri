@@ -1,0 +1,83 @@
+name: Prebuild
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to upload to GitHub Releases
+
+jobs:
+  prebuild:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+
+          # ── Windows x64 ────────────────────────────────────────────────────
+          - name: Windows x64
+            os: windows-2022
+            arch: x64
+
+          # ── macOS x64 (Intel) ──────────────────────────────────────────────
+          - name: macOS x64
+            os: macos-13
+            arch: x64
+
+          # ── macOS ARM64 (Apple Silicon) ────────────────────────────────────
+          - name: macOS ARM64
+            os: macos-14
+            arch: arm64
+
+          # ── Linux x64 ──────────────────────────────────────────────────────
+          - name: Linux x64
+            os: ubuntu-22.04
+            arch: x64
+
+          # ── Linux ARM64 ────────────────────────────────────────────────────
+          - name: Linux ARM64
+            os: ubuntu-22.04-arm
+            arch: arm64
+
+    steps:
+      - name: Checkout (with PortAudio submodule)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── Linux: ALSA headers needed at build time (not runtime) ─────────────
+      - name: Install ALSA headers (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libasound2-dev
+
+      # ── macOS: ensure Xcode CLI tools present (usually pre-installed) ──────
+      - name: Install Xcode CLI tools (macOS)
+        if: runner.os == 'macOS'
+        run: xcode-select --install || true
+
+      - name: Install npm dependencies
+        run: npm install
+
+      # ── Build the pre-compiled binary and upload to GitHub Release ─────────
+      - name: Build and upload prebuild
+        run: npm run prebuild:all
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Keep binaries as CI artifacts too (useful for debugging) ───────────
+      - name: Upload prebuilds artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilds-${{ matrix.name }}
+          path: prebuilds/
+          if-no-files-found: error

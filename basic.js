@@ -1,0 +1,54 @@
+'use strict';
+
+const MicStream = require('../index');
+
+// ── Static API checks (no hardware needed) ──────────────────────────────────
+
+console.log('Testing MicStream.version()...');
+const ver = MicStream.version();
+console.assert(typeof ver.micstream === 'string', 'micstream version is a string');
+console.assert(typeof ver.portaudio === 'string', 'portaudio version is a string');
+console.log('  micstream:', ver.micstream);
+console.log('  portaudio:', ver.portaudio);
+
+console.log('\nTesting MicStream.devices()...');
+const devices = MicStream.devices();
+console.assert(Array.isArray(devices), 'devices() returns an array');
+if (devices.length === 0) {
+  console.warn('  WARNING: No input devices found. Is a microphone connected?');
+} else {
+  console.log(`  Found ${devices.length} input device(s):`);
+  devices.forEach((d) => {
+    const marker = d.isDefault ? ' (default)' : '';
+    console.log(`  [${d.index}] ${d.name}${marker} — ${d.maxInputChannels}ch @ ${d.defaultSampleRate}Hz`);
+  });
+}
+
+// ── Live capture test (5 seconds) ───────────────────────────────────────────
+
+if (process.argv.includes('--live')) {
+  console.log('\nStarting live capture for 5 seconds...');
+  const mic = new MicStream({ sampleRate: 16000, channels: 1 });
+  let totalBytes = 0;
+
+  mic.on('data', (chunk) => {
+    totalBytes += chunk.length;
+  });
+
+  mic.on('error', (err) => {
+    console.error('Error:', err.message);
+    process.exit(1);
+  });
+
+  setTimeout(() => {
+    mic.stop();
+    const seconds = 5;
+    const samples = totalBytes / 2; // Int16 = 2 bytes
+    console.log(`  Captured ${totalBytes} bytes = ${samples} samples over ${seconds}s`);
+    console.log(`  Effective sample rate: ${Math.round(samples / seconds)} Hz`);
+    console.log('\nAll tests passed.');
+  }, 5000);
+} else {
+  console.log('\nAll static tests passed.');
+  console.log('Run with --live flag to test actual microphone capture.');
+}

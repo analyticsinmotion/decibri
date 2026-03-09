@@ -41,6 +41,7 @@ class MicStream extends Readable {
    * @param {number} [options.channels=1]              Number of input channels (1–32)
    * @param {number} [options.framesPerBuffer=1600]    Frames per audio callback (64–65536)
    * @param {number} [options.device]                  Device index from MicStream.devices(); omit to use system default
+   * @param {'int16'|'float32'} [options.format='int16'] Sample encoding format
    */
   constructor(options = {}) {
     const {
@@ -48,6 +49,7 @@ class MicStream extends Readable {
       channels         = 1,
       framesPerBuffer  = 1600,
       device,
+      format,
       ...streamOptions
     } = options;
 
@@ -55,6 +57,7 @@ class MicStream extends Readable {
 
     const nativeOpts = { sampleRate, channels, framesPerBuffer };
     if (device !== undefined) nativeOpts.device = device;
+    if (format !== undefined) nativeOpts.format = format;
 
     this._native  = new NativeMicStream(nativeOpts);
     this._started = false;

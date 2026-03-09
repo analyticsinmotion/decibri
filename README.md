@@ -133,11 +133,16 @@ mic.on('data', (chunk) => {
 
 ## Supported platforms
 
-| Platform | Architecture | Audio backend |
-| --- | --- | --- |
-| Windows | x64 | WASAPI |
-| macOS | x64, arm64 | CoreAudio |
-| Linux | x64, arm64 | ALSA |
+| Platform | Architecture | Audio backend | Prebuild |
+| --- | --- | --- | --- |
+| Windows | x64 | WASAPI | ✅ |
+| macOS | arm64 | CoreAudio | ✅ |
+| macOS | x64 | CoreAudio | ⚙️ |
+| Linux | x64 | ALSA | ✅ |
+| Linux | arm64 | ALSA | ✅ |
+
+✅ Pre-compiled binary — no build tools required
+⚙️ Built from source at install time — requires Xcode CLI tools (`xcode-select --install`)
 
 ---
 

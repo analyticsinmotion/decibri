@@ -244,4 +244,4 @@ The native addon opens the default input device, runs a PortAudio callback in an
 
 ## License
 
-Apache-2.0 © [Analytics in Motion](https://analyticsinmotion.com)
+Apache-2.0 © [Analytics in Motion](https://github.com/analyticsinmotion)

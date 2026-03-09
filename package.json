@@ -28,7 +28,7 @@
   "scripts": {
     "install": "prebuild-install --runtime napi || node-gyp rebuild",
     "build": "node-gyp rebuild",
-    "prebuild:all": "prebuild --runtime napi --target 6 --strip --upload-all",
+    "prebuild:all": "prebuild --runtime napi --target 6 --strip --upload",
     "test": "node test/basic.js"
   },
   "dependencies": {

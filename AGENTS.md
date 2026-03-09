@@ -24,13 +24,22 @@ node test/basic.js
 
 # Run live capture test (microphone required)
 node test/basic.js --live
+
+# Test prebuilt binary loading — run after toolchain, loader, or binding.gyp changes
+# (Not needed for every release — skip for doc/type/JS-only changes)
+mkdir -p prebuilds/win32-x64
+cp build/Release/micstream.node prebuilds/win32-x64/node.napi.node
+mv build build_backup
+node test/basic.js
+mv build_backup build
+rm -r prebuilds
 ```
 
 ---
 
 ## Architecture
 
-```
+```text
 index.js              Node.js Readable stream wrapper (JS layer)
 src/micstream.cc      Native addon — NAPI ObjectWrap around PortAudio
 src/mac_permission.mm macOS-only Objective-C++ microphone permission check

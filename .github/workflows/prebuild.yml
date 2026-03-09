@@ -16,7 +16,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Create release
-        run: gh release create ${{ github.ref_name }} --title "${{ github.ref_name }}" --notes-from-tag --repo ${{ github.repository }}
+        run: gh release create ${{ github.ref_name }} --title "${{ github.ref_name }}" --notes "Release ${{ github.ref_name }}" --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

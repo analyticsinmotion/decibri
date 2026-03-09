@@ -1,6 +1,6 @@
 {
   "name": "@analyticsinmotion/micstream",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Cross-platform microphone audio capture for Node.js with pre-built binaries. No build tools required.",
   "main": "index.js",
   "types": "types/index.d.ts",

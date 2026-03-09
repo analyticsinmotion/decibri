@@ -236,7 +236,7 @@ npm run build
 
 ## How it works
 
-micstream wraps [PortAudio](http://www.portaudio.com/) — the standard cross-platform audio I/O library — as a Node.js native addon using [N-API](https://nodejs.org/api/n-api.html). PortAudio is compiled from source and statically linked, so there is no system PortAudio dependency.
+micstream wraps [PortAudio](http://www.portaudio.com/), the standard cross-platform audio I/O library, as a Node.js native addon using [N-API](https://nodejs.org/api/n-api.html). PortAudio is compiled from source and statically linked, so there is no system PortAudio dependency.
 
 The native addon opens the default input device, runs a PortAudio callback in an audio thread, and forwards PCM chunks to JavaScript via an N-API `ThreadSafeFunction`. The JavaScript layer wraps this in a standard Node.js `Readable` stream.
 

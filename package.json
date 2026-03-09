@@ -1,8 +1,9 @@
 {
   "name": "@analyticsinmotion/micstream",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cross-platform microphone audio capture for Node.js with pre-built binaries. No build tools required.",
   "main": "index.js",
+  "types": "types/index.d.ts",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   ],
   "files": [
     "index.js",
+    "types/",
     "binding.gyp",
     "src/",
     "prebuilds/",

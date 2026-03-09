@@ -8,6 +8,11 @@
 #include <pa_win_wasapi.h>
 #endif
 
+#ifdef PA_USE_COREAUDIO
+// Declared in src/mac_permission.mm (compiled on macOS only)
+extern "C" const char* CheckMicrophonePermission();
+#endif
+
 // ─── Defaults ────────────────────────────────────────────────────────────────
 // Optimised for speech/wake-word: 16kHz mono 16-bit
 #define DEFAULT_SAMPLE_RATE    16000
@@ -49,7 +54,9 @@ public:
         sampleRate_(DEFAULT_SAMPLE_RATE),
         channels_(DEFAULT_CHANNELS),
         framesPerBuffer_(DEFAULT_FRAMES_PER_BUFFER),
-        device_(DEFAULT_DEVICE) {
+        device_(DEFAULT_DEVICE),
+        sampleFormat_(paInt16),
+        bytesPerSample_(2) {
 
     Napi::Env env = info.Env();
 
@@ -80,6 +87,17 @@ public:
       }
       if (opts.Has("device") && opts.Get("device").IsNumber()) {
         device_ = opts.Get("device").As<Napi::Number>().Int32Value();
+      }
+      if (opts.Has("format") && opts.Get("format").IsString()) {
+        std::string fmt = opts.Get("format").As<Napi::String>().Utf8Value();
+        if (fmt == "float32") {
+          sampleFormat_   = paFloat32;
+          bytesPerSample_ = 4;
+        } else if (fmt != "int16") {
+          Napi::TypeError::New(env, "format must be 'int16' or 'float32'")
+              .ThrowAsJavaScriptException();
+          return;
+        }
       }
     }
 
@@ -128,21 +146,19 @@ private:
       return paContinue;
     }
 
-    const int16_t* input = static_cast<const int16_t*>(inputBuffer);
-    size_t numSamples = framesPerBuffer * static_cast<size_t>(self->channels_);
-
-    // Heap-allocate; ownership passes to the JS callback lambda below
-    auto* chunk = new std::vector<int16_t>(input, input + numSamples);
+    // Copy raw bytes regardless of sample format (int16 or float32).
+    // Heap-allocate; ownership passes to the JS callback lambda below.
+    size_t byteLen = framesPerBuffer
+                     * static_cast<size_t>(self->channels_)
+                     * static_cast<size_t>(self->bytesPerSample_);
+    const uint8_t* src = static_cast<const uint8_t*>(inputBuffer);
+    auto* chunk = new std::vector<uint8_t>(src, src + byteLen);
 
     napi_status status = self->tsfn_.NonBlockingCall(
         chunk,
-        [](Napi::Env env, Napi::Function jsCallback, std::vector<int16_t>* data) {
-          // Copy into a Node.js Buffer (int16 viewed as raw bytes)
-          size_t byteLen = data->size() * sizeof(int16_t);
+        [](Napi::Env env, Napi::Function jsCallback, std::vector<uint8_t>* data) {
           Napi::Buffer<uint8_t> buf = Napi::Buffer<uint8_t>::Copy(
-              env,
-              reinterpret_cast<const uint8_t*>(data->data()),
-              byteLen);
+              env, data->data(), data->size());
           delete data;
           jsCallback.Call({env.Null(), buf});
         });
@@ -213,7 +229,7 @@ private:
     PaStreamParameters inputParams;
     inputParams.device                    = deviceIndex;
     inputParams.channelCount              = channels_;
-    inputParams.sampleFormat              = paInt16;
+    inputParams.sampleFormat              = sampleFormat_;
     inputParams.suggestedLatency          = deviceInfo->defaultLowInputLatency;
 #ifdef PA_USE_WASAPI
     // Enable Windows Audio Session API automatic format conversion so that
@@ -227,6 +243,17 @@ private:
     inputParams.hostApiSpecificStreamInfo = &wasapiInfo;
 #else
     inputParams.hostApiSpecificStreamInfo = nullptr;
+#endif
+
+#ifdef PA_USE_COREAUDIO
+    {
+      const char* permError = CheckMicrophonePermission();
+      if (permError != nullptr) {
+        tsfn_.Release();
+        Napi::Error::New(env, permError).ThrowAsJavaScriptException();
+        return env.Undefined();
+      }
+    }
 #endif
 
     PaError err = Pa_OpenStream(
@@ -349,6 +376,8 @@ private:
   int                      channels_;
   int                      framesPerBuffer_;
   int                      device_;
+  PaSampleFormat           sampleFormat_;
+  int                      bytesPerSample_;
 };
 
 // ─── Module entry point ──────────────────────────────────────────────────────

@@ -61,6 +61,22 @@ export interface MicStreamOptions extends ReadableOptions {
    * Omit to use the system default input device.
    */
   device?: number;
+
+  /**
+   * Sample encoding format.
+   * - `'int16'`   — 16-bit signed integer, little-endian (default)
+   * - `'float32'` — 32-bit IEEE 754 float, little-endian
+   *
+   * Both formats emit a `Buffer`. For zero-copy typed array access:
+   * ```ts
+   * // int16 (default)
+   * const samples = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length / 2);
+   * // float32
+   * const samples = new Float32Array(chunk.buffer, chunk.byteOffset, chunk.length / 4);
+   * ```
+   * @default 'int16'
+   */
+  format?: 'int16' | 'float32';
 }
 
 // ─── MicStream ────────────────────────────────────────────────────────────────

@@ -69,7 +69,8 @@
             "deps/portaudio/src/os/unix/pa_unix_hostapis.c",
             "deps/portaudio/src/hostapi/coreaudio/pa_mac_core.c",
             "deps/portaudio/src/hostapi/coreaudio/pa_mac_core_utilities.c",
-            "deps/portaudio/src/hostapi/coreaudio/pa_mac_core_blocking.c"
+            "deps/portaudio/src/hostapi/coreaudio/pa_mac_core_blocking.c",
+            "src/mac_permission.mm"
           ],
           "include_dirs": [
             "deps/portaudio/src/os/unix",
@@ -84,7 +85,8 @@
               "-framework AudioToolbox",
               "-framework AudioUnit",
               "-framework CoreServices",
-              "-framework Carbon"
+              "-framework Carbon",
+              "-framework AVFoundation"
             ]
           },
           "xcode_settings": {

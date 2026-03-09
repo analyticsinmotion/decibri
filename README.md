@@ -131,18 +131,29 @@ mic.on('data', (chunk) => {
 
 ---
 
-## Supported platforms
+## Platform Support
 
-| Platform | Architecture | Audio backend | Prebuild |
-| --- | --- | --- | --- |
-| Windows | x64 | WASAPI | ✅ |
-| macOS | arm64 | CoreAudio | ✅ |
-| macOS | x64 | CoreAudio | ⚙️ |
-| Linux | x64 | ALSA | ✅ |
-| Linux | arm64 | ALSA | ✅ |
+### Pre-built binaries (zero setup)
 
-✅ Pre-compiled binary — no build tools required
-⚙️ Built from source at install time — requires Xcode CLI tools (`xcode-select --install`)
+| Platform | Architecture | Audio Backend |
+| --- | --- | --- |
+| Windows 11 | x64 | WASAPI |
+| macOS (Apple Silicon) | arm64 | CoreAudio |
+| Linux | x64 | ALSA |
+| Linux | arm64 | ALSA |
+
+### Source build fallback (requires build tools)
+
+| Platform | Requirements |
+| --- | --- |
+| macOS Intel (pre-2020) | Xcode CLI tools: `xcode-select --install` |
+| Windows ARM64 | Visual C++ Build Tools |
+
+### Not supported
+
+| Platform | Reason |
+| --- | --- |
+| Windows 32-bit | N-API native addons require 64-bit |
 
 ---
 

@@ -64,6 +64,26 @@ mic.on('data', (chunk) => {
 });
 ```
 
+### TypeScript
+
+TypeScript definitions are bundled. No `@types/` package needed.
+
+```typescript
+import MicStream, { DeviceInfo, MicStreamOptions } from '@analyticsinmotion/micstream';
+
+const options: MicStreamOptions = { sampleRate: 16000, channels: 1 };
+const mic = new MicStream(options);
+
+mic.on('data', (chunk: Buffer) => {
+  // zero-copy Int16 view over the same memory
+  const samples = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length / 2);
+});
+
+mic.on('backpressure', () => console.warn('Consumer too slow'));
+
+const devices: DeviceInfo[] = MicStream.devices();
+```
+
 ---
 
 ## API
@@ -111,7 +131,7 @@ Returns version information for micstream and the bundled PortAudio.
 
 ```javascript
 MicStream.version();
-// { micstream: '0.1.0', portaudio: 'PortAudio V19.7.0-devel...' }
+// { micstream: '0.2.0', portaudio: 'PortAudio V19.7.0-devel...' }
 ```
 
 ---

@@ -82,7 +82,7 @@ jobs:
 
       # ── Build the pre-compiled binary and upload to GitHub Release ─────────
       - name: Build and upload prebuild
-        run: npm run prebuild:all -- --token ${{ secrets.GITHUB_TOKEN }}
+        run: npx prebuild --runtime napi --target 6 --strip --upload ${{ secrets.GITHUB_TOKEN }}
 
       # ── Keep binaries as CI artifacts too (useful for debugging) ───────────
       - name: Upload prebuilds artifact

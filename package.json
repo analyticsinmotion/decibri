@@ -45,6 +45,9 @@
   },
   "os": ["win32", "darwin", "linux"],
   "cpu": ["x64", "arm64"],
+  "binary": {
+    "napi_versions": [6]
+  },
   "prebuild-install": {
     "runtime": "napi",
     "target": "6"

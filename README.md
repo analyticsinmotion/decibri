@@ -1,11 +1,14 @@
-# micstream
+<!-- markdownlint-disable MD033 MD041 -->
+<div align="center">
+  <img width="256" height="138" alt="micstream-github-logo-rectangle" src="https://github.com/user-attachments/assets/0850e868-d79d-4787-911d-8126a012869c" />
 
-Cross-platform microphone audio capture for Node.js.
+  # micstream
 
-Pre-built binaries for Windows, macOS, and Linux. No build tools, no SoX, no system dependencies required.
+  Cross-platform microphone audio capture for Node.js.
 
-<!-- badges: start -->
-<div align="left">
+  Pre-built binaries for Windows, macOS, and Linux. No build tools, no SoX, no system dependencies required.
+
+  <!-- badges: start -->
   <table>
     <tr>
       <td><strong>Meta</strong></td>
@@ -25,10 +28,11 @@ Pre-built binaries for Windows, macOS, and Linux. No build tools, no SoX, no sys
       </td>
     </tr>
   </table>
+  <!-- badges: end -->
 </div>
-<!-- badges: end -->
 
 ---
+
 
 ## Installation
 

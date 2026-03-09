@@ -2,7 +2,7 @@
 <div align="center">
   <img width="256" height="138" alt="micstream-github-logo-rectangle" src="https://github.com/user-attachments/assets/0850e868-d79d-4787-911d-8126a012869c" />
 
-  # micstream
+# micstream
 
   Cross-platform microphone audio capture for Node.js.
 
@@ -32,7 +32,6 @@
 </div>
 
 ---
-
 
 ## Installation
 

@@ -24,6 +24,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] - 2026-03-10
+
+### Changed
+
+- Pre-built binaries now bundle inside the npm package (`prebuilds/`) and are loaded
+  directly by `node-gyp-build` at `require()` time — no install-time network call to
+  GitHub Releases. Eliminates `prebuild-install` as a runtime dependency.
+- Removed deprecated `prebuild` (build/upload) and `prebuild-install` (download)
+  toolchain. CI now builds with `node-gyp rebuild`, stages artifacts, and publishes
+  to npm via a dedicated publish job.
+
+### Security
+
+- Upgraded `node-gyp` to `^12.0.0` to resolve four high-severity vulnerabilities in
+  the transitive `tar` dependency (GHSA-r6q2-hw4h-h46w, GHSA-34x7-hfp2-rc4v,
+  GHSA-8qq5-rm4j-mr97, GHSA-83g3-92jg-28cx).
+
+---
+
 ## [0.2.0] - 2026-03-09
 
 ### Added

@@ -4,6 +4,30 @@ Cross-platform microphone audio capture for Node.js.
 
 Pre-built binaries for Windows, macOS, and Linux. No build tools, no SoX, no system dependencies required.
 
+<!-- badges: start -->
+<div align="left">
+  <table>
+    <tr>
+      <td><strong>Meta</strong></td>
+      <td>
+        <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream"><img src="https://img.shields.io/npm/v/@analyticsinmotion/micstream" alt="npm version"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/micstream/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion"><img src="https://github.com/user-attachments/assets/616c530f-cf2a-4f26-8f6c-7397be513847" alt="Analytics in Motion" width="137" height="20"></a>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Binaries</strong></td>
+      <td>
+        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=Windows%20x64&label=Windows%20x64&logo=microsoft&logoColor=white" alt="Windows x64"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=macOS%20ARM64&label=macOS%20ARM64&logo=apple" alt="macOS ARM64"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=Linux%20x64&label=Linux%20x64&logo=linux&logoColor=white" alt="Linux x64"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=Linux%20ARM64&label=Linux%20ARM64&logo=linux&logoColor=white" alt="Linux ARM64"></a>
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- badges: end -->
+
 ---
 
 ## Installation

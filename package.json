@@ -28,30 +28,20 @@
     "deps/"
   ],
   "scripts": {
-    "install": "prebuild-install --runtime napi || node-gyp rebuild",
-    "build": "node-gyp rebuild",
-    "prebuild:all": "prebuild --runtime napi --target 6 --strip",
-    "test": "node test/basic.js"
+    "install": "node-gyp-build || node-gyp rebuild",
+    "build":   "node-gyp rebuild",
+    "test":    "node test/basic.js"
   },
   "dependencies": {
-    "node-gyp-build": "^4.6.0",
-    "prebuild-install": "^7.1.1"
+    "node-gyp-build": "^4.6.0"
   },
   "devDependencies": {
     "node-addon-api": "^7.0.0",
-    "node-gyp": "^10.0.0",
-    "prebuild": "^13.0.0"
+    "node-gyp":       "^12.0.0"
   },
   "engines": {
     "node": ">=16.0.0"
   },
-  "os": ["win32", "darwin", "linux"],
-  "cpu": ["x64", "arm64"],
-  "binary": {
-    "napi_versions": [6]
-  },
-  "prebuild-install": {
-    "runtime": "napi",
-    "target": "6"
-  }
+  "os":  ["win32", "darwin", "linux"],
+  "cpu": ["x64", "arm64"]
 }

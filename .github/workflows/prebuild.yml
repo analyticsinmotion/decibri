@@ -82,9 +82,7 @@ jobs:
 
       # ── Build the pre-compiled binary and upload to GitHub Release ─────────
       - name: Build and upload prebuild
-        run: npm run prebuild:all
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run prebuild:all -- --token ${{ secrets.GITHUB_TOKEN }}
 
       # ── Keep binaries as CI artifacts too (useful for debugging) ───────────
       - name: Upload prebuilds artifact

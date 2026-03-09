@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Added
+<!-- Add new features here -->
+
+### Changed
+<!-- Add changed behavior here -->
+
+### Fixed
+<!-- Add bug fixes here -->
+
+### Removed
+<!-- Add removals/deprecations here -->
+
+---
+
 ## [0.2.0] - 2026-03-09
 
 ### Added
@@ -51,21 +67,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `prebuild-install` integration for automatic binary download at `npm install` time.
 - `node-gyp rebuild` source-build fallback for unsupported platforms or environments without pre-built binaries.
 - GitHub Actions CI workflow building and uploading prebuilds to GitHub Releases on version tags.
-
----
-
-## [Unreleased]
-
-### Added
-<!-- Add new features here -->
-
-### Changed
-<!-- Add changed behavior here -->
-
-### Fixed
-<!-- Add bug fixes here -->
-
-### Removed
-<!-- Add removals/deprecations here -->
 
 ---

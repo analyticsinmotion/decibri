@@ -24,13 +24,22 @@ node test/basic.js
 
 # Run live capture test (microphone required)
 node test/basic.js --live
+
+# Test prebuilt binary loading — run after toolchain, loader, or binding.gyp changes
+# (Not needed for every release — skip for doc/type/JS-only changes)
+mkdir -p prebuilds/win32-x64
+cp build/Release/micstream.node prebuilds/win32-x64/node.napi.node
+mv build build_backup
+node test/basic.js
+mv build_backup build
+rm -r prebuilds
 ```
 
 ---
 
 ## Architecture
 
-```
+```text
 index.js              Node.js Readable stream wrapper (JS layer)
 src/micstream.cc      Native addon — NAPI ObjectWrap around PortAudio
 src/mac_permission.mm macOS-only Objective-C++ microphone permission check
@@ -88,11 +97,19 @@ configuration (which source files to compile) lives in `binding.gyp`.
 
 ### Binary distribution coupling
 
-`package.json` (`binary.napi_versions`, `prebuild-install` config) and
+`package.json` (`dependencies.node-gyp-build`, `files` array) and
 `.github/workflows/prebuild.yml` are tightly coupled. If you change one, the other
-must stay consistent. The `install` script (`prebuild-install || node-gyp rebuild`)
-and the CI upload step (`npx prebuild --upload TOKEN`) must agree on runtime and
-target version.
+must stay consistent.
+
+The `install` script (`node-gyp-build || node-gyp rebuild`) and the CI "Stage
+prebuild artifact" step must agree on the binary path convention:
+`prebuilds/{platform}-{arch}/node.napi.node`.
+
+`prebuilds/` is in `.gitignore` — CI populates it transiently before `npm publish`.
+It enters the npm tarball because `files` includes it; npm respects `files` over
+`.gitignore` at publish time.
+
+`NPM_TOKEN` must be set as a repository secret for the publish job to succeed.
 
 ---
 
@@ -104,9 +121,10 @@ Do not do any of the following without explicit human instruction:
   corrupt the submodule state.
 - **Change `NAPI_VERSION`** — breaks ABI compatibility with all existing prebuilds and
   requires a full binary rebuild across all platforms.
-- **Change binary naming or directory structure** — `package.json`, `binding.gyp`, and
-  the CI workflow must all agree. Changing one without the others breaks installs for
-  all users.
+- **Change binary naming or directory structure** — `package.json` (`files`, install
+  script), `binding.gyp`, and `.github/workflows/prebuild.yml` (Stage prebuild artifact
+  step) must all agree on `prebuilds/{platform}-{arch}/node.napi.node`. Changing one
+  without the others breaks installs for all users.
 - **Bump the package version in `package.json`** — version bumps are release decisions,
   not implementation decisions. Update `CHANGELOG.md` under `[Unreleased]` and leave
   the version for the maintainer to set.

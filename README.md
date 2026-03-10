@@ -170,7 +170,7 @@ Returns version information for micstream and the bundled PortAudio.
 
 ```javascript
 MicStream.version();
-// { micstream: '0.3.0', portaudio: 'PortAudio V19.7.0-devel...' }
+// { micstream: '0.4.0', portaudio: 'PortAudio V19.7.0-devel...' }
 ```
 
 ---

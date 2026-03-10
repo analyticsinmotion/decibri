@@ -124,8 +124,11 @@ Creates a Readable stream that captures from the system default microphone.
 | `sampleRate` | number | `16000` | Samples per second (1000–384000) |
 | `channels` | number | `1` | Number of input channels (1–32) |
 | `framesPerBuffer` | number | `1600` | Frames per audio callback (64–65536) |
-| `device` | number | system default | Device index from `MicStream.devices()`; omit to use the system default |
+| `device` | number \| string | system default | Device index from `MicStream.devices()` or case-insensitive name substring |
 | `format` | `'int16'` \| `'float32'` | `'int16'` | Sample encoding — 16-bit signed integer or 32-bit IEEE 754 float |
+| `vad` | boolean | `false` | Enable voice activity detection |
+| `vadThreshold` | number | `0.01` | RMS energy threshold for speech (0–1) |
+| `vadHoldoff` | number | `300` | Silence holdoff in ms before `'silence'` is emitted |
 
 Standard Node.js `Readable` stream options (e.g. `highWaterMark`) are also accepted.
 
@@ -136,6 +139,14 @@ Stops microphone capture and ends the stream. Safe to call multiple times.
 ### Event: `'backpressure'`
 
 Emitted when `push()` returns `false`, meaning the stream's internal buffer is full and the consumer is reading too slowly. Because a microphone cannot be paused, audio chunks will continue to arrive. Callers should drain the stream or drop data to avoid unbounded memory growth.
+
+### Event: `'speech'`
+
+Emitted when the RMS energy of an audio chunk crosses `vadThreshold`. Requires `vad: true`.
+
+### Event: `'silence'`
+
+Emitted when audio stays below `vadThreshold` for `vadHoldoff` ms after a speech period. Requires `vad: true`.
 
 ### `mic.isOpen`
 
@@ -159,7 +170,41 @@ Returns version information for micstream and the bundled PortAudio.
 
 ```javascript
 MicStream.version();
-// { micstream: '0.3.0', portaudio: 'PortAudio V19.7.0-devel...' }
+// { micstream: '0.4.0', portaudio: 'PortAudio V19.7.0-devel...' }
+```
+
+---
+
+## Examples
+
+Runnable examples are in [`examples/`](examples/).
+
+### Capture to WAV file
+
+No external dependencies.
+
+```bash
+node examples/wav-capture.js
+# writes capture.wav (5 seconds, 16 kHz mono)
+```
+
+### Stream to WebSocket
+
+The WebSocket examples require the `ws` package, which is **not** bundled with micstream. Install it before running:
+
+```bash
+npm install ws
+```
+
+Then in two terminals:
+
+```bash
+# Terminal 1 — start receiver
+node examples/websocket-server.js
+
+# Terminal 2 — start streaming
+node examples/websocket-stream.js
+# streams raw PCM to ws://localhost:8080
 ```
 
 ---

@@ -7,6 +7,25 @@ const binding = require('node-gyp-build')(__dirname);
 
 const { MicStream: NativeMicStream } = binding;
 
+// ─── RMS helper ──────────────────────────────────────────────────────────────
+
+function computeRMS(chunk, format) {
+  let sum = 0, n;
+  if (format === 'float32') {
+    const samples = new Float32Array(chunk.buffer, chunk.byteOffset, chunk.length / 4);
+    n = samples.length;
+    for (let i = 0; i < n; i++) sum += samples[i] * samples[i];
+  } else {
+    const samples = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length / 2);
+    n = samples.length;
+    for (let i = 0; i < n; i++) {
+      const s = samples[i] / 32768;
+      sum += s * s;
+    }
+  }
+  return n > 0 ? Math.sqrt(sum / n) : 0;
+}
+
 // ─── MicStream (Readable) ────────────────────────────────────────────────────
 
 /**
@@ -37,30 +56,61 @@ const { MicStream: NativeMicStream } = binding;
 class MicStream extends Readable {
   /**
    * @param {object} [options]
-   * @param {number} [options.sampleRate=16000]        Samples per second (1000–384000)
-   * @param {number} [options.channels=1]              Number of input channels (1–32)
-   * @param {number} [options.framesPerBuffer=1600]    Frames per audio callback (64–65536)
-   * @param {number} [options.device]                  Device index from MicStream.devices(); omit to use system default
-   * @param {'int16'|'float32'} [options.format='int16'] Sample encoding format
+   * @param {number} [options.sampleRate=16000]           Samples per second (1000–384000)
+   * @param {number} [options.channels=1]                 Number of input channels (1–32)
+   * @param {number} [options.framesPerBuffer=1600]       Frames per audio callback (64–65536)
+   * @param {number|string} [options.device]              Device index from MicStream.devices() or case-insensitive name substring
+   * @param {'int16'|'float32'} [options.format='int16']  Sample encoding format
+   * @param {boolean} [options.vad=false]                 Enable voice activity detection
+   * @param {number}  [options.vadThreshold=0.01]         RMS energy threshold for speech (0–1)
+   * @param {number}  [options.vadHoldoff=300]            ms of silence before 'silence' event fires
    */
   constructor(options = {}) {
     const {
-      sampleRate       = 16000,
-      channels         = 1,
-      framesPerBuffer  = 1600,
+      sampleRate      = 16000,
+      channels        = 1,
+      framesPerBuffer = 1600,
       device,
       format,
+      vad             = false,
+      vadThreshold    = 0.01,
+      vadHoldoff      = 300,
       ...streamOptions
     } = options;
+
+    // Resolve device name → index
+    let resolvedDevice = device;
+    if (typeof device === 'string') {
+      const lower = device.toLowerCase();
+      const matches = NativeMicStream.devices().filter(d =>
+        d.name.toLowerCase().includes(lower)
+      );
+      if (matches.length === 0) {
+        throw new TypeError(`No audio input device found matching "${device}"`);
+      }
+      if (matches.length > 1) {
+        const names = matches.map(d => `  [${d.index}] ${d.name}`).join('\n');
+        throw new TypeError(
+          `Multiple devices match "${device}":\n${names}\nUse a more specific name or pass the device index directly.`
+        );
+      }
+      resolvedDevice = matches[0].index;
+    }
 
     super({ ...streamOptions, objectMode: false });
 
     const nativeOpts = { sampleRate, channels, framesPerBuffer };
-    if (device !== undefined) nativeOpts.device = device;
+    if (resolvedDevice !== undefined) nativeOpts.device = resolvedDevice;
     if (format !== undefined) nativeOpts.format = format;
 
-    this._native  = new NativeMicStream(nativeOpts);
-    this._started = false;
+    this._native       = new NativeMicStream(nativeOpts);
+    this._started      = false;
+    this._vad          = vad;
+    this._vadThreshold = vadThreshold;
+    this._vadHoldoff   = vadHoldoff;
+    this._format       = format || 'int16';
+    this._isSpeaking   = false;
+    this._silenceTimer = null;
   }
 
   // Called by the stream machinery when it wants data
@@ -79,6 +129,24 @@ class MicStream extends Readable {
       if (!this.push(chunk)) {
         this.emit('backpressure');
       }
+
+      if (this._vad) {
+        const rms = computeRMS(chunk, this._format);
+        if (rms >= this._vadThreshold) {
+          clearTimeout(this._silenceTimer);
+          this._silenceTimer = null;
+          if (!this._isSpeaking) {
+            this._isSpeaking = true;
+            this.emit('speech');
+          }
+        } else if (this._isSpeaking && !this._silenceTimer) {
+          this._silenceTimer = setTimeout(() => {
+            this._isSpeaking = false;
+            this._silenceTimer = null;
+            this.emit('silence');
+          }, this._vadHoldoff);
+        }
+      }
     });
   }
 
@@ -89,6 +157,8 @@ class MicStream extends Readable {
     if (!this._started) return;
     this._started = false;
     this._native.stop();
+    clearTimeout(this._silenceTimer);
+    this._silenceTimer = null;
     this.push(null); // signals stream end
   }
 

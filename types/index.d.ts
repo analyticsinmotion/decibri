@@ -57,10 +57,37 @@ export interface MicStreamOptions extends ReadableOptions {
   framesPerBuffer?: number;
 
   /**
-   * Device index from `MicStream.devices()`.
+   * Device to capture from. Pass a numeric index from `MicStream.devices()`,
+   * or a case-insensitive substring of the device name.
    * Omit to use the system default input device.
+   * Throws `TypeError` if a name string matches zero or multiple devices.
    */
-  device?: number;
+  device?: number | string;
+
+  /**
+   * Enable voice activity detection. When `true`, emits `'speech'` when RMS
+   * energy crosses `vadThreshold` and `'silence'` after `vadHoldoff` ms of
+   * sub-threshold audio.
+   * @default false
+   */
+  vad?: boolean;
+
+  /**
+   * RMS energy threshold for speech detection (0–1 normalised scale).
+   * Tune upward in noisy environments.
+   * @default 0.01
+   * @minimum 0
+   * @maximum 1
+   */
+  vadThreshold?: number;
+
+  /**
+   * Milliseconds of sub-threshold audio before `'silence'` is emitted.
+   * Prevents rapid toggling on natural speech pauses.
+   * @default 300
+   * @minimum 0
+   */
+  vadHoldoff?: number;
 
   /**
    * Sample encoding format.
@@ -166,6 +193,8 @@ declare class MicStream extends Readable {
   addListener(event: 'readable', listener: () => void): this;
   addListener(event: 'resume', listener: () => void): this;
   addListener(event: 'backpressure', listener: () => void): this;
+  addListener(event: 'speech', listener: () => void): this;
+  addListener(event: 'silence', listener: () => void): this;
   addListener(event: string | symbol, listener: (...args: any[]) => void): this;
 
   emit(event: 'close'): boolean;
@@ -176,6 +205,8 @@ declare class MicStream extends Readable {
   emit(event: 'readable'): boolean;
   emit(event: 'resume'): boolean;
   emit(event: 'backpressure'): boolean;
+  emit(event: 'speech'): boolean;
+  emit(event: 'silence'): boolean;
   emit(event: string | symbol, ...args: any[]): boolean;
 
   on(event: 'close', listener: () => void): this;
@@ -186,6 +217,8 @@ declare class MicStream extends Readable {
   on(event: 'readable', listener: () => void): this;
   on(event: 'resume', listener: () => void): this;
   on(event: 'backpressure', listener: () => void): this;
+  on(event: 'speech', listener: () => void): this;
+  on(event: 'silence', listener: () => void): this;
   on(event: string | symbol, listener: (...args: any[]) => void): this;
 
   once(event: 'close', listener: () => void): this;
@@ -196,6 +229,8 @@ declare class MicStream extends Readable {
   once(event: 'readable', listener: () => void): this;
   once(event: 'resume', listener: () => void): this;
   once(event: 'backpressure', listener: () => void): this;
+  once(event: 'speech', listener: () => void): this;
+  once(event: 'silence', listener: () => void): this;
   once(event: string | symbol, listener: (...args: any[]) => void): this;
 
   prependListener(event: 'close', listener: () => void): this;
@@ -206,6 +241,8 @@ declare class MicStream extends Readable {
   prependListener(event: 'readable', listener: () => void): this;
   prependListener(event: 'resume', listener: () => void): this;
   prependListener(event: 'backpressure', listener: () => void): this;
+  prependListener(event: 'speech', listener: () => void): this;
+  prependListener(event: 'silence', listener: () => void): this;
   prependListener(event: string | symbol, listener: (...args: any[]) => void): this;
 
   prependOnceListener(event: 'close', listener: () => void): this;
@@ -216,6 +253,8 @@ declare class MicStream extends Readable {
   prependOnceListener(event: 'readable', listener: () => void): this;
   prependOnceListener(event: 'resume', listener: () => void): this;
   prependOnceListener(event: 'backpressure', listener: () => void): this;
+  prependOnceListener(event: 'speech', listener: () => void): this;
+  prependOnceListener(event: 'silence', listener: () => void): this;
   prependOnceListener(event: string | symbol, listener: (...args: any[]) => void): this;
 
   removeListener(event: 'close', listener: () => void): this;
@@ -226,6 +265,8 @@ declare class MicStream extends Readable {
   removeListener(event: 'readable', listener: () => void): this;
   removeListener(event: 'resume', listener: () => void): this;
   removeListener(event: 'backpressure', listener: () => void): this;
+  removeListener(event: 'speech', listener: () => void): this;
+  removeListener(event: 'silence', listener: () => void): this;
   removeListener(event: string | symbol, listener: (...args: any[]) => void): this;
 }
 

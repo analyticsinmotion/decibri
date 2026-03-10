@@ -1,6 +1,6 @@
 {
   "name": "@analyticsinmotion/micstream",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Cross-platform microphone audio capture for Node.js with pre-built binaries. No build tools required.",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -22,6 +22,7 @@
   "files": [
     "index.js",
     "types/",
+    "examples/",
     "binding.gyp",
     "src/",
     "prebuilds/",
@@ -29,19 +30,26 @@
   ],
   "scripts": {
     "install": "node-gyp-build || node-gyp rebuild",
-    "build":   "node-gyp rebuild",
-    "test":    "node test/basic.js"
+    "build": "node-gyp rebuild",
+    "test": "node test/basic.js"
   },
   "dependencies": {
     "node-gyp-build": "^4.6.0"
   },
   "devDependencies": {
     "node-addon-api": "^7.0.0",
-    "node-gyp":       "^12.0.0"
+    "node-gyp": "^12.0.0"
   },
   "engines": {
     "node": ">=16.0.0"
   },
-  "os":  ["win32", "darwin", "linux"],
-  "cpu": ["x64", "arm64"]
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ]
 }

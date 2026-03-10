@@ -4,3 +4,4 @@ prebuilds/
 *.node
 *.log
 .DS_Store
+capture.wav

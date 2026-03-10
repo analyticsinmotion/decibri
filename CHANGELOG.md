@@ -24,6 +24,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] - TBD
+
+### Added
+
+- Voice activity detection (VAD) — energy-threshold speech/silence detection in the
+  JS layer. Enable with `vad: true`; tune sensitivity with `vadThreshold` (RMS 0–1,
+  default `0.01`) and `vadHoldoff` (ms before `'silence'` fires, default `300`).
+  Emits `'speech'` and `'silence'` events. No native rebuild required.
+- Device selection by name — `device` option now accepts a case-insensitive
+  substring string in addition to a numeric index. Throws a descriptive `TypeError`
+  if the substring matches zero or multiple devices.
+- Worked examples in `examples/`:
+  - `wav-capture.js` — capture to a valid WAV file (no extra dependencies)
+  - `websocket-stream.js` — stream raw PCM to a WebSocket server
+  - `websocket-server.js` — minimal test receiver (requires `ws`)
+
+---
+
 ## [0.3.0] - 2026-03-10
 
 ### Changed

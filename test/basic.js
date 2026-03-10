@@ -52,3 +52,19 @@ if (process.argv.includes('--live')) {
   console.log('\nAll static tests passed.');
   console.log('Run with --live flag to test actual microphone capture.');
 }
+
+// ── VAD options — accepted without error ──────────────────────────────────────
+console.log('\nTesting VAD constructor options...');
+const vadMic = new MicStream({ vad: true, vadThreshold: 0.02, vadHoldoff: 500 });
+console.assert(vadMic !== null, 'VAD options accepted');
+vadMic.stop();
+
+// ── Device by name — no match throws TypeError ────────────────────────────────
+console.log('\nTesting device-by-name (no match)...');
+try {
+  new MicStream({ device: '__no_device_will_ever_match_this__' });
+  console.assert(false, 'should have thrown');
+} catch (e) {
+  console.assert(e instanceof TypeError, 'throws TypeError for no match');
+  console.log('  TypeError:', e.message.split('\n')[0]);
+}

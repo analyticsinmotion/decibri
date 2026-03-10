@@ -39,7 +39,7 @@
 npm install @analyticsinmotion/micstream
 ```
 
-At install time `prebuild-install` downloads the correct pre-compiled binary for your platform. If no binary is available, it falls back to compiling from source (requires build tools and `libasound2-dev` on Linux).
+Pre-compiled binaries for all supported platforms are bundled inside the package and loaded automatically by `node-gyp-build`. If no binary is available for your platform, it falls back to compiling from source (requires build tools and `libasound2-dev` on Linux).
 
 ---
 
@@ -125,6 +125,7 @@ Creates a Readable stream that captures from the system default microphone.
 | `channels` | number | `1` | Number of input channels (1–32) |
 | `framesPerBuffer` | number | `1600` | Frames per audio callback (64–65536) |
 | `device` | number | system default | Device index from `MicStream.devices()`; omit to use the system default |
+| `format` | `'int16'` \| `'float32'` | `'int16'` | Sample encoding — 16-bit signed integer or 32-bit IEEE 754 float |
 
 Standard Node.js `Readable` stream options (e.g. `highWaterMark`) are also accepted.
 
@@ -158,7 +159,7 @@ Returns version information for micstream and the bundled PortAudio.
 
 ```javascript
 MicStream.version();
-// { micstream: '0.2.0', portaudio: 'PortAudio V19.7.0-devel...' }
+// { micstream: '0.3.0', portaudio: 'PortAudio V19.7.0-devel...' }
 ```
 
 ---

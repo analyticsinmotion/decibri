@@ -9,6 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/analyticsinmotion/micstream.git"
   },
+  "homepage": "https://micstream.dev",
   "keywords": [
     "microphone",
     "audio",
@@ -17,7 +18,11 @@
     "pcm",
     "portaudio",
     "native",
-    "prebuilt"
+    "prebuilt",
+    "voice-ai",
+    "speech-to-text",
+    "wake-word",
+    "real-time-audio"
   ],
   "files": [
     "index.js",

@@ -165,6 +165,7 @@
       scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
     body {
@@ -206,7 +207,6 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      overflow-x: hidden;
     }
 
     [data-theme="light"] nav {
@@ -219,7 +219,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-width: 0;
     }
 
     .nav-logo {
@@ -229,7 +228,6 @@
       color: var(--text-primary);
       text-decoration: none;
       letter-spacing: -0.5px;
-      flex-shrink: 0;
     }
 
     .nav-logo span { color: var(--accent); }
@@ -935,6 +933,7 @@
       color: var(--text-secondary);
       transition: all 0.2s;
       flex-shrink: 0;
+      padding: 0;
     }
 
     .theme-toggle:hover {

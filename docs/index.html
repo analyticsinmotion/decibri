@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // Prevent flash of wrong theme
+    (function() {
+      var t = localStorage.getItem('micstream-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>micstream | Cross-platform microphone streaming for Node.js</title>
+  <meta name="description" content="Cross-platform, low-latency microphone streaming for Node.js. No ffmpeg. No SoX. No setup. Just a real-time audio stream.">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="microphone, Node.js, audio capture, streaming, PCM, cross-platform, voice AI, real-time audio, speech-to-text, wake word, voice agent, whisper, portaudio, native addon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://micstream.dev">
+  <link rel="alternate" type="text/plain" href="https://micstream.dev/llms.txt" title="LLM-readable package description">
+  <meta property="og:title" content="micstream | Cross-platform microphone streaming for Node.js">
+  <meta property="og:description" content="Cross-platform, low-latency Node.js microphone capture. No ffmpeg. No SoX. No setup.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://micstream.dev">
+  <meta property="og:site_name" content="micstream">
+  <!-- <meta property="og:image" content="https://micstream.dev/og-image.png"> -->
+  <meta name="twitter:card" content="summary">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:title" content="micstream | Cross-platform microphone streaming for Node.js">
+  <meta name="twitter:description" content="Cross-platform, low-latency Node.js microphone capture. No ffmpeg. No SoX. No setup.">
+  <!-- <meta name="twitter:image" content="https://micstream.dev/og-image.png"> -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "@analyticsinmotion/micstream",
+    "alternateName": "micstream",
+    "description": "Cross-platform, low-latency microphone audio capture for Node.js. Pre-built native binaries wrapping PortAudio. No ffmpeg, no SoX, no build tools required. Outputs 16-bit PCM via a standard Node.js Readable stream for real-time voice AI, speech-to-text, wake word detection, and streaming audio pipelines.",
+    "url": "https://micstream.dev",
+    "codeRepository": "https://github.com/analyticsinmotion/micstream",
+    "programmingLanguage": ["C++", "JavaScript", "TypeScript"],
+    "runtimePlatform": "Node.js",
+    "operatingSystem": ["Windows", "macOS", "Linux"],
+    "license": "https://opensource.org/licenses/Apache-2.0",
+    "version": "0.4.0",
+    "author": {
+      "@type": "Organization",
+      "name": "Analytics in Motion",
+      "url": "https://analyticsinmotion.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What audio format does micstream output?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "16-bit signed integer PCM, little-endian by default. A 32-bit float format is also available. The default is the raw format expected by most speech and wake-word engines including Vosk, sherpa-onnx, and whisper.cpp."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does micstream require ffmpeg, SoX, or any system audio tools?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. micstream bundles PortAudio as a statically linked native addon. There are no system dependencies to install."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need build tools to install micstream?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Pre-built binaries for Windows x64, macOS arm64, and Linux x64/arm64 ship inside the npm package. If no binary is available for your platform, it falls back to compiling from source."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does micstream work in the browser?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. micstream is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I select a specific microphone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Use MicStream.devices() to list available input devices, then pass the device index or a name substring to the constructor options."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What Node.js versions are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Node.js 16 and above."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What license is micstream released under?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apache-2.0."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-elevated: #12121a;
+      --bg-code: #0d0d15;
+      --surface: #1a1a26;
+      --border: #252536;
+      --border-glow: #3b3b5c;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9494b0;
+      --text-muted: #5e5e7a;
+      --accent: #5ea3f8;
+      --accent-glow: rgba(94, 163, 248, 0.15);
+      --accent-glow-strong: rgba(94, 163, 248, 0.25);
+      --red: #ff6b6b;
+      --red-dim: rgba(255, 107, 107, 0.12);
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8f8fb;
+      --bg-elevated: #ffffff;
+      --bg-code: #f0f0f6;
+      --surface: #eaeaf0;
+      --border: #d4d4de;
+      --border-glow: #b0b0c4;
+      --text-primary: #1a1a2e;
+      --text-secondary: #52526e;
+      --text-muted: #8888a0;
+      --accent: #1d5bbf;
+      --accent-glow: rgba(29, 91, 191, 0.10);
+      --accent-glow-strong: rgba(29, 91, 191, 0.18);
+      --red: #d94444;
+      --red-dim: rgba(217, 68, 68, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    [data-theme="light"] body::before { opacity: 0.4; }
+
+    /* ── Container ── */
+    .container {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    [data-theme="light"] nav {
+      background: rgba(248, 248, 251, 0.85);
+    }
+
+    nav .nav-inner {
+      max-width: 840px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-links .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 7px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #fff;
+      transition: all 0.2s;
+    }
+
+    [data-theme="light"] .nav-links .nav-cta {
+      color: #1a1a2e;
+    }
+
+    .nav-links .nav-cta:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 160px 0 100px;
+      position: relative;
+    }
+
+    /* Ambient glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5.5vw, 56px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    /* ── Code Block ── */
+    .code-block {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 36px 0;
+      position: relative;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .code-dots span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .code-dots span:first-child { background: #ff5f57; }
+    .code-dots span:nth-child(2) { background: #febc2e; }
+    .code-dots span:nth-child(3) { background: #28c840; }
+
+    .code-lang {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .code-body {
+      padding: 24px;
+      overflow-x: auto;
+    }
+
+    .code-body pre {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+    }
+
+    .code-body .kw { color: #c792ea; }
+    .code-body .fn { color: #82aaff; }
+    .code-body .str { color: #c3e88d; }
+    .code-body .cm { color: #546e7a; font-style: italic; }
+    .code-body .const { color: #89ddff; }
+    .code-body .obj { color: #f0c674; }
+    .code-body .param { color: #e8e8f0; }
+
+    /* ── CTA Buttons ── */
+    .cta-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero .cta-group {
+      margin-top: 36px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 28px;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: -0.3px;
+    }
+
+    .btn-primary:hover {
+      background: #7bb8ff;
+      box-shadow: 0 0 30px var(--accent-glow-strong);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: -0.3px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-glow);
+      background: var(--surface);
+    }
+
+    .btn-secondary svg, .btn-primary svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── Hero Labels ── */
+    .hero-label {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .hero-label + .code-block {
+      margin-top: 0;
+    }
+
+    /* ── Install Pill ── */
+    .install-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .install-pill:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .install-pill .dollar { color: var(--accent); user-select: none; }
+    .install-pill .cmd { color: var(--text-primary); }
+
+    .install-pill .copy-icon {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .install-pill:hover .copy-icon { color: var(--accent); }
+
+    .install-pill .tooltip {
+      position: absolute;
+      top: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      padding: 5px 10px;
+      background: var(--accent);
+      color: var(--bg);
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .install-pill .tooltip.show { opacity: 1; }
+
+    /* ── Sections ── */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    section h2 {
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    section p.section-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── Problem Section ── */
+    .problem-grid {
+      display: grid;
+      gap: 12px;
+      margin: 40px 0 28px;
+    }
+
+    .problem-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--red-dim);
+      border: 1px solid rgba(255, 107, 107, 0.12);
+      border-radius: 10px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .problem-item .x-icon {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      color: var(--red);
+      opacity: 0.8;
+    }
+
+    /* ── Features Grid ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      padding: 28px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.25s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-glow);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .feature-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-card p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ── Use Cases ── */
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .use-case {
+      padding: 20px 24px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .use-case .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── Example Block ── */
+    .example-heading {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-top: 44px;
+      margin-bottom: 10px;
+    }
+
+    .example-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── Integrations ── */
+    .integrations-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+    }
+
+    .integration-tag {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      padding: 10px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      letter-spacing: 0.2px;
+    }
+
+    /* ── Platform Support ── */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .platform-card {
+      padding: 24px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .platform-card .platform-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .platform-card .platform-arch {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ── When to use / Comparison ── */
+    .when-to-use {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-top: 20px;
+    }
+
+    .when-to-use code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 640px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    .compare-card {
+      padding: 24px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .compare-card h3 {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .compare-card .alt-name { color: var(--text-muted); }
+    .compare-card .mic-name { color: var(--accent); }
+
+    .compare-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .compare-card ul li {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      padding: 5px 0;
+      padding-left: 22px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .compare-card ul li::before {
+      position: absolute;
+      left: 0;
+      top: 7px;
+    }
+
+    .compare-card.alt ul li::before {
+      content: '×';
+      color: var(--red);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .compare-card.ours ul li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* ── FAQ Accordion ── */
+    .faq-list {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      padding: 20px 0;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s;
+    }
+
+    .faq-q:hover {
+      color: var(--accent);
+    }
+
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      transition: transform 0.3s ease, color 0.2s;
+    }
+
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .faq-a-wrap {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease;
+    }
+
+    .faq-item.open .faq-a-wrap {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-a-inner {
+      overflow: hidden;
+    }
+
+    .faq-a {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+      padding-bottom: 20px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    /* ── Final CTA ── */
+    .final-cta {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .final-cta p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .final-cta .cta-group {
+      justify-content: center;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--accent); }
+
+    /* ── Light theme: code syntax ── */
+    [data-theme="light"] .code-body .kw { color: #8839ef; }
+    [data-theme="light"] .code-body .fn { color: #1e66f5; }
+    [data-theme="light"] .code-body .str { color: #40a02b; }
+    [data-theme="light"] .code-body .cm { color: #9ca0b0; font-style: italic; }
+    [data-theme="light"] .code-body .const { color: #d20f39; }
+    [data-theme="light"] .code-body .obj { color: #df8e1d; }
+    [data-theme="light"] .code-body .param { color: #1a1a2e; }
+    [data-theme="light"] .hero::before { opacity: 0.3; }
+    [data-theme="light"] .btn-primary { color: #fff; }
+
+    /* ── Theme Toggle ── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .theme-toggle svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .hero { padding: 130px 0 70px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .theme-toggle { width: 30px; height: 30px; }
+      .cta-group { flex-direction: column; align-items: flex-start; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .install-pill { width: 100%; justify-content: center; }
+    }
+
+    /* ── Fade-in animation (only when JS is active) ── */
+    .js-loaded .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .js-loaded .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">mic<span>stream</span></a>
+      <div class="nav-links">
+        <a href="#problem">Why</a>
+        <a href="#features">Features</a>
+        <a href="#compare">Compare</a>
+        <a href="#platforms">Platforms</a>
+        <a href="https://github.com/analyticsinmotion/micstream" class="nav-cta" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+  <!-- ── Hero ── -->
+  <div class="container">
+    <section class="hero">
+      <h1>Cross-platform, low-latency <span class="gradient-text">microphone streaming</span> for Node.js</h1>
+      <p class="subtitle">No ffmpeg. No SoX. No setup. Capture audio from the system microphone and pipe it anywhere: speech engines, WebSockets, or files.</p>
+
+      <div class="cta-group">
+        <a href="https://github.com/analyticsinmotion/micstream" class="btn-primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          Get Started
+        </a>
+        <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream" class="btn-secondary" target="_blank" rel="noopener">
+          View on npm
+        </a>
+      </div>
+
+      <p class="hero-label">Install with one command:</p>
+      <div class="install-pill" onclick="copyInstall()" role="button" tabindex="0" aria-label="Copy install command">
+        <span class="dollar">$</span>
+        <span class="cmd">npm install @analyticsinmotion/micstream</span>
+        <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span class="tooltip" id="copy-tooltip">Copied!</span>
+      </div>
+
+      <p class="hero-label">Then start streaming:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">JavaScript</span>
+        </div>
+        <div class="code-body">
+<pre><span class="kw">const</span> <span class="obj">MicStream</span> = <span class="fn">require</span>(<span class="str">'@analyticsinmotion/micstream'</span>);
+<span class="kw">const</span> <span class="obj">mic</span> = <span class="kw">new</span> <span class="fn">MicStream</span>({ <span class="param">sampleRate</span>: <span class="const">16000</span>, <span class="param">channels</span>: <span class="const">1</span> });
+
+<span class="obj">mic</span>.<span class="fn">on</span>(<span class="str">'data'</span>, (<span class="param">chunk</span>) => {
+  <span class="obj">websocket</span>.<span class="fn">send</span>(<span class="param">chunk</span>); <span class="cm">// stream audio to your backend</span>
+});</pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Problem ── -->
+  <div class="container">
+    <section id="problem" class="fade-in">
+      <div class="section-label">The Problem</div>
+      <h2>Microphone input in Node.js is harder than it should be</h2>
+      <div class="problem-grid">
+        <div class="problem-item">
+          <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Requires external tools like ffmpeg or SoX
+        </div>
+        <div class="problem-item">
+          <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Inconsistent across macOS, Windows, and Linux
+        </div>
+        <div class="problem-item">
+          <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Subprocess overhead and complex setup
+        </div>
+        <div class="problem-item">
+          <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Painful setup for something that should be simple
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Features ── -->
+  <div class="container">
+    <section id="features" class="fade-in">
+      <div class="section-label">Why micstream</div>
+      <h2>Designed for real-time systems</h2>
+      <p class="section-desc">A native Node.js addon wrapping PortAudio. Statically linked, zero system dependencies, with pre-built binaries so there's nothing to compile.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Cross-platform</h3>
+          <p>macOS, Windows, and Linux with pre-built binaries. No build tools required on any platform.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3>Direct capture</h3>
+          <p>100ms audio chunks by default (1600 frames at 16kHz). PortAudio captures directly from the OS audio layer with no subprocess, no shell, and no intermediate encoding.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <h3>Stream interface</h3>
+          <p>Standard Node.js Readable stream. Pipe to files, WebSockets, or speech engines directly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Zero dependencies</h3>
+          <p>No ffmpeg, no SoX, no system audio libraries. PortAudio is compiled and statically linked.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3>TypeScript ready</h3>
+          <p>Bundled type definitions. Full IntelliSense for options, events, and device enumeration.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3>Configurable</h3>
+          <p>Sample rate, channels, frames per buffer, device selection by index or name, int16 or float32 output, and optional voice activity detection with speech/silence events.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Use Cases ── -->
+  <div class="container">
+    <section class="fade-in">
+      <div class="section-label">Use Cases</div>
+      <h2>Built for real-time voice applications</h2>
+      <div class="use-cases">
+        <div class="use-case"><span class="dot"></span> Real-time transcription</div>
+        <div class="use-case"><span class="dot"></span> Wake word detection</div>
+        <div class="use-case"><span class="dot"></span> Voice agents &amp; assistants</div>
+        <div class="use-case"><span class="dot"></span> Streaming audio pipelines</div>
+        <div class="use-case"><span class="dot"></span> Speech-to-text engines</div>
+        <div class="use-case"><span class="dot"></span> Audio monitoring</div>
+      </div>
+
+      <h3 class="example-heading">Record audio to disk</h3>
+      <p class="example-desc">Because micstream exposes a standard Node.js Readable stream, you can pipe audio directly to a file. Set the sample rate and channels to match your target format. No encoding step, no intermediate buffers.</p>
+
+      <div class="code-block" style="margin-top: 16px;">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Pipe to file</span>
+        </div>
+        <div class="code-body">
+<pre><span class="kw">const</span> <span class="obj">MicStream</span> = <span class="fn">require</span>(<span class="str">'@analyticsinmotion/micstream'</span>);
+<span class="kw">const</span> <span class="obj">fs</span> = <span class="fn">require</span>(<span class="str">'fs'</span>);
+
+<span class="kw">const</span> <span class="obj">mic</span> = <span class="kw">new</span> <span class="fn">MicStream</span>({ <span class="param">sampleRate</span>: <span class="const">44100</span>, <span class="param">channels</span>: <span class="const">2</span> });
+<span class="obj">mic</span>.<span class="fn">pipe</span>(<span class="obj">fs</span>.<span class="fn">createWriteStream</span>(<span class="str">'capture.raw'</span>));</pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Integrations ── -->
+  <div class="container">
+    <section class="fade-in">
+      <div class="section-label">Integrations</div>
+      <h2>Works with your existing stack</h2>
+      <p class="section-desc">micstream outputs raw 16-bit PCM, the standard format expected by speech and audio processing engines.</p>
+      <div class="integrations-list">
+        <span class="integration-tag">whisper.cpp</span>
+        <span class="integration-tag">sherpa-onnx</span>
+        <span class="integration-tag">Vosk</span>
+        <span class="integration-tag">openWakeWord</span>
+        <span class="integration-tag">WebSocket servers</span>
+        <span class="integration-tag">Custom pipelines</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── When to use / Comparison ── -->
+  <div class="container">
+    <section id="compare" class="fade-in">
+      <div class="section-label">When to use micstream</div>
+      <h2>The right tool for the job</h2>
+      <p class="when-to-use">Use micstream when you need raw PCM audio from a system microphone inside a Node.js process. For example, feeding audio to a local speech-to-text engine, a wake word detector, or a real-time WebSocket pipeline. If you need browser-based audio capture, use the Web Audio API or <code>microphone-stream</code> instead.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card alt">
+          <h3 class="alt-name">Other approaches</h3>
+          <ul>
+            <li><code>mic</code> npm package requires SoX or arecord installed on the system</li>
+            <li><code>microphone-stream</code> is browser-only and does not work in Node.js</li>
+            <li>Shelling out to ffmpeg adds latency, process management, and a large dependency</li>
+            <li>Most alternatives have no prebuilt binaries and require build tools on every machine</li>
+          </ul>
+        </div>
+        <div class="compare-card ours">
+          <h3 class="mic-name">micstream</h3>
+          <ul>
+            <li>Native PortAudio addon with no system audio tools needed</li>
+            <li>Purpose-built for Node.js server-side and CLI use cases</li>
+            <li>Prebuilt binaries ship in the package with zero post-install setup</li>
+            <li>Standard Readable stream API: pipe, transform, and compose</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Platforms ── -->
+  <div class="container">
+    <section id="platforms" class="fade-in">
+      <div class="section-label">Platform Support</div>
+      <h2>Pre-built binaries, zero setup</h2>
+      <p class="section-desc">Pre-compiled native binaries ship inside the package. No build tools, no compilation, no post-install downloads.</p>
+      <div class="platform-grid">
+        <div class="platform-card">
+          <div class="platform-name">Windows 11</div>
+          <div class="platform-arch">x64</div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-name">macOS</div>
+          <div class="platform-arch">arm64 (Apple Silicon)</div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-name">Linux</div>
+          <div class="platform-arch">x64</div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-name">Linux</div>
+          <div class="platform-arch">arm64</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── FAQ ── -->
+  <div class="container">
+    <section id="faq" class="fade-in">
+      <div class="section-label">FAQ</div>
+      <h2>Common questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">What audio format does micstream output?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">16-bit signed integer PCM, little-endian by default. A 32-bit float format is also available. The default is the raw format expected by most speech and wake-word engines including Vosk, sherpa-onnx, and whisper.cpp.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">Does micstream require ffmpeg, SoX, or any system audio tools?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. micstream bundles PortAudio as a statically linked native addon. There are no system dependencies to install.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">Do I need build tools to install micstream?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. Pre-built binaries for Windows x64, macOS arm64, and Linux x64/arm64 ship inside the npm package. If no binary is available for your platform, it falls back to compiling from source.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">Does micstream work in the browser?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. micstream is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">Can I select a specific microphone?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Yes. Use MicStream.devices() to list available input devices, then pass the device index or a name substring to the constructor options.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">What Node.js versions are supported?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Node.js 16 and above.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q" onclick="toggleFaq(this)">What license is micstream released under?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Apache-2.0.</p></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Final CTA ── -->
+  <div class="container">
+    <section class="final-cta fade-in">
+      <h2>Start streaming audio in minutes</h2>
+      <p>One install. One import. Real-time microphone audio.</p>
+      <div class="cta-group">
+        <a href="https://github.com/analyticsinmotion/micstream" class="btn-primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          View on GitHub
+        </a>
+        <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream" class="btn-secondary" target="_blank" rel="noopener">
+          View on npm
+        </a>
+      </div>
+      <div class="install-pill" onclick="copyInstall()" role="button" tabindex="0" aria-label="Copy install command" style="margin-top: 20px;">
+        <span class="dollar">$</span>
+        <span class="cmd">npm install @analyticsinmotion/micstream</span>
+        <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span class="tooltip" id="copy-tooltip-2">Copied!</span>
+      </div>
+    </section>
+  </div>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container">
+      <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener">Analytics in Motion</a> · <a href="https://github.com/analyticsinmotion/micstream" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream" target="_blank" rel="noopener">npm</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Enable fade-in animations (content stays visible without JS)
+    document.documentElement.classList.add('js-loaded');
+
+    // Theme toggle with persistence
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('micstream-theme', next);
+    }
+
+    // FAQ accordion
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    // Copy to clipboard
+    function copyInstall() {
+      navigator.clipboard.writeText('npm install @analyticsinmotion/micstream').then(() => {
+        document.querySelectorAll('.tooltip').forEach(t => {
+          t.classList.add('show');
+          setTimeout(() => t.classList.remove('show'), 1500);
+        });
+      });
+    }
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

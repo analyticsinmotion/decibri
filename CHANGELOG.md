@@ -22,7 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   available. Supports manual dispatch.
 
 ### Changed
-<!-- Add changed behavior here -->
+
+- Bumped `actions/checkout` from v4 to v6 across all workflows to resolve Node.js 20
+  deprecation warning. Affects `prebuild.yml` and `check-portaudio-upstream.yml`.
 
 ### Fixed
 <!-- Add bug fixes here -->

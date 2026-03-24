@@ -1,0 +1,93 @@
+# Check if the PortAudio upstream repo has new commits since our pinned submodule.
+# Opens a GitHub issue if updates are available. Runs weekly and on manual dispatch.
+
+name: Check PortAudio Upstream
+
+on:
+  schedule:
+    # Every Monday at 8:00 AM AEST (Sunday 22:00 UTC)
+    - cron: "0 22 * * 0"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Get pinned submodule commit
+        id: pinned
+        run: |
+          PINNED_SHA=$(git -C deps/portaudio rev-parse HEAD)
+          echo "sha=${PINNED_SHA}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${PINNED_SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "Pinned PortAudio commit: ${PINNED_SHA}"
+
+      - name: Get upstream HEAD commit
+        id: upstream
+        run: |
+          UPSTREAM_SHA=$(git ls-remote https://github.com/PortAudio/portaudio.git HEAD | awk '{print $1}')
+          echo "sha=${UPSTREAM_SHA}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${UPSTREAM_SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "Upstream PortAudio HEAD: ${UPSTREAM_SHA}"
+
+      - name: Compare commits
+        id: compare
+        run: |
+          if [ "${{ steps.pinned.outputs.sha }}" = "${{ steps.upstream.outputs.sha }}" ]; then
+            echo "status=up-to-date" >> "$GITHUB_OUTPUT"
+            echo "✅ PortAudio submodule is up to date."
+          else
+            echo "status=behind" >> "$GITHUB_OUTPUT"
+            echo "⚠️ PortAudio submodule is behind upstream."
+          fi
+
+      - name: Check for existing issue
+        if: steps.compare.outputs.status == 'behind'
+        id: existing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_COUNT=$(gh issue list \
+            --repo "${{ github.repository }}" \
+            --label "portaudio-update" \
+            --state open \
+            --json number \
+            --jq 'length')
+          echo "open_issues=${ISSUE_COUNT}" >> "$GITHUB_OUTPUT"
+          echo "Open portaudio-update issues: ${ISSUE_COUNT}"
+
+      - name: Create issue
+        if: steps.compare.outputs.status == 'behind' && steps.existing.outputs.open_issues == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "PortAudio upstream has new commits" \
+            --label "portaudio-update" \
+            --body "The PortAudio submodule is behind upstream.
+
+          **Pinned commit:** [\`${{ steps.pinned.outputs.short_sha }}\`](https://github.com/PortAudio/portaudio/commit/${{ steps.pinned.outputs.sha }})
+          **Upstream HEAD:** [\`${{ steps.upstream.outputs.short_sha }}\`](https://github.com/PortAudio/portaudio/commit/${{ steps.upstream.outputs.sha }})
+
+          **Compare:** [View changes](https://github.com/PortAudio/portaudio/compare/${{ steps.pinned.outputs.sha }}...${{ steps.upstream.outputs.sha }})
+
+          ### Action required
+          1. Review the upstream changes for security fixes or relevant bug fixes
+          2. If updating:
+             \`\`\`bash
+             cd deps/portaudio && git pull origin master && cd ../..
+             git add deps/portaudio
+             git commit -m \"deps: update PortAudio submodule\"
+             \`\`\`
+          3. This will require a full binary rebuild (all 4 platforms)
+
+          _This issue was created automatically by the PortAudio upstream check workflow._"

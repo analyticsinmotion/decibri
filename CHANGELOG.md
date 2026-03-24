@@ -11,7 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-<!-- Add new features here -->
+
+- Dependabot configuration (`.github/dependabot.yml`) — weekly version update PRs for
+  npm dependencies and GitHub Actions, with minor/patch updates grouped to reduce noise.
+  Major bumps (e.g. `node-addon-api` 7→8) get individual PRs since they require a
+  binary rebuild.
+- PortAudio upstream check workflow (`.github/workflows/check-portaudio-upstream.yml`) —
+  weekly cron comparing the pinned `deps/portaudio` submodule commit against upstream
+  PortAudio `master` HEAD. Opens a GitHub issue with a diff link when new commits are
+  available. Supports manual dispatch.
 
 ### Changed
 <!-- Add changed behavior here -->

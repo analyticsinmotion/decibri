@@ -1,0 +1,33 @@
+# Dependabot version updates for npm dependencies
+# Catches node-addon-api major bumps and other dependency updates
+# Security alerts are already enabled via GitHub settings
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Australia/Melbourne"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      # Group minor/patch updates to reduce PR noise
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    # Major version bumps get individual PRs (e.g. node-addon-api 7→8 = rebuild event)
+    # This is the default behaviour — majors are excluded from groups
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Australia/Melbourne"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"

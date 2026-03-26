@@ -107,7 +107,7 @@ jobs:
       # after the artifact (e.g. prebuilds/prebuild-win32-x64/). The next step
       # strips the "prebuild-" prefix to match node-gyp-build's expected path.
       - name: Download all prebuild artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: prebuild-*
           path: prebuilds/

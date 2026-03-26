@@ -92,7 +92,7 @@ Source build fallback available for macOS Intel (x64) and Windows ARM64 with app
 
 ## Node.js version
 
-Requires Node.js 16 or above.
+Requires Node.js 18 or above.
 
 ## TypeScript
 

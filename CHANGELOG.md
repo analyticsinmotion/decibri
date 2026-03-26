@@ -25,6 +25,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bumped `actions/checkout` from v4 to v6 across all workflows to resolve Node.js 20
   deprecation warning. Affects `prebuild.yml` and `check-portaudio-upstream.yml`.
+- Bumped `actions/download-artifact` from v4 to v8 in `prebuild.yml`.
+- Bumped `actions/upload-artifact` from v4 to v7 in `prebuild.yml`.
+- Bumped `actions/setup-node` from v4 to v6 in `prebuild.yml`.
+- Bumped `node-addon-api` from 7.1.1 to 8.6.0 (major version). No API changes required
+  in `micstream.cc` — NAPI\_VERSION remains at 6.
+- Updated minimum Node.js engine requirement from `>=16.0.0` to `>=18.0.0` to align
+  with `node-addon-api` 8.x engine requirements.
+
+### Security
+
+- Bumped `picomatch` from 4.0.3 to 4.0.4 to fix CVE-2026-33671 and CVE-2026-33672
+  (high severity).
 
 ### Fixed
 <!-- Add bug fixes here -->

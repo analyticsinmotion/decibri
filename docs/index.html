@@ -125,6 +125,63 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "micstream",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Windows, macOS, Linux",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "url": "https://micstream.dev",
+    "downloadUrl": "https://www.npmjs.com/package/@analyticsinmotion/micstream",
+    "softwareRequirements": "Node.js 18+",
+    "author": {
+      "@type": "Organization",
+      "name": "Analytics in Motion",
+      "url": "https://analyticsinmotion.com"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to capture microphone audio in Node.js",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Install",
+        "text": "npm install @analyticsinmotion/micstream"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Import",
+        "text": "const MicStream = require('@analyticsinmotion/micstream');"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Create stream",
+        "text": "const mic = new MicStream({ sampleRate: 16000, channels: 1 });"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Handle audio",
+        "text": "mic.on('data', (chunk) => { /* process PCM audio buffer */ });"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Stop capture",
+        "text": "mic.stop();"
+      }
+    ]
+  }
+  </script>
+  <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -903,6 +960,32 @@
       justify-content: center;
     }
 
+    /* ── Skip-to-content ── */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .skip-link:focus {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: auto;
+      height: auto;
+      padding: 8px 16px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 4px;
+      z-index: 10000;
+      font-family: var(--font-display);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
     /* ── Footer ── */
     footer {
       padding: 32px 0;
@@ -995,6 +1078,7 @@
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <!-- ── Nav ── -->
   <nav>
@@ -1014,7 +1098,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="main">
 
   <!-- ── Hero ── -->
   <div class="container">

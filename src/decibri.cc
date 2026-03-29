@@ -22,32 +22,32 @@ extern "C" const char* CheckMicrophonePermission();
 // -1 means "use the system default input device"
 #define DEFAULT_DEVICE         -1
 
-// ─── MicStream class ─────────────────────────────────────────────────────────
+// ─── Decibri class ──────────────────────────────────────────────────────────
 
-class MicStream : public Napi::ObjectWrap<MicStream> {
+class Decibri : public Napi::ObjectWrap<Decibri> {
 public:
 
   static Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    Napi::Function func = DefineClass(env, "MicStream", {
-      InstanceMethod("start",   &MicStream::Start),
-      InstanceMethod("stop",    &MicStream::Stop),
-      InstanceMethod("isOpen",  &MicStream::IsOpen),
-      StaticMethod("devices",   &MicStream::GetDevices),
-      StaticMethod("version",   &MicStream::GetVersion),
+    Napi::Function func = DefineClass(env, "Decibri", {
+      InstanceMethod("start",   &Decibri::Start),
+      InstanceMethod("stop",    &Decibri::Stop),
+      InstanceMethod("isOpen",  &Decibri::IsOpen),
+      StaticMethod("devices",   &Decibri::GetDevices),
+      StaticMethod("version",   &Decibri::GetVersion),
     });
 
     Napi::FunctionReference* constructor = new Napi::FunctionReference();
     *constructor = Napi::Persistent(func);
     env.SetInstanceData(constructor);
 
-    exports.Set("MicStream", func);
+    exports.Set("Decibri", func);
     return exports;
   }
 
   // ── Constructor ──────────────────────────────────────────────────────────
 
-  MicStream(const Napi::CallbackInfo& info)
-      : Napi::ObjectWrap<MicStream>(info),
+  Decibri(const Napi::CallbackInfo& info)
+      : Napi::ObjectWrap<Decibri>(info),
         stream_(nullptr),
         tsfn_(),
         running_(false),
@@ -110,7 +110,7 @@ public:
 
   // ── Destructor ───────────────────────────────────────────────────────────
 
-  ~MicStream() {
+  ~Decibri() {
     if (running_.exchange(false)) {
       if (stream_) {
         Pa_StopStream(stream_);
@@ -140,7 +140,7 @@ private:
     (void)timeInfo;
     (void)statusFlags;
 
-    MicStream* self = static_cast<MicStream*>(userData);
+    Decibri* self = static_cast<Decibri*>(userData);
 
     if (!self->running_ || inputBuffer == nullptr) {
       return paContinue;
@@ -176,7 +176,7 @@ private:
     Napi::Env env = info.Env();
 
     if (running_) {
-      Napi::Error::New(env, "MicStream is already running. Call stop() first.")
+      Napi::Error::New(env, "Decibri is already running. Call stop() first.")
           .ThrowAsJavaScriptException();
       return env.Undefined();
     }
@@ -191,7 +191,7 @@ private:
     tsfn_ = Napi::ThreadSafeFunction::New(
         env,
         callback,
-        "MicStreamCallback",
+        "DecibriCallback",
         0,    // unlimited queue depth
         1     // single producer (audio thread)
     );
@@ -204,7 +204,7 @@ private:
       if (deviceIndex >= Pa_GetDeviceCount()) {
         tsfn_.Release();
         Napi::RangeError::New(env,
-            "device index out of range — call MicStream.devices() to list available devices")
+            "device index out of range — call Decibri.devices() to list available devices")
             .ThrowAsJavaScriptException();
         return env.Undefined();
       }
@@ -317,10 +317,10 @@ private:
     return Napi::Boolean::New(info.Env(), running_.load());
   }
 
-  // ── MicStream.devices() — static ─────────────────────────────────────────
+  // ── Decibri.devices() — static ───────────────────────────────────────────
   //
   // PortAudio v19 reference-counts Pa_Initialize / Pa_Terminate calls, so
-  // it is safe to call them here even when a MicStream instance is actively
+  // it is safe to call them here even when a Decibri instance is actively
   // capturing. The instance's init increments the ref count to 1; this call
   // bumps it to 2 then back to 1 at the end — the live stream is unaffected.
 
@@ -356,14 +356,14 @@ private:
     return devices;
   }
 
-  // ── MicStream.version() — static ─────────────────────────────────────────
+  // ── Decibri.version() — static ───────────────────────────────────────────
 
   static Napi::Value GetVersion(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::Object v = Napi::Object::New(env);
     const PaVersionInfo* vi = Pa_GetVersionInfo();
     v.Set("portaudio", Napi::String::New(env, vi ? vi->versionText : Pa_GetVersionText()));
-    v.Set("micstream",  Napi::String::New(env, MICSTREAM_VERSION));
+    v.Set("decibri",   Napi::String::New(env, DECIBRI_VERSION));
     return v;
   }
 
@@ -383,8 +383,8 @@ private:
 // ─── Module entry point ──────────────────────────────────────────────────────
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  MicStream::Init(env, exports);
+  Decibri::Init(env, exports);
   return exports;
 }
 
-NODE_API_MODULE(micstream, Init)
+NODE_API_MODULE(decibri, Init)

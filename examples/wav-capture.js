@@ -4,15 +4,15 @@
 // Usage: node examples/wav-capture.js
 
 const fs = require('fs');
-// In your own project: const MicStream = require('@analyticsinmotion/micstream');
-const MicStream = require('../index');
+// In your own project: const Decibri = require('decibri');
+const Decibri = require('../index');
 
 const SAMPLE_RATE     = 16000;
 const CHANNELS        = 1;
 const BITS_PER_SAMPLE = 16;
 const DURATION_MS     = 5000;
 
-const mic    = new MicStream({ sampleRate: SAMPLE_RATE, channels: CHANNELS });
+const mic    = new Decibri({ sampleRate: SAMPLE_RATE, channels: CHANNELS });
 const chunks = [];
 
 mic.on('data',  (chunk) => chunks.push(chunk));

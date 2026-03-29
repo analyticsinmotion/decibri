@@ -1,11 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(curl -s -o /tmp/micstream_main.html -w \"%{http_code}\" https://micstream.dev)",
-      "Bash(curl -s -o /tmp/micstream_robots.txt -w \"%{http_code}\" https://micstream.dev/robots.txt)",
-      "Bash(curl -s -o /tmp/micstream_sitemap.xml -w \"%{http_code}\" https://micstream.dev/sitemap.xml)",
-      "Bash(curl -s -o /tmp/micstream_llms.txt -w \"%{http_code}\" https://micstream.dev/llms.txt)",
-      "Bash(curl -s -o /tmp/micstream_og.png -w \"%{http_code}\" https://micstream.dev/og-image.png)"
+      "Bash(curl -s -o /tmp/decibri_main.html -w \"%{http_code}\" https://decibri.dev)",
+      "Bash(curl -s -o /tmp/decibri_robots.txt -w \"%{http_code}\" https://decibri.dev/robots.txt)",
+      "Bash(curl -s -o /tmp/decibri_sitemap.xml -w \"%{http_code}\" https://decibri.dev/sitemap.xml)",
+      "Bash(curl -s -o /tmp/decibri_llms.txt -w \"%{http_code}\" https://decibri.dev/llms.txt)",
+      "Bash(curl -s -o /tmp/decibri_og.png -w \"%{http_code}\" https://decibri.dev/decibri-social-og.png)"
     ]
   }
 }

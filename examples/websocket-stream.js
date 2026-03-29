@@ -4,12 +4,12 @@
 // Usage:    node examples/websocket-stream.js [ws://localhost:8080]
 
 const { WebSocket } = require('ws');
-// In your own project: const MicStream = require('@analyticsinmotion/micstream');
-const MicStream     = require('../index');
+// In your own project: const Decibri = require('decibri');
+const Decibri       = require('../index');
 
 const url = process.argv[2] || 'ws://localhost:8080';
 const ws  = new WebSocket(url);
-const mic = new MicStream({ sampleRate: 16000, channels: 1 });
+const mic = new Decibri({ sampleRate: 16000, channels: 1 });
 
 ws.on('open', () => {
   console.log(`Connected to ${url} — streaming audio. Ctrl+C to stop.`);

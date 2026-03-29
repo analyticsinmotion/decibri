@@ -10,39 +10,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+---
 
-- Dependabot configuration (`.github/dependabot.yml`) — weekly version update PRs for
-  npm dependencies and GitHub Actions, with minor/patch updates grouped to reduce noise.
-  Major bumps (e.g. `node-addon-api` 7→8) get individual PRs since they require a
-  binary rebuild.
-- PortAudio upstream check workflow (`.github/workflows/check-portaudio-upstream.yml`) —
-  weekly cron comparing the pinned `deps/portaudio` submodule commit against upstream
-  PortAudio `master` HEAD. Opens a GitHub issue with a diff link when new commits are
-  available. Supports manual dispatch.
+## [1.0.0] - 2026-03-29
 
 ### Changed
 
-- Bumped `actions/checkout` from v4 to v6 across all workflows to resolve Node.js 20
-  deprecation warning. Affects `prebuild.yml` and `check-portaudio-upstream.yml`.
-- Bumped `actions/download-artifact` from v4 to v8 in `prebuild.yml`.
-- Bumped `actions/upload-artifact` from v4 to v7 in `prebuild.yml`.
-- Bumped `actions/setup-node` from v4 to v6 in `prebuild.yml`.
-- Bumped `node-addon-api` from 7.1.1 to 8.6.0 (major version). No API changes required
-  in `micstream.cc` — NAPI\_VERSION remains at 6.
-- Updated minimum Node.js engine requirement from `>=16.0.0` to `>=18.0.0` to align
-  with `node-addon-api` 8.x engine requirements.
+- **BREAKING:** Renamed package from `@analyticsinmotion/micstream` to `decibri`.
+- **BREAKING:** Renamed JavaScript class from `MicStream` to `Decibri`.
+- **BREAKING:** Renamed TypeScript interface from `MicStreamOptions` to `DecibriOptions`.
+- **BREAKING:** `version()` return key changed from `micstream` to `decibri`.
+- **BREAKING:** Compiled binary renamed from `micstream.node` to `decibri.node`.
+- Renamed C++ source file from `src/micstream.cc` to `src/decibri.cc`.
+- Renamed C++ class from `MicStream` to `Decibri`.
+- Updated all documentation, examples, tests, and types for new naming.
+- Homepage moved from `micstream.dev` to `decibri.dev`.
+- Repository moved from `analyticsinmotion/micstream` to `analyticsinmotion/decibri`.
 
-### Security
+### Migration
 
-- Bumped `picomatch` from 4.0.3 to 4.0.4 to fix CVE-2026-33671 and CVE-2026-33672
-  (high severity).
+```javascript
+// Before (v0.4.0)
+const MicStream = require('@analyticsinmotion/micstream');
+const mic = new MicStream({ sampleRate: 16000, channels: 1 });
 
-### Fixed
-<!-- Add bug fixes here -->
-
-### Removed
-<!-- Add removals/deprecations here -->
+// After (v1.0.0)
+const Decibri = require('decibri');
+const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+```
 
 ---
 
@@ -87,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- TypeScript declarations (`types/index.d.ts`) — full type coverage for `MicStream`, `MicStreamOptions`, `DeviceInfo`, and `VersionInfo` with typed event overloads for all `Readable` events plus `backpressure`. No `@types/` install required.
+- TypeScript declarations (`types/index.d.ts`) — full type coverage for `Decibri`, `DecibriOptions`, `DeviceInfo`, and `VersionInfo` with typed event overloads for all `Readable` events plus `backpressure`. No `@types/` install required.
 - macOS microphone permission helper — checks `AVCaptureDevice` authorization status before opening the PortAudio stream. When access is denied or restricted, emits a clear, actionable error (`Microphone access denied. Enable access in System Settings → Privacy & Security → Microphone.`) instead of silently delivering zero-amplitude audio.
 - `format` option (`'int16'` | `'float32'`) — opt in to 32-bit float PCM output. Default is `'int16'`; existing code requires no changes. Zero-copy view: `new Float32Array(chunk.buffer, chunk.byteOffset, chunk.length / 4)`.
 
@@ -109,7 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release of `@analyticsinmotion/micstream`.
+- Initial release (as `@analyticsinmotion/micstream`).
 - Cross-platform microphone audio capture via PortAudio, statically compiled — no system audio library required at runtime on Windows or macOS.
 - Node.js `Readable` stream interface emitting raw PCM `Buffer` chunks (16-bit signed integer, little-endian).
 - Default audio format: 16 000 Hz, mono, 100 ms chunks (1 600 frames per callback) — optimised for speech and wake-word workloads.
@@ -117,8 +112,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `stop()` method for clean stream termination and EOF signalling.
 - `isOpen` property indicating whether the microphone is actively capturing.
 - `backpressure` event emitted when the internal buffer is full and the consumer is reading too slowly.
-- `MicStream.devices()` static method listing all available audio input devices with index, name, channel count, sample rate, and default flag.
-- `MicStream.version()` static method returning `micstream` and bundled PortAudio version strings.
+- `Decibri.devices()` static method listing all available audio input devices with index, name, channel count, sample rate, and default flag.
+- `Decibri.version()` static method returning decibri and bundled PortAudio version strings.
 - Windows x64 support via WASAPI with automatic format conversion, allowing any requested sample rate regardless of the device's native mix format.
 - macOS ARM64 (Apple Silicon) support via CoreAudio.
 - Linux x64 and Linux ARM64 support via ALSA.

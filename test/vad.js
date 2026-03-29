@@ -3,7 +3,7 @@
 // Speak into the mic; you should see SPEECH and SILENCE alternate.
 // Run: node test/vad.js
 
-const MicStream = require('../index');
+const Decibri = require('../index');
 
 const DURATION_MS    = 10000;
 const VAD_THRESHOLD  = 0.01;
@@ -13,7 +13,7 @@ console.log(`VAD test running for ${DURATION_MS / 1000}s...`);
 console.log(`Threshold: ${VAD_THRESHOLD} | Holdoff: ${VAD_HOLDOFF_MS}ms`);
 console.log('Speak into your microphone.\n');
 
-const mic = new MicStream({
+const mic = new Decibri({
   vad:          true,
   vadThreshold: VAD_THRESHOLD,
   vadHoldoff:   VAD_HOLDOFF_MS,

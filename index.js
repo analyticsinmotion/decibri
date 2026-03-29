@@ -5,7 +5,7 @@ const { Readable } = require('stream');
 // Load the pre-built binary (falls back to compiled build/ output)
 const binding = require('node-gyp-build')(__dirname);
 
-const { MicStream: NativeMicStream } = binding;
+const { Decibri: NativeDecibri } = binding;
 
 // ─── RMS helper ──────────────────────────────────────────────────────────────
 
@@ -26,7 +26,7 @@ function computeRMS(chunk, format) {
   return n > 0 ? Math.sqrt(sum / n) : 0;
 }
 
-// ─── MicStream (Readable) ────────────────────────────────────────────────────
+// ─── Decibri (Readable) ─────────────────────────────────────────────────────
 
 /**
  * A Node.js Readable stream that emits raw PCM audio from the default
@@ -37,13 +37,13 @@ function computeRMS(chunk, format) {
  *   - Sample rate: 16000 Hz  (default — ideal for speech/wake-word)
  *   - Channels:    1 (mono)  (default)
  *
- * @fires MicStream#backpressure - Emitted when the stream's internal buffer is
+ * @fires Decibri#backpressure - Emitted when the stream's internal buffer is
  *   full and the consumer is reading too slowly. The microphone cannot be
  *   paused, so chunks will continue to arrive; callers should drain or drop
  *   data as appropriate.
  *
  * @example
- * const mic = new MicStream();
+ * const mic = new Decibri();
  * mic.on('data', (chunk) => {
  *   // chunk is a Buffer of Int16 PCM samples
  * });
@@ -53,13 +53,13 @@ function computeRMS(chunk, format) {
  * // Stop after 5 seconds
  * setTimeout(() => mic.stop(), 5000);
  */
-class MicStream extends Readable {
+class Decibri extends Readable {
   /**
    * @param {object} [options]
    * @param {number} [options.sampleRate=16000]           Samples per second (1000–384000)
    * @param {number} [options.channels=1]                 Number of input channels (1–32)
    * @param {number} [options.framesPerBuffer=1600]       Frames per audio callback (64–65536)
-   * @param {number|string} [options.device]              Device index from MicStream.devices() or case-insensitive name substring
+   * @param {number|string} [options.device]              Device index from Decibri.devices() or case-insensitive name substring
    * @param {'int16'|'float32'} [options.format='int16']  Sample encoding format
    * @param {boolean} [options.vad=false]                 Enable voice activity detection
    * @param {number}  [options.vadThreshold=0.01]         RMS energy threshold for speech (0–1)
@@ -82,7 +82,7 @@ class MicStream extends Readable {
     let resolvedDevice = device;
     if (typeof device === 'string') {
       const lower = device.toLowerCase();
-      const matches = NativeMicStream.devices().filter(d =>
+      const matches = NativeDecibri.devices().filter(d =>
         d.name.toLowerCase().includes(lower)
       );
       if (matches.length === 0) {
@@ -103,7 +103,7 @@ class MicStream extends Readable {
     if (resolvedDevice !== undefined) nativeOpts.device = resolvedDevice;
     if (format !== undefined) nativeOpts.format = format;
 
-    this._native       = new NativeMicStream(nativeOpts);
+    this._native       = new NativeDecibri(nativeOpts);
     this._started      = false;
     this._vad          = vad;
     this._vadThreshold = vadThreshold;
@@ -175,16 +175,16 @@ class MicStream extends Readable {
    * @returns {Array<{index: number, name: string, maxInputChannels: number, defaultSampleRate: number, isDefault: boolean}>}
    */
   static devices() {
-    return NativeMicStream.devices();
+    return NativeDecibri.devices();
   }
 
   /**
-   * Version information for micstream and the bundled PortAudio.
-   * @returns {{ micstream: string, portaudio: string }}
+   * Version information for decibri and the bundled PortAudio.
+   * @returns {{ decibri: string, portaudio: string }}
    */
   static version() {
-    return NativeMicStream.version();
+    return NativeDecibri.version();
   }
 }
 
-module.exports = MicStream;
+module.exports = Decibri;

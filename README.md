@@ -1,8 +1,8 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <div align="center">
-  <img width="256" height="138" alt="micstream-github-logo-rectangle" src="https://github.com/user-attachments/assets/0850e868-d79d-4787-911d-8126a012869c" />
+  <img width="256" height="138" alt="decibri-github-logo-rectangle" src="https://github.com/user-attachments/assets/0850e868-d79d-4787-911d-8126a012869c" />
 
-# micstream
+# decibri
 
   Cross-platform microphone audio capture for Node.js.
 
@@ -13,19 +13,19 @@
     <tr>
       <td><strong>Meta</strong></td>
       <td>
-        <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream"><img src="https://img.shields.io/npm/v/@analyticsinmotion/micstream" alt="npm version"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/micstream/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>&nbsp;
-        <a href="https://micstream.dev"><img src="https://img.shields.io/badge/Website-micstream.dev-blue" alt="micstream.dev"></a>&nbsp;
+        <a href="https://www.npmjs.com/package/decibri"><img src="https://img.shields.io/npm/v/decibri" alt="npm version"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/decibri/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>&nbsp;
+        <a href="https://decibri.dev"><img src="https://img.shields.io/badge/Website-decibri.dev-blue" alt="decibri.dev"></a>&nbsp;
         <a href="https://github.com/analyticsinmotion"><img src="https://github.com/user-attachments/assets/616c530f-cf2a-4f26-8f6c-7397be513847" alt="Analytics in Motion" width="137" height="20"></a>
       </td>
     </tr>
     <tr>
       <td><strong>Binaries</strong></td>
       <td>
-        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=Windows%20x64&label=Windows%20x64&logo=microsoft&logoColor=white" alt="Windows x64"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=macOS%20ARM64&label=macOS%20ARM64&logo=apple" alt="macOS ARM64"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=Linux%20x64&label=Linux%20x64&logo=linux&logoColor=white" alt="Linux x64"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/micstream/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/micstream/prebuild.yml?job=Linux%20ARM64&label=Linux%20ARM64&logo=linux&logoColor=white" alt="Linux ARM64"></a>
+        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Windows%20x64&label=Windows%20x64&logo=microsoft&logoColor=white" alt="Windows x64"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=macOS%20ARM64&label=macOS%20ARM64&logo=apple" alt="macOS ARM64"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Linux%20x64&label=Linux%20x64&logo=linux&logoColor=white" alt="Linux x64"></a>&nbsp;
+        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Linux%20ARM64&label=Linux%20ARM64&logo=linux&logoColor=white" alt="Linux ARM64"></a>
       </td>
     </tr>
   </table>
@@ -37,7 +37,7 @@
 ## Installation
 
 ```bash
-npm install @analyticsinmotion/micstream
+npm install decibri
 ```
 
 Pre-compiled binaries for all supported platforms are bundled inside the package and loaded automatically by `node-gyp-build`. If no binary is available for your platform, it falls back to compiling from source (requires build tools and `libasound2-dev` on Linux).
@@ -49,9 +49,9 @@ Pre-compiled binaries for all supported platforms are bundled inside the package
 ### Stream PCM audio from the default microphone
 
 ```javascript
-const MicStream = require('@analyticsinmotion/micstream');
+const Decibri = require('decibri');
 
-const mic = new MicStream();
+const mic = new Decibri();
 
 mic.on('data', (chunk) => {
   // chunk is a Buffer of 16-bit signed integer PCM samples (little-endian)
@@ -70,9 +70,9 @@ setTimeout(() => mic.stop(), 10000);
 
 ```javascript
 const fs = require('fs');
-const MicStream = require('@analyticsinmotion/micstream');
+const Decibri = require('decibri');
 
-const mic = new MicStream({ sampleRate: 44100, channels: 2 });
+const mic = new Decibri({ sampleRate: 44100, channels: 2 });
 const out = fs.createWriteStream('capture.raw');
 
 mic.pipe(out);
@@ -83,9 +83,9 @@ setTimeout(() => mic.stop(), 5000);
 ### Pipe to a speech engine
 
 ```javascript
-const MicStream = require('@analyticsinmotion/micstream');
+const Decibri = require('decibri');
 
-const mic = new MicStream({ sampleRate: 16000, channels: 1 });
+const mic = new Decibri({ sampleRate: 16000, channels: 1 });
 
 mic.on('data', (chunk) => {
   speechEngine.feed(chunk); // pass raw PCM directly
@@ -97,10 +97,10 @@ mic.on('data', (chunk) => {
 TypeScript definitions are bundled. No `@types/` package needed.
 
 ```typescript
-import MicStream, { DeviceInfo, MicStreamOptions } from '@analyticsinmotion/micstream';
+import Decibri, { DeviceInfo, DecibriOptions } from 'decibri';
 
-const options: MicStreamOptions = { sampleRate: 16000, channels: 1 };
-const mic = new MicStream(options);
+const options: DecibriOptions = { sampleRate: 16000, channels: 1 };
+const mic = new Decibri(options);
 
 mic.on('data', (chunk: Buffer) => {
   // zero-copy Int16 view over the same memory
@@ -109,14 +109,14 @@ mic.on('data', (chunk: Buffer) => {
 
 mic.on('backpressure', () => console.warn('Consumer too slow'));
 
-const devices: DeviceInfo[] = MicStream.devices();
+const devices: DeviceInfo[] = Decibri.devices();
 ```
 
 ---
 
 ## API
 
-### `new MicStream(options?)`
+### `new Decibri(options?)`
 
 Creates a Readable stream that captures from the system default microphone.
 
@@ -125,7 +125,7 @@ Creates a Readable stream that captures from the system default microphone.
 | `sampleRate` | number | `16000` | Samples per second (1000–384000) |
 | `channels` | number | `1` | Number of input channels (1–32) |
 | `framesPerBuffer` | number | `1600` | Frames per audio callback (64–65536) |
-| `device` | number \| string | system default | Device index from `MicStream.devices()` or case-insensitive name substring |
+| `device` | number \| string | system default | Device index from `Decibri.devices()` or case-insensitive name substring |
 | `format` | `'int16'` \| `'float32'` | `'int16'` | Sample encoding — 16-bit signed integer or 32-bit IEEE 754 float |
 | `vad` | boolean | `false` | Enable voice activity detection |
 | `vadThreshold` | number | `0.01` | RMS energy threshold for speech (0–1) |
@@ -153,25 +153,25 @@ Emitted when audio stays below `vadThreshold` for `vadHoldoff` ms after a speech
 
 `true` if the microphone is currently capturing.
 
-### `MicStream.devices()`
+### `Decibri.devices()`
 
 Returns an array of available input devices on the system.
 
 ```javascript
-const devices = MicStream.devices();
+const devices = Decibri.devices();
 // [
 //   { index: 0, name: 'Built-in Microphone', maxInputChannels: 1, defaultSampleRate: 44100, isDefault: true },
 //   ...
 // ]
 ```
 
-### `MicStream.version()`
+### `Decibri.version()`
 
-Returns version information for micstream and the bundled PortAudio.
+Returns version information for decibri and the bundled PortAudio.
 
 ```javascript
-MicStream.version();
-// { micstream: '0.4.0', portaudio: 'PortAudio V19.7.0-devel...' }
+Decibri.version();
+// { decibri: '1.0.0', portaudio: 'PortAudio V19.7.0-devel...' }
 ```
 
 ---
@@ -191,7 +191,7 @@ node examples/wav-capture.js
 
 ### Stream to WebSocket
 
-The WebSocket examples require the `ws` package, which is **not** bundled with micstream. Install it before running:
+The WebSocket examples require the `ws` package, which is **not** bundled with decibri. Install it before running:
 
 ```bash
 npm install ws
@@ -253,7 +253,7 @@ mic.on('data', (chunk) => {
 
 ## Building from source
 
-Requires Node.js >= 16, node-gyp, and platform build tools.
+Requires Node.js >= 18, node-gyp, and platform build tools.
 
 **Linux:**
 
@@ -273,8 +273,8 @@ Install [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-b
 Then:
 
 ```bash
-git clone --recurse-submodules https://github.com/analyticsinmotion/micstream.git
-cd micstream
+git clone --recurse-submodules https://github.com/analyticsinmotion/decibri.git
+cd decibri
 npm install
 npm run build
 ```
@@ -283,7 +283,7 @@ npm run build
 
 ## How it works
 
-micstream wraps [PortAudio](http://www.portaudio.com/), the standard cross-platform audio I/O library, as a Node.js native addon using [N-API](https://nodejs.org/api/n-api.html). PortAudio is compiled from source and statically linked, so there is no system PortAudio dependency.
+decibri wraps [PortAudio](http://www.portaudio.com/), the standard cross-platform audio I/O library, as a Node.js native addon using [N-API](https://nodejs.org/api/n-api.html). PortAudio is compiled from source and statically linked, so there is no system PortAudio dependency.
 
 The native addon opens the default input device, runs a PortAudio callback in an audio thread, and forwards PCM chunks to JavaScript via an N-API `ThreadSafeFunction`. The JavaScript layer wraps this in a standard Node.js `Readable` stream.
 

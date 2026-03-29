@@ -1,9 +1,9 @@
 {
   "targets": [
     {
-      "target_name": "micstream",
+      "target_name": "decibri",
       "sources": [
-        "src/micstream.cc",
+        "src/decibri.cc",
 
         "deps/portaudio/src/common/pa_allocation.c",
         "deps/portaudio/src/common/pa_converters.c",
@@ -26,7 +26,7 @@
       "defines": [
         "NAPI_DISABLE_CPP_EXCEPTIONS",
         "NAPI_VERSION=6",
-        "MICSTREAM_VERSION=\"<!@(node -p \"require('./package.json').version\")\""
+        "DECIBRI_VERSION=\"<!@(node -p \"require('./package.json').version\")\""
       ],
 
       "cflags!": ["-fno-exceptions"],

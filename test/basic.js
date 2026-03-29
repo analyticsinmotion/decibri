@@ -1,18 +1,18 @@
 'use strict';
 
-const MicStream = require('../index');
+const Decibri = require('../index');
 
 // ── Static API checks (no hardware needed) ──────────────────────────────────
 
-console.log('Testing MicStream.version()...');
-const ver = MicStream.version();
-console.assert(typeof ver.micstream === 'string', 'micstream version is a string');
+console.log('Testing Decibri.version()...');
+const ver = Decibri.version();
+console.assert(typeof ver.decibri === 'string', 'decibri version is a string');
 console.assert(typeof ver.portaudio === 'string', 'portaudio version is a string');
-console.log('  micstream:', ver.micstream);
+console.log('  decibri:', ver.decibri);
 console.log('  portaudio:', ver.portaudio);
 
-console.log('\nTesting MicStream.devices()...');
-const devices = MicStream.devices();
+console.log('\nTesting Decibri.devices()...');
+const devices = Decibri.devices();
 console.assert(Array.isArray(devices), 'devices() returns an array');
 if (devices.length === 0) {
   console.warn('  WARNING: No input devices found. Is a microphone connected?');
@@ -28,7 +28,7 @@ if (devices.length === 0) {
 
 if (process.argv.includes('--live')) {
   console.log('\nStarting live capture for 5 seconds...');
-  const mic = new MicStream({ sampleRate: 16000, channels: 1 });
+  const mic = new Decibri({ sampleRate: 16000, channels: 1 });
   let totalBytes = 0;
 
   mic.on('data', (chunk) => {
@@ -55,14 +55,14 @@ if (process.argv.includes('--live')) {
 
 // ── VAD options — accepted without error ──────────────────────────────────────
 console.log('\nTesting VAD constructor options...');
-const vadMic = new MicStream({ vad: true, vadThreshold: 0.02, vadHoldoff: 500 });
+const vadMic = new Decibri({ vad: true, vadThreshold: 0.02, vadHoldoff: 500 });
 console.assert(vadMic !== null, 'VAD options accepted');
 vadMic.stop();
 
 // ── Device by name — no match throws TypeError ────────────────────────────────
 console.log('\nTesting device-by-name (no match)...');
 try {
-  new MicStream({ device: '__no_device_will_ever_match_this__' });
+  new Decibri({ device: '__no_device_will_ever_match_this__' });
   console.assert(false, 'should have thrown');
 } catch (e) {
   console.assert(e instanceof TypeError, 'throws TypeError for no match');

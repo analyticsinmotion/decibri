@@ -6,7 +6,7 @@ Conventions, architecture, and boundaries for AI coding agents working on this r
 
 ## Project overview
 
-`@analyticsinmotion/micstream` is a Node.js native addon that captures raw PCM audio
+`decibri` is a Node.js native addon that captures raw PCM audio
 from the microphone and exposes it as a `Readable` stream. PortAudio is compiled
 statically into the addon — no system audio library is required at runtime on Windows
 or macOS.
@@ -28,7 +28,7 @@ node test/basic.js --live
 # Test prebuilt binary loading — run after toolchain, loader, or binding.gyp changes
 # (Not needed for every release — skip for doc/type/JS-only changes)
 mkdir -p prebuilds/win32-x64
-cp build/Release/micstream.node prebuilds/win32-x64/node.napi.node
+cp build/Release/decibri.node prebuilds/win32-x64/node.napi.node
 mv build build_backup
 node test/basic.js
 mv build_backup build
@@ -41,7 +41,7 @@ rm -r prebuilds
 
 ```text
 index.js              Node.js Readable stream wrapper (JS layer)
-src/micstream.cc      Native addon — NAPI ObjectWrap around PortAudio
+src/decibri.cc        Native addon — NAPI ObjectWrap around PortAudio
 src/mac_permission.mm macOS-only Objective-C++ microphone permission check
 types/index.d.ts      Hand-maintained TypeScript declarations
 binding.gyp           Build configuration for node-gyp
@@ -50,13 +50,13 @@ deps/portaudio/       PortAudio source (git submodule — do not edit)
 
 Two-layer design:
 
-- `src/micstream.cc` exposes `NativeMicStream` via NAPI — handles PortAudio lifecycle,
+- `src/decibri.cc` exposes `NativeDecibri` via NAPI — handles PortAudio lifecycle,
   audio thread callback, and ThreadSafeFunction delivery to JS.
-- `index.js` wraps `NativeMicStream` in a Node.js `Readable` stream — handles
+- `index.js` wraps `NativeDecibri` in a Node.js `Readable` stream — handles
   backpressure, stream events, and the public API.
 
 TypeScript declarations in `types/index.d.ts` are hand-maintained and must be kept in
-sync with `index.js` and the native options parser in `micstream.cc`. They are not
+sync with `index.js` and the native options parser in `decibri.cc`. They are not
 generated.
 
 ---
@@ -71,7 +71,7 @@ generated.
 
 `src/mac_permission.mm` is Objective-C++ and is only compiled on macOS (listed in
 `binding.gyp` under the `OS=='mac'` condition). It is `extern "C"` linked — the
-declaration in `micstream.cc` is guarded by `#ifdef PA_USE_COREAUDIO`.
+declaration in `decibri.cc` is guarded by `#ifdef PA_USE_COREAUDIO`.
 
 ---
 
@@ -79,7 +79,7 @@ declaration in `micstream.cc` is guarded by `#ifdef PA_USE_COREAUDIO`.
 
 ### Audio thread hot path
 
-`AudioCallback` in `micstream.cc` runs on the PortAudio audio thread. Keep it fast:
+`AudioCallback` in `decibri.cc` runs on the PortAudio audio thread. Keep it fast:
 
 - No heap allocations beyond the single `new std::vector<uint8_t>` per chunk.
 - No blocking calls.
@@ -136,11 +136,11 @@ Do not do any of the following without explicit human instruction:
 
 ## Conventions
 
-- **Options parsing** in `micstream.cc` follows the pattern: check presence, check
+- **Options parsing** in `decibri.cc` follows the pattern: check presence, check
   type, validate range, throw typed error. Match this pattern for any new options.
 
 - **New constructor options** must be added in four places: the native options parser
-  (`micstream.cc`), the JS constructor (`index.js`), the TypeScript interface
+  (`decibri.cc`), the JS constructor (`index.js`), the TypeScript interface
   (`types/index.d.ts`), and the JSDoc in `index.js`.
 
 - **Error messages** are user-facing. Use clear, actionable language. Include the fix,
@@ -148,7 +148,7 @@ Do not do any of the following without explicit human instruction:
   `"Microphone access denied. Enable access in System Settings → Privacy & Security → Microphone."`
 
 - **Platform-specific code** belongs in a dedicated file (e.g. `mac_permission.mm`),
-  not in `micstream.cc` behind runtime checks.
+  not in `decibri.cc` behind runtime checks.
 
 ---
 

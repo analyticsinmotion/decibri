@@ -1,6 +1,6 @@
 {
-  "name": "micstream",
-  "short_name": "micstream",
+  "name": "decibri",
+  "short_name": "decibri",
   "description": "Cross-platform microphone streaming for Node.js",
   "start_url": "/",
   "display": "browser",

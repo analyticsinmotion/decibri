@@ -8,46 +8,46 @@
   <script>
     // Prevent flash of wrong theme
     (function() {
-      var t = localStorage.getItem('micstream-theme');
+      var t = localStorage.getItem('decibri-theme');
       if (t) document.documentElement.setAttribute('data-theme', t);
       else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
     })();
   </script>
-  <title>micstream | Cross-platform microphone streaming for Node.js</title>
+  <title>decibri | Cross-platform microphone streaming for Node.js</title>
   <meta name="description" content="Cross-platform, low-latency microphone streaming for Node.js. No ffmpeg. No SoX. No setup. Just a real-time audio stream.">
   <meta name="robots" content="index, follow">
   <meta name="keywords" content="microphone, Node.js, audio capture, streaming, PCM, cross-platform, voice AI, real-time audio, speech-to-text, wake word, voice agent, whisper, portaudio, native addon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="canonical" href="https://micstream.dev">
-  <link rel="alternate" type="text/plain" href="https://micstream.dev/llms.txt" title="LLM-readable package description">
-  <meta property="og:title" content="micstream | Cross-platform microphone streaming for Node.js">
+  <link rel="canonical" href="https://decibri.dev">
+  <link rel="alternate" type="text/plain" href="https://decibri.dev/llms.txt" title="LLM-readable package description">
+  <meta property="og:title" content="decibri | Cross-platform microphone streaming for Node.js">
   <meta property="og:description" content="Cross-platform, low-latency Node.js microphone capture. No ffmpeg. No SoX. No setup.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://micstream.dev">
-  <meta property="og:site_name" content="micstream">
-  <meta property="og:image" content="https://micstream.dev/og-image.png">
+  <meta property="og:url" content="https://decibri.dev">
+  <meta property="og:site_name" content="decibri">
+  <meta property="og:image" content="https://decibri.dev/decibri-social-og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="micstream | Cross-platform microphone streaming for Node.js">
+  <meta name="twitter:title" content="decibri | Cross-platform microphone streaming for Node.js">
   <meta name="twitter:description" content="Cross-platform, low-latency Node.js microphone capture. No ffmpeg. No SoX. No setup.">
-  <meta name="twitter:image" content="https://micstream.dev/og-image.png">
+  <meta name="twitter:image" content="https://decibri.dev/decibri-social-og.png">
   <meta name="twitter:site" content="@analyticsmotion">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
-    "name": "@analyticsinmotion/micstream",
-    "alternateName": "micstream",
+    "name": "decibri",
+    "alternateName": "decibri",
     "description": "Cross-platform, low-latency microphone audio capture for Node.js. Pre-built native binaries wrapping PortAudio. No ffmpeg, no SoX, no build tools required. Outputs 16-bit PCM via a standard Node.js Readable stream for real-time voice AI, speech-to-text, wake word detection, and streaming audio pipelines.",
-    "url": "https://micstream.dev",
-    "codeRepository": "https://github.com/analyticsinmotion/micstream",
+    "url": "https://decibri.dev",
+    "codeRepository": "https://github.com/analyticsinmotion/decibri",
     "programmingLanguage": ["C++", "JavaScript", "TypeScript"],
     "runtimePlatform": "Node.js",
     "operatingSystem": ["Windows", "macOS", "Linux"],
     "license": "https://opensource.org/licenses/Apache-2.0",
-    "version": "0.4.0",
+    "version": "1.0.0",
     "datePublished": "2026-03-09",
     "dateModified": "2026-03-26",
     "author": {
@@ -74,7 +74,7 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What audio format does micstream output?",
+        "name": "What audio format does decibri output?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "16-bit signed integer PCM, little-endian by default. A 32-bit float format is also available. The default is the raw format expected by most speech and wake-word engines including Vosk, sherpa-onnx, and whisper.cpp."
@@ -82,15 +82,15 @@
       },
       {
         "@type": "Question",
-        "name": "Does micstream require ffmpeg, SoX, or any system audio tools?",
+        "name": "Does decibri require ffmpeg, SoX, or any system audio tools?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. micstream bundles PortAudio as a statically linked native addon. There are no system dependencies to install."
+          "text": "No. decibri bundles PortAudio as a statically linked native addon. There are no system dependencies to install."
         }
       },
       {
         "@type": "Question",
-        "name": "Do I need build tools to install micstream?",
+        "name": "Do I need build tools to install decibri?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "No. Pre-built binaries for Windows x64, macOS arm64, and Linux x64/arm64 ship inside the npm package. If no binary is available for your platform, it falls back to compiling from source."
@@ -98,10 +98,10 @@
       },
       {
         "@type": "Question",
-        "name": "Does micstream work in the browser?",
+        "name": "Does decibri work in the browser?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. micstream is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package."
+          "text": "No. decibri is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package."
         }
       },
       {
@@ -109,7 +109,7 @@
         "name": "Can I select a specific microphone?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Use MicStream.devices() to list available input devices, then pass the device index or a name substring to the constructor options."
+          "text": "Yes. Use Decibri.devices() to list available input devices, then pass the device index or a name substring to the constructor options."
         }
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "@type": "Question",
-        "name": "What license is micstream released under?",
+        "name": "What license is decibri released under?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Apache-2.0."
@@ -135,7 +135,7 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "micstream",
+    "name": "decibri",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Windows, macOS, Linux",
     "offers": {
@@ -143,8 +143,8 @@
       "price": "0",
       "priceCurrency": "USD"
     },
-    "url": "https://micstream.dev",
-    "downloadUrl": "https://www.npmjs.com/package/@analyticsinmotion/micstream",
+    "url": "https://decibri.dev",
+    "downloadUrl": "https://www.npmjs.com/package/decibri",
     "softwareRequirements": "Node.js 18+",
     "author": {
       "@type": "Organization",
@@ -162,17 +162,17 @@
       {
         "@type": "HowToStep",
         "name": "Install",
-        "text": "npm install @analyticsinmotion/micstream"
+        "text": "npm install decibri"
       },
       {
         "@type": "HowToStep",
         "name": "Import",
-        "text": "const MicStream = require('@analyticsinmotion/micstream');"
+        "text": "const Decibri = require('decibri');"
       },
       {
         "@type": "HowToStep",
         "name": "Create stream",
-        "text": "const mic = new MicStream({ sampleRate: 16000, channels: 1 });"
+        "text": "const mic = new Decibri({ sampleRate: 16000, channels: 1 });"
       },
       {
         "@type": "HowToStep",
@@ -1090,13 +1090,13 @@
   <header>
   <nav>
     <div class="nav-inner">
-      <a href="/" class="nav-logo">mic<span>stream</span></a>
+      <a href="/" class="nav-logo">deci<span>bri</span></a>
       <div class="nav-links">
         <a href="#problem">Why</a>
         <a href="#features">Features</a>
         <a href="#compare">Compare</a>
         <a href="#platforms">Platforms</a>
-        <a href="https://github.com/analyticsinmotion/micstream" class="nav-cta" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="nav-cta-label">GitHub</span></a>
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="nav-cta-label">GitHub</span></a>
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme" title="Toggle theme">
           <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -1115,11 +1115,11 @@
       <p class="subtitle">No ffmpeg. No SoX. No setup. Capture audio from the system microphone and pipe it anywhere: speech engines, WebSockets, or files.</p>
 
       <div class="cta-group">
-        <a href="https://github.com/analyticsinmotion/micstream" class="btn-primary" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/analyticsinmotion/decibri" class="btn-primary" target="_blank" rel="noopener noreferrer">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
           Get Started
         </a>
-        <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.npmjs.com/package/decibri" class="btn-secondary" target="_blank" rel="noopener noreferrer">
           View on npm
         </a>
       </div>
@@ -1127,7 +1127,7 @@
       <p class="hero-label">Install with one command:</p>
       <div class="install-pill" onclick="copyInstall()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();copyInstall()}" role="button" tabindex="0" aria-label="Copy install command">
         <span class="dollar">$</span>
-        <span class="cmd">npm install @analyticsinmotion/micstream</span>
+        <span class="cmd">npm install decibri</span>
         <svg class="copy-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <span class="tooltip" id="copy-tooltip">Copied!</span>
       </div>
@@ -1139,8 +1139,8 @@
           <span class="code-lang">JavaScript</span>
         </div>
         <div class="code-body">
-<pre><span class="kw">const</span> <span class="obj">MicStream</span> = <span class="fn">require</span>(<span class="str">'@analyticsinmotion/micstream'</span>);
-<span class="kw">const</span> <span class="obj">mic</span> = <span class="kw">new</span> <span class="fn">MicStream</span>({ <span class="param">sampleRate</span>: <span class="const">16000</span>, <span class="param">channels</span>: <span class="const">1</span> });
+<pre><span class="kw">const</span> <span class="obj">Decibri</span> = <span class="fn">require</span>(<span class="str">'decibri'</span>);
+<span class="kw">const</span> <span class="obj">mic</span> = <span class="kw">new</span> <span class="fn">Decibri</span>({ <span class="param">sampleRate</span>: <span class="const">16000</span>, <span class="param">channels</span>: <span class="const">1</span> });
 
 <span class="obj">mic</span>.<span class="fn">on</span>(<span class="str">'data'</span>, (<span class="param">chunk</span>) => {
   <span class="obj">websocket</span>.<span class="fn">send</span>(<span class="param">chunk</span>); <span class="cm">// stream audio to your backend</span>
@@ -1183,7 +1183,7 @@
   <!-- ── Features ── -->
   <div class="container">
     <section id="features" class="fade-in">
-      <div class="section-label">Why micstream</div>
+      <div class="section-label">Why decibri</div>
       <h2>Designed for real-time systems</h2>
       <p class="section-desc">A native Node.js addon wrapping PortAudio. Statically linked, zero system dependencies, with pre-built binaries so there's nothing to compile.</p>
 
@@ -1251,7 +1251,7 @@
       </div>
 
       <h3 class="example-heading">Record audio to disk</h3>
-      <p class="example-desc">Because micstream exposes a standard Node.js Readable stream, you can pipe audio directly to a file. Set the sample rate and channels to match your target format. No encoding step, no intermediate buffers.</p>
+      <p class="example-desc">Because decibri exposes a standard Node.js Readable stream, you can pipe audio directly to a file. Set the sample rate and channels to match your target format. No encoding step, no intermediate buffers.</p>
 
       <div class="code-block" style="margin-top: 16px;">
         <div class="code-header">
@@ -1259,10 +1259,10 @@
           <span class="code-lang">Pipe to file</span>
         </div>
         <div class="code-body">
-<pre><span class="kw">const</span> <span class="obj">MicStream</span> = <span class="fn">require</span>(<span class="str">'@analyticsinmotion/micstream'</span>);
+<pre><span class="kw">const</span> <span class="obj">Decibri</span> = <span class="fn">require</span>(<span class="str">'decibri'</span>);
 <span class="kw">const</span> <span class="obj">fs</span> = <span class="fn">require</span>(<span class="str">'fs'</span>);
 
-<span class="kw">const</span> <span class="obj">mic</span> = <span class="kw">new</span> <span class="fn">MicStream</span>({ <span class="param">sampleRate</span>: <span class="const">44100</span>, <span class="param">channels</span>: <span class="const">2</span> });
+<span class="kw">const</span> <span class="obj">mic</span> = <span class="kw">new</span> <span class="fn">Decibri</span>({ <span class="param">sampleRate</span>: <span class="const">44100</span>, <span class="param">channels</span>: <span class="const">2</span> });
 <span class="obj">mic</span>.<span class="fn">pipe</span>(<span class="obj">fs</span>.<span class="fn">createWriteStream</span>(<span class="str">'capture.raw'</span>));</pre>
         </div>
       </div>
@@ -1276,7 +1276,7 @@
     <section class="fade-in">
       <div class="section-label">Integrations</div>
       <h2>Works with your existing stack</h2>
-      <p class="section-desc">micstream outputs raw 16-bit PCM, the standard format expected by speech and audio processing engines.</p>
+      <p class="section-desc">decibri outputs raw 16-bit PCM, the standard format expected by speech and audio processing engines.</p>
       <div class="integrations-list">
         <span class="integration-tag">whisper.cpp</span>
         <span class="integration-tag">sherpa-onnx</span>
@@ -1293,9 +1293,9 @@
   <!-- ── When to use / Comparison ── -->
   <div class="container">
     <section id="compare" class="fade-in">
-      <div class="section-label">When to use micstream</div>
+      <div class="section-label">When to use decibri</div>
       <h2>The right tool for the job</h2>
-      <p class="when-to-use">Use micstream when you need raw PCM audio from a system microphone inside a Node.js process. For example, feeding audio to a local speech-to-text engine, a wake word detector, or a real-time WebSocket pipeline. If you need browser-based audio capture, use the Web Audio API or <code>microphone-stream</code> instead.</p>
+      <p class="when-to-use">Use decibri when you need raw PCM audio from a system microphone inside a Node.js process. For example, feeding audio to a local speech-to-text engine, a wake word detector, or a real-time WebSocket pipeline. If you need browser-based audio capture, use the Web Audio API or <code>microphone-stream</code> instead.</p>
 
       <div class="compare-grid">
         <div class="compare-card alt">
@@ -1308,7 +1308,7 @@
           </ul>
         </div>
         <div class="compare-card ours">
-          <h3 class="mic-name">micstream</h3>
+          <h3 class="mic-name">decibri</h3>
           <ul>
             <li>Native PortAudio addon with no system audio tools needed</li>
             <li>Purpose-built for Node.js server-side and CLI use cases</li>
@@ -1358,31 +1358,31 @@
       <h2>Common questions</h2>
       <div class="faq-list">
         <div class="faq-item">
-          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">What audio format does micstream output?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
+          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">What audio format does decibri output?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
           <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">16-bit signed integer PCM, little-endian by default. A 32-bit float format is also available. The default is the raw format expected by most speech and wake-word engines including Vosk, sherpa-onnx, and whisper.cpp.</p></div></div>
         </div>
         <div class="faq-item">
-          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Does micstream require ffmpeg, SoX, or any system audio tools?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
-          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. micstream bundles PortAudio as a statically linked native addon. There are no system dependencies to install.</p></div></div>
+          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Does decibri require ffmpeg, SoX, or any system audio tools?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. decibri bundles PortAudio as a statically linked native addon. There are no system dependencies to install.</p></div></div>
         </div>
         <div class="faq-item">
-          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Do I need build tools to install micstream?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
+          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Do I need build tools to install decibri?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
           <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. Pre-built binaries for Windows x64, macOS arm64, and Linux x64/arm64 ship inside the npm package. If no binary is available for your platform, it falls back to compiling from source.</p></div></div>
         </div>
         <div class="faq-item">
-          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Does micstream work in the browser?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
-          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. micstream is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package.</p></div></div>
+          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Does decibri work in the browser?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. decibri is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package.</p></div></div>
         </div>
         <div class="faq-item">
           <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Can I select a specific microphone?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
-          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Yes. Use MicStream.devices() to list available input devices, then pass the device index or a name substring to the constructor options.</p></div></div>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Yes. Use Decibri.devices() to list available input devices, then pass the device index or a name substring to the constructor options.</p></div></div>
         </div>
         <div class="faq-item">
           <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">What Node.js versions are supported?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
           <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Node.js 18 and above.</p></div></div>
         </div>
         <div class="faq-item">
-          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">What license is micstream released under?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
+          <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">What license is decibri released under?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
           <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Apache-2.0.</p></div></div>
         </div>
       </div>
@@ -1397,17 +1397,17 @@
       <h2>Start streaming audio in minutes</h2>
       <p>One install. One import. Real-time microphone audio.</p>
       <div class="cta-group">
-        <a href="https://github.com/analyticsinmotion/micstream" class="btn-primary" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/analyticsinmotion/decibri" class="btn-primary" target="_blank" rel="noopener noreferrer">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
           View on GitHub
         </a>
-        <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.npmjs.com/package/decibri" class="btn-secondary" target="_blank" rel="noopener noreferrer">
           View on npm
         </a>
       </div>
       <div class="install-pill" onclick="copyInstall()" role="button" tabindex="0" aria-label="Copy install command" style="margin-top: 20px;">
         <span class="dollar">$</span>
-        <span class="cmd">npm install @analyticsinmotion/micstream</span>
+        <span class="cmd">npm install decibri</span>
         <svg class="copy-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <span class="tooltip" id="copy-tooltip-2">Copied!</span>
       </div>
@@ -1419,7 +1419,7 @@
   <!-- ── Footer ── -->
   <footer>
     <div class="container">
-      <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> · <a href="https://github.com/analyticsinmotion/micstream" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.npmjs.com/package/@analyticsinmotion/micstream" target="_blank" rel="noopener noreferrer">npm</a></p>
+      <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> · <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
     </div>
   </footer>
 
@@ -1433,7 +1433,7 @@
       const current = html.getAttribute('data-theme');
       const next = current === 'light' ? 'dark' : 'light';
       html.setAttribute('data-theme', next);
-      localStorage.setItem('micstream-theme', next);
+      localStorage.setItem('decibri-theme', next);
     }
 
     // FAQ accordion
@@ -1452,7 +1452,7 @@
 
     // Copy to clipboard
     function copyInstall() {
-      navigator.clipboard.writeText('npm install @analyticsinmotion/micstream').then(() => {
+      navigator.clipboard.writeText('npm install decibri').then(() => {
         document.querySelectorAll('.tooltip').forEach(t => {
           t.classList.add('show');
           setTimeout(() => t.classList.remove('show'), 1500);

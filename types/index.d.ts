@@ -4,7 +4,7 @@ import { Readable, ReadableOptions } from 'stream';
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
-/** Describes a single audio input device returned by `MicStream.devices()`. */
+/** Describes a single audio input device returned by `Decibri.devices()`. */
 export interface DeviceInfo {
   /** PortAudio device index — pass as `options.device` to target this device. */
   index: number;
@@ -18,19 +18,19 @@ export interface DeviceInfo {
   isDefault: boolean;
 }
 
-/** Version strings returned by `MicStream.version()`. */
+/** Version strings returned by `Decibri.version()`. */
 export interface VersionInfo {
-  /** micstream package version (e.g. `"0.2.0"`). */
-  micstream: string;
+  /** decibri package version (e.g. `"1.0.0"`). */
+  decibri: string;
   /** Bundled PortAudio version string (e.g. `"PortAudio V19.7.0-devel..."`). */
   portaudio: string;
 }
 
 /**
- * Constructor options for `MicStream`.
+ * Constructor options for `Decibri`.
  * All standard Node.js `ReadableOptions` (e.g. `highWaterMark`) are also accepted.
  */
-export interface MicStreamOptions extends ReadableOptions {
+export interface DecibriOptions extends ReadableOptions {
   /**
    * Samples per second.
    * @default 16000
@@ -57,7 +57,7 @@ export interface MicStreamOptions extends ReadableOptions {
   framesPerBuffer?: number;
 
   /**
-   * Device to capture from. Pass a numeric index from `MicStream.devices()`,
+   * Device to capture from. Pass a numeric index from `Decibri.devices()`,
    * or a case-insensitive substring of the device name.
    * Omit to use the system default input device.
    * Throws `TypeError` if a name string matches zero or multiple devices.
@@ -106,7 +106,7 @@ export interface MicStreamOptions extends ReadableOptions {
   format?: 'int16' | 'float32';
 }
 
-// ─── MicStream ────────────────────────────────────────────────────────────────
+// ─── Decibri ─────────────────────────────────────────────────────────────────
 
 /**
  * A Node.js `Readable` stream that captures raw PCM audio from the microphone.
@@ -126,9 +126,9 @@ export interface MicStreamOptions extends ReadableOptions {
  *
  * @example
  * ```ts
- * import MicStream from '@analyticsinmotion/micstream';
+ * import Decibri from 'decibri';
  *
- * const mic = new MicStream({ sampleRate: 16000, channels: 1 });
+ * const mic = new Decibri({ sampleRate: 16000, channels: 1 });
  *
  * mic.on('data', (chunk) => {
  *   // chunk is a Buffer of Int16 PCM samples
@@ -139,8 +139,8 @@ export interface MicStreamOptions extends ReadableOptions {
  * setTimeout(() => mic.stop(), 5000);
  * ```
  */
-declare class MicStream extends Readable {
-  constructor(options?: MicStreamOptions);
+declare class Decibri extends Readable {
+  constructor(options?: DecibriOptions);
 
   /**
    * Stop microphone capture and end the stream cleanly.
@@ -158,7 +158,7 @@ declare class MicStream extends Readable {
    *
    * @example
    * ```ts
-   * const devices = MicStream.devices();
+   * const devices = Decibri.devices();
    * // [
    * //   { index: 0, name: 'Built-in Microphone', maxInputChannels: 1,
    * //     defaultSampleRate: 44100, isDefault: true },
@@ -169,12 +169,12 @@ declare class MicStream extends Readable {
   static devices(): DeviceInfo[];
 
   /**
-   * Returns version information for micstream and the bundled PortAudio library.
+   * Returns version information for decibri and the bundled PortAudio library.
    *
    * @example
    * ```ts
-   * MicStream.version();
-   * // { micstream: '0.2.0', portaudio: 'PortAudio V19.7.0-devel...' }
+   * Decibri.version();
+   * // { decibri: '1.0.0', portaudio: 'PortAudio V19.7.0-devel...' }
    * ```
    */
   static version(): VersionInfo;
@@ -270,4 +270,4 @@ declare class MicStream extends Readable {
   removeListener(event: string | symbol, listener: (...args: any[]) => void): this;
 }
 
-export = MicStream;
+export = Decibri;

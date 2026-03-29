@@ -76,7 +76,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p prebuilds/${{ matrix.platform }}-${{ matrix.arch }}
-          cp build/Release/micstream.node \
+          cp build/Release/decibri.node \
              prebuilds/${{ matrix.platform }}-${{ matrix.arch }}/node.napi.node
 
       - name: Upload prebuild artifact

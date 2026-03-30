@@ -1056,15 +1056,114 @@
     [data-theme="light"] .theme-toggle .icon-sun { display: block; }
     [data-theme="light"] .theme-toggle .icon-moon { display: none; }
 
+    /* ── Mobile nav ── */
+    .mobile-nav {
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .mobile-nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .mobile-nav-btn svg { width: 16px; height: 16px; }
+
+    .mobile-nav-btn .icon-sun { display: none; }
+    .mobile-nav-btn .icon-moon { display: block; }
+    [data-theme="light"] .mobile-nav-btn .icon-sun { display: block; }
+    [data-theme="light"] .mobile-nav-btn .icon-moon { display: none; }
+
+    .mobile-nav .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .mobile-nav .nav-cta:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .mobile-nav .nav-cta svg { width: 16px; height: 16px; }
+
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 150;
+    }
+
+    .mobile-menu-overlay.open { display: block; }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 260px;
+      height: 100vh;
+      background: var(--bg-elevated);
+      border-left: 1px solid var(--border);
+      z-index: 151;
+      padding: 28px 24px;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .mobile-menu.open { transform: translateX(0); }
+
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:first-child { padding-top: 0; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--accent); }
+
     /* ── Responsive ── */
     @media (max-width: 640px) {
       nav { padding: 12px 16px; }
       .hero { padding: 130px 0 70px; }
-      .nav-links { gap: 10px; }
-      .nav-links a:not(.nav-cta) { display: none; }
-      .nav-links .nav-cta .nav-cta-label { display: none; }
-      .nav-links .nav-cta { padding: 7px 8px; }
-      .theme-toggle { width: 30px; height: 30px; }
+      .nav-links { display: none; }
+      .mobile-nav { display: flex; }
       .cta-group { flex-direction: column; align-items: flex-start; }
       .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
       .install-pill { width: 100%; justify-content: center; }
@@ -1096,15 +1195,35 @@
         <a href="#features">Features</a>
         <a href="#compare">Compare</a>
         <a href="#platforms">Platforms</a>
+        <a href="/docs/">Docs</a>
         <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span class="nav-cta-label">GitHub</span></a>
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme" title="Toggle theme">
           <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
       </div>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
     </div>
   </nav>
   </header>
+
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu">
+    <a href="#problem" onclick="toggleMobileMenu()">Why</a>
+    <a href="#features" onclick="toggleMobileMenu()">Features</a>
+    <a href="#compare" onclick="toggleMobileMenu()">Compare</a>
+    <a href="#platforms" onclick="toggleMobileMenu()">Platforms</a>
+    <a href="/docs/">Docs</a>
+  </div>
 
   <main id="main">
 
@@ -1276,14 +1395,42 @@
     <section class="fade-in">
       <div class="section-label">Integrations</div>
       <h2>Works with your existing stack</h2>
-      <p class="section-desc">decibri outputs raw 16-bit PCM, the standard format expected by speech and audio processing engines.</p>
+      <p class="section-desc">decibri outputs raw 16-bit PCM, the standard format expected by speech and audio processing engines. See the integration guides for working examples.</p>
+
+      <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 32px;">
+        <a href="/docs/node/integrations/sherpa-onnx-stt.html" class="feature-card" style="text-decoration:none;">
+          <div class="feature-icon">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </div>
+          <h3>Speech-to-Text</h3>
+          <p>Real-time local transcription with sherpa-onnx</p>
+        </a>
+        <a href="/docs/node/integrations/sherpa-onnx-kws.html" class="feature-card" style="text-decoration:none;">
+          <div class="feature-icon">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3>Keyword Spotting</h3>
+          <p>Detect spoken keywords and wake phrases with sherpa-onnx</p>
+        </a>
+        <a href="/docs/node/integrations/sherpa-onnx-vad.html" class="feature-card" style="text-decoration:none;">
+          <div class="feature-icon">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Voice Activity Detection</h3>
+          <p>Detect speech vs silence with sherpa-onnx Silero VAD</p>
+        </a>
+      </div>
+
       <div class="integrations-list">
         <span class="integration-tag">whisper.cpp</span>
-        <span class="integration-tag">sherpa-onnx</span>
         <span class="integration-tag">Vosk</span>
         <span class="integration-tag">openWakeWord</span>
         <span class="integration-tag">WebSocket servers</span>
         <span class="integration-tag">Custom pipelines</span>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <a href="/docs/" class="btn-secondary" style="display: inline-flex; font-size: 13px; padding: 10px 20px;">View all docs &rarr;</a>
       </div>
     </section>
   </div>
@@ -1434,6 +1581,12 @@
       const next = current === 'light' ? 'dark' : 'light';
       html.setAttribute('data-theme', next);
       localStorage.setItem('decibri-theme', next);
+    }
+
+    // Mobile menu
+    function toggleMobileMenu() {
+      document.querySelector('.mobile-menu').classList.toggle('open');
+      document.querySelector('.mobile-menu-overlay').classList.toggle('open');
     }
 
     // FAQ accordion

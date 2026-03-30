@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f8fb" media="(prefers-color-scheme: light)">
+  <script>
+    (function() {
+      var t = localStorage.getItem('decibri-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>Sherpa-ONNX Keyword Spotting | decibri docs</title>
+  <meta name="description" content="Detect specific spoken keywords and wake phrases locally using decibri and sherpa-onnx in Node.js. No API key required.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Sherpa-ONNX Keyword Spotting | decibri docs">
+  <meta property="og:description" content="Detect specific spoken keywords and wake phrases locally using decibri and sherpa-onnx in Node.js.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://decibri.dev/docs/node/integrations/sherpa-onnx-kws.html">
+  <link rel="canonical" href="https://decibri.dev/docs/node/integrations/sherpa-onnx-kws.html">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <div class="nav-inner">
+      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu">
+    <div class="mobile-menu-section">Node.js</div>
+    <a href="/docs/node/index.html" onclick="toggleMobileMenu()">Getting Started</a>
+    <a href="/docs/node/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>
+    <div class="mobile-menu-section">Integrations</div>
+    <a href="/docs/node/integrations/sherpa-onnx-stt.html" onclick="toggleMobileMenu()">Speech-to-Text</a>
+    <a href="/docs/node/integrations/sherpa-onnx-kws.html" onclick="toggleMobileMenu()">Keyword Spotting</a>
+    <a href="/docs/node/integrations/sherpa-onnx-vad.html" onclick="toggleMobileMenu()">Voice Activity Detection</a>
+    <div class="mobile-menu-divider"></div>
+    <a href="/">Back to decibri.dev</a>
+  </div>
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+
+  <div class="doc-content">
+    <div class="doc-container">
+
+      <div class="breadcrumb">
+        <a href="/docs/index.html">Docs</a>
+        <span class="sep">/</span>
+        <a href="/docs/node/index.html">Node.js</a>
+        <span class="sep">/</span>
+        <span class="current">Sherpa-ONNX Keyword Spotting</span>
+      </div>
+
+      <h1>Sherpa-ONNX Keyword Spotting</h1>
+      <p class="lead">Detect specific spoken keywords and wake phrases in real time using decibri and sherpa-onnx. Runs entirely offline with no API key, no cloud service, and no network dependency.</p>
+
+      <h2>What this does</h2>
+      <p>This integration captures live microphone audio using decibri and feeds it to a sherpa-onnx keyword spotting (KWS) engine. When a user speaks one of your defined keywords or phrases, the engine detects it and reports which phrase was matched.</p>
+      <p>Choose this for wake word detection, voice command triggers, or any scenario where you need to listen for specific phrases without transcribing everything.</p>
+
+      <h2>Prerequisites</h2>
+
+      <h3>Install packages</h3>
+      <div class="install-cmd" onclick="navigator.clipboard.writeText('npm install decibri sherpa-onnx')" role="button" tabindex="0" aria-label="Copy install command">
+        <span class="dollar">$</span>
+        <span class="cmd">npm install decibri sherpa-onnx</span>
+        <svg class="copy-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+
+      <h3>Download a keyword spotting model</h3>
+      <p>Download a KWS model from the <a href="https://github.com/k2-fsa/sherpa-onnx/releases" target="_blank" rel="noopener noreferrer">sherpa-onnx releases</a>. For example, the Zipformer transducer KWS model:</p>
+      <pre><code class="language-bash">wget https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz2
+tar xvf sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz2</code></pre>
+      <p>This creates a directory with the model files: <code>encoder.onnx</code>, <code>decoder.onnx</code>, <code>joiner.onnx</code>, <code>tokens.txt</code>, and <code>bpe.model</code>.</p>
+
+      <h2>Code walkthrough</h2>
+
+      <h3>1. Configuration</h3>
+      <p>Define your model paths and the keywords you want to detect. Keywords are encoded as BPE token sequences using the model's <code>tokens.txt</code> file.</p>
+      <pre><code class="language-javascript">const Decibri = require('decibri');
+const sherpa = require('sherpa-onnx');
+
+const modelDir = './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01';
+
+const config = {
+  featConfig: { sampleRate: 16000, featureDim: 80 },
+  modelConfig: {
+    transducer: {
+      encoder: `${modelDir}/encoder-epoch-12-avg-2-chunk-16-left-64.onnx`,
+      decoder: `${modelDir}/decoder-epoch-12-avg-2-chunk-16-left-64.onnx`,
+      joiner: `${modelDir}/joiner-epoch-12-avg-2-chunk-16-left-64.onnx`,
+    },
+    tokens: `${modelDir}/tokens.txt`,
+    numThreads: 2,
+    provider: 'cpu',
+  },
+  keywordsFile: `${modelDir}/keywords.txt`,
+};</code></pre>
+
+      <div class="callout">
+        <strong>Keywords file format:</strong> Each line contains a keyword phrase followed by its BPE-encoded token IDs and an optional detection threshold. See the sherpa-onnx KWS documentation for the exact format.
+      </div>
+
+      <h3>2. Create the KWS engine</h3>
+      <p>Instantiate the keyword spotter and create a detection stream.</p>
+      <pre><code class="language-javascript">const kws = new sherpa.KeywordSpotter(config);
+const stream = kws.createStream();</code></pre>
+
+      <h3>3. Open the microphone</h3>
+      <p>Create a decibri instance at 16 kHz mono to match the model's expected input.</p>
+      <pre><code class="language-javascript">const mic = new Decibri({ sampleRate: 16000, channels: 1 });</code></pre>
+
+      <h3>4. Process audio and detect keywords</h3>
+      <p>Convert each incoming Int16 buffer to Float32, feed it to the KWS engine, and check for keyword detections.</p>
+      <pre><code class="language-javascript">mic.on('data', (chunk) => {
+  // Convert Int16 PCM to Float32
+  const int16 = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length / 2);
+  const float32 = new Float32Array(int16.length);
+  for (let i = 0; i < int16.length; i++) {
+    float32[i] = int16[i] / 32768;
+  }
+
+  // Feed audio to the KWS engine
+  stream.acceptWaveform(16000, float32);
+  while (kws.isReady(stream)) {
+    kws.decode(stream);
+  }
+
+  // Check for keyword detections
+  const keyword = kws.getResult(stream).keyword;
+  if (keyword) {
+    console.log(`Detected: "${keyword}"`);
+  }
+});</code></pre>
+
+      <h3>5. Clean shutdown</h3>
+      <p>Stop the microphone and free resources when the user presses Ctrl+C.</p>
+      <pre><code class="language-javascript">process.on('SIGINT', () => {
+  mic.stop();
+  stream.free();
+  kws.free();
+  process.exit(0);
+});
+
+console.log('Listening for keywords... (Ctrl+C to stop)');</code></pre>
+
+      <h2>Full example</h2>
+      <details>
+        <summary>View complete code</summary>
+        <pre><code class="language-javascript">const Decibri = require('decibri');
+const sherpa = require('sherpa-onnx');
+
+const modelDir = './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01';
+
+const config = {
+  featConfig: { sampleRate: 16000, featureDim: 80 },
+  modelConfig: {
+    transducer: {
+      encoder: `${modelDir}/encoder-epoch-12-avg-2-chunk-16-left-64.onnx`,
+      decoder: `${modelDir}/decoder-epoch-12-avg-2-chunk-16-left-64.onnx`,
+      joiner: `${modelDir}/joiner-epoch-12-avg-2-chunk-16-left-64.onnx`,
+    },
+    tokens: `${modelDir}/tokens.txt`,
+    numThreads: 2,
+    provider: 'cpu',
+  },
+  keywordsFile: `${modelDir}/keywords.txt`,
+};
+
+const kws = new sherpa.KeywordSpotter(config);
+const stream = kws.createStream();
+const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+
+mic.on('data', (chunk) => {
+  const int16 = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length / 2);
+  const float32 = new Float32Array(int16.length);
+  for (let i = 0; i < int16.length; i++) {
+    float32[i] = int16[i] / 32768;
+  }
+
+  stream.acceptWaveform(16000, float32);
+  while (kws.isReady(stream)) {
+    kws.decode(stream);
+  }
+
+  const keyword = kws.getResult(stream).keyword;
+  if (keyword) {
+    console.log(`Detected: "${keyword}"`);
+  }
+});
+
+process.on('SIGINT', () => {
+  mic.stop();
+  stream.free();
+  kws.free();
+  process.exit(0);
+});
+
+console.log('Listening for keywords... (Ctrl+C to stop)');</code></pre>
+      </details>
+
+      <div class="related-links">
+        <h3>Related</h3>
+        <ul>
+          <li><a href="sherpa-onnx-stt.html">Sherpa-ONNX Speech-to-Text</a>: full real-time transcription</li>
+          <li><a href="sherpa-onnx-vad.html">Sherpa-ONNX Voice Activity Detection</a>: detect speech vs silence</li>
+          <li><a href="/docs/node/api-reference.html">API Reference</a>: full decibri API documentation</li>
+          <li><a href="https://github.com/k2-fsa/sherpa-onnx" target="_blank" rel="noopener noreferrer">sherpa-onnx on GitHub</a></li>
+          <li><a href="https://k2-fsa.github.io/sherpa/onnx/kws/index.html" target="_blank" rel="noopener noreferrer">sherpa-onnx KWS documentation</a></li>
+        </ul>
+      </div>
+
+      <footer class="doc-footer">
+        <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> &middot; <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="../../nav.js"></script>
+</body>
+</html>

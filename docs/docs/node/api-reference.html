@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f8fb" media="(prefers-color-scheme: light)">
+  <script>
+    (function() {
+      var t = localStorage.getItem('decibri-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>API Reference | decibri docs</title>
+  <meta name="description" content="decibri Node.js API reference. Constructor options, methods, properties, events, audio formats, and device enumeration.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="API Reference | decibri docs">
+  <meta property="og:description" content="decibri Node.js API reference. Constructor options, methods, properties, events, audio formats, and device enumeration.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://decibri.dev/docs/node/api-reference.html">
+  <link rel="canonical" href="https://decibri.dev/docs/node/api-reference.html">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <div class="nav-inner">
+      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu">
+    <div class="mobile-menu-section">Node.js</div>
+    <a href="/docs/node/index.html" onclick="toggleMobileMenu()">Getting Started</a>
+    <a href="/docs/node/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>
+    <div class="mobile-menu-section">Integrations</div>
+    <a href="/docs/node/integrations/sherpa-onnx-stt.html" onclick="toggleMobileMenu()">Speech-to-Text</a>
+    <a href="/docs/node/integrations/sherpa-onnx-kws.html" onclick="toggleMobileMenu()">Keyword Spotting</a>
+    <a href="/docs/node/integrations/sherpa-onnx-vad.html" onclick="toggleMobileMenu()">Voice Activity Detection</a>
+    <div class="mobile-menu-divider"></div>
+    <a href="/">Back to decibri.dev</a>
+  </div>
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+
+  <div class="doc-content">
+    <div class="doc-container">
+
+      <div class="breadcrumb">
+        <a href="/docs/index.html">Docs</a>
+        <span class="sep">/</span>
+        <a href="/docs/node/index.html">Node.js</a>
+        <span class="sep">/</span>
+        <span class="current">API Reference</span>
+      </div>
+
+      <h1>API Reference</h1>
+      <p class="lead">Complete reference for the decibri Node.js API. For installation and basic usage, see <a href="index.html">Getting Started</a>.</p>
+
+      <h2>Constructor</h2>
+      <h3><code>new Decibri(options?)</code></h3>
+      <p>Creates a Node.js Readable stream that captures raw PCM audio from the system microphone.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>sampleRate</code></td>
+            <td><code>number</code></td>
+            <td><code>16000</code></td>
+            <td>Samples per second (1,000 to 384,000 Hz)</td>
+          </tr>
+          <tr>
+            <td><code>channels</code></td>
+            <td><code>number</code></td>
+            <td><code>1</code></td>
+            <td>Number of input channels (1 to 32)</td>
+          </tr>
+          <tr>
+            <td><code>framesPerBuffer</code></td>
+            <td><code>number</code></td>
+            <td><code>1600</code></td>
+            <td>Frames per audio callback. Controls chunk size and latency (64 to 65,536)</td>
+          </tr>
+          <tr>
+            <td><code>device</code></td>
+            <td><code>number | string</code></td>
+            <td>system default</td>
+            <td>Device index from <code>Decibri.devices()</code> or case-insensitive name substring</td>
+          </tr>
+          <tr>
+            <td><code>format</code></td>
+            <td><code>'int16' | 'float32'</code></td>
+            <td><code>'int16'</code></td>
+            <td>Sample encoding format</td>
+          </tr>
+          <tr>
+            <td><code>vad</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Enable built-in voice activity detection</td>
+          </tr>
+          <tr>
+            <td><code>vadThreshold</code></td>
+            <td><code>number</code></td>
+            <td><code>0.01</code></td>
+            <td>RMS energy threshold for speech detection (0 to 1)</td>
+          </tr>
+          <tr>
+            <td><code>vadHoldoff</code></td>
+            <td><code>number</code></td>
+            <td><code>300</code></td>
+            <td>Milliseconds of sub-threshold audio before <code>'silence'</code> is emitted</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Standard Node.js <code>ReadableOptions</code> (e.g., <code>highWaterMark</code>) are also accepted.</p>
+
+      <h2>Methods</h2>
+
+      <h3><code>mic.stop()</code></h3>
+      <p>Stops microphone capture and ends the stream. Safe to call multiple times; subsequent calls are no-ops.</p>
+
+      <h3><code>Decibri.devices()</code></h3>
+      <p>Returns an array of available audio input devices on the system.</p>
+      <pre><code class="language-javascript">const devices = Decibri.devices();
+console.log(devices);
+// [
+//   { index: 0, name: 'Built-in Microphone', maxInputChannels: 1,
+//     defaultSampleRate: 44100, isDefault: true },
+//   ...
+// ]</code></pre>
+
+      <p>Each device object contains:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>index</code></td>
+            <td><code>number</code></td>
+            <td>PortAudio device index, used as <code>options.device</code></td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>string</code></td>
+            <td>Human-readable device name reported by the OS</td>
+          </tr>
+          <tr>
+            <td><code>maxInputChannels</code></td>
+            <td><code>number</code></td>
+            <td>Maximum number of input channels supported</td>
+          </tr>
+          <tr>
+            <td><code>defaultSampleRate</code></td>
+            <td><code>number</code></td>
+            <td>Device's native/preferred sample rate in Hz</td>
+          </tr>
+          <tr>
+            <td><code>isDefault</code></td>
+            <td><code>boolean</code></td>
+            <td>Whether this is the current system default input device</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3><code>Decibri.version()</code></h3>
+      <p>Returns version information for decibri and the bundled PortAudio library.</p>
+      <pre><code class="language-javascript">Decibri.version();
+// { decibri: '1.0.0', portaudio: 'PortAudio V19.7.0-devel...' }</code></pre>
+
+      <h2>Properties</h2>
+
+      <h3><code>mic.isOpen</code></h3>
+      <p><code>boolean</code> (read-only). Returns <code>true</code> while the microphone is actively capturing audio.</p>
+
+      <h2>Events</h2>
+
+      <h3>Stream events</h3>
+      <p>decibri extends Node.js <code>Readable</code>, so all standard stream events are available:</p>
+      <ul>
+        <li><code>'data'</code>: emitted when audio data is available (callback receives <code>Buffer</code>)</li>
+        <li><code>'end'</code>: emitted when the stream ends (after <code>stop()</code>)</li>
+        <li><code>'error'</code>: emitted on microphone errors</li>
+        <li><code>'close'</code>: emitted when the stream is closed</li>
+      </ul>
+
+      <h3><code>'backpressure'</code></h3>
+      <p>Emitted when the stream's internal buffer is full and the consumer is reading too slowly. Because a microphone cannot be paused, audio chunks continue to arrive. Drain the stream or drop data to avoid unbounded memory growth.</p>
+      <pre><code class="language-javascript">mic.on('backpressure', () => {
+  console.warn('Consumer is too slow, audio may be lost');
+});</code></pre>
+
+      <h3><code>'speech'</code></h3>
+      <p>Requires <code>vad: true</code>. Emitted when the RMS energy of an audio chunk crosses the <code>vadThreshold</code>.</p>
+
+      <h3><code>'silence'</code></h3>
+      <p>Requires <code>vad: true</code>. Emitted when audio stays below <code>vadThreshold</code> for <code>vadHoldoff</code> milliseconds after a speech period.</p>
+
+      <pre><code class="language-javascript">const mic = new Decibri({ sampleRate: 16000, channels: 1, vad: true });
+
+mic.on('speech', () => console.log('Speech detected'));
+mic.on('silence', () => console.log('Silence detected'));</code></pre>
+
+      <h2>Audio format</h2>
+
+      <h3>Int16 (default)</h3>
+      <p>Each 2 bytes represents one 16-bit signed integer sample, little-endian. Range: -32,768 to 32,767.</p>
+      <pre><code class="language-javascript">mic.on('data', (chunk) => {
+  const samples = new Int16Array(chunk.buffer, chunk.byteOffset, chunk.length / 2);
+});</code></pre>
+
+      <h3>Float32</h3>
+      <p>Each 4 bytes represents one 32-bit IEEE 754 float sample, little-endian. Range: approximately -1.0 to 1.0.</p>
+      <pre><code class="language-javascript">const mic = new Decibri({ sampleRate: 16000, channels: 1, format: 'float32' });
+
+mic.on('data', (chunk) => {
+  const samples = new Float32Array(chunk.buffer, chunk.byteOffset, chunk.length / 4);
+});</code></pre>
+
+      <footer class="doc-footer">
+        <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> &middot; <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="../nav.js"></script>
+</body>
+</html>

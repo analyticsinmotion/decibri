@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f8fb" media="(prefers-color-scheme: light)">
+  <script>
+    (function() {
+      var t = localStorage.getItem('decibri-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>Documentation | decibri</title>
+  <meta name="description" content="decibri documentation. Guides, API reference, and integration examples for cross-platform microphone streaming in Node.js.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Documentation | decibri">
+  <meta property="og:description" content="decibri documentation. Guides, API reference, and integration examples for cross-platform microphone streaming in Node.js.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://decibri.dev/docs/">
+  <link rel="canonical" href="https://decibri.dev/docs/">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <div class="nav-inner">
+      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu">
+    <div class="mobile-menu-section">Node.js</div>
+    <a href="/docs/node/index.html" onclick="toggleMobileMenu()">Getting Started</a>
+    <a href="/docs/node/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>
+    <div class="mobile-menu-section">Integrations</div>
+    <a href="/docs/node/integrations/sherpa-onnx-stt.html" onclick="toggleMobileMenu()">Speech-to-Text</a>
+    <a href="/docs/node/integrations/sherpa-onnx-kws.html" onclick="toggleMobileMenu()">Keyword Spotting</a>
+    <a href="/docs/node/integrations/sherpa-onnx-vad.html" onclick="toggleMobileMenu()">Voice Activity Detection</a>
+    <div class="mobile-menu-divider"></div>
+    <a href="/">Back to decibri.dev</a>
+  </div>
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+
+  <div class="doc-content">
+    <div class="doc-container">
+
+      <div class="breadcrumb">
+        <span class="current">Docs</span>
+      </div>
+
+      <h1>Welcome to the decibri documentation</h1>
+      <p class="lead">This documentation is here to help you get up and running with decibri and integrate it into your voice and audio applications. decibri is a cross-platform Node.js package for real-time microphone audio capture, built on PortAudio with pre-built native binaries. No ffmpeg, no SoX, and no build tools required.</p>
+
+      <h2>Node.js</h2>
+      <div class="cards-grid">
+        <a href="node/index.html" class="doc-card">
+          <h3>Getting Started</h3>
+          <p>Install, capture audio, and build real-time voice applications</p>
+        </a>
+        <a href="node/api-reference.html" class="doc-card">
+          <h3>API Reference</h3>
+          <p>Constructor options, methods, events, and audio format details</p>
+        </a>
+      </div>
+
+      <h2>Integrations</h2>
+      <p>Step-by-step guides for using decibri with speech and audio processing tools.</p>
+      <div class="cards-grid">
+        <a href="node/integrations/sherpa-onnx-stt.html" class="doc-card">
+          <h3>Speech-to-Text</h3>
+          <p>Real-time local transcription with sherpa-onnx. No API key required.</p>
+        </a>
+        <a href="node/integrations/sherpa-onnx-kws.html" class="doc-card">
+          <h3>Keyword Spotting</h3>
+          <p>Detect spoken keywords and wake phrases with sherpa-onnx. No API key required.</p>
+        </a>
+        <a href="node/integrations/sherpa-onnx-vad.html" class="doc-card">
+          <h3>Voice Activity Detection</h3>
+          <p>Detect speech vs silence with sherpa-onnx Silero VAD. No API key required.</p>
+        </a>
+      </div>
+
+      <footer class="doc-footer">
+        <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> &middot; <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>

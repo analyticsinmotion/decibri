@@ -55,6 +55,12 @@
     +         link('/docs/node/integrations/assemblyai.html', 'Real-Time Transcription')
     +       '</div>'
     +     '</div>'
+    +     '<div class="sidebar-sub">'
+    +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">OpenAI</div>'
+    +       '<div class="sidebar-sub">'
+    +         link('/docs/node/integrations/openai-realtime.html', 'Real-Time Transcription')
+    +       '</div>'
+    +     '</div>'
     +   '</div>'
     + '</nav>'
     + '<div class="sidebar-back">'
@@ -91,6 +97,10 @@
     + '<div class="mobile-menu-subsection">AssemblyAI</div>'
     + '<div class="mobile-menu-sub-links">'
     + '<a href="/docs/node/integrations/assemblyai.html" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
+    + '</div>'
+    + '<div class="mobile-menu-subsection">OpenAI</div>'
+    + '<div class="mobile-menu-sub-links">'
+    + '<a href="/docs/node/integrations/openai-realtime.html" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-divider"></div>'
     + '<a href="/">Back to decibri.dev</a>';

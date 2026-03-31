@@ -24,6 +24,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to transcribe microphone audio with Deepgram in Node.js",
+    "description": "Real-time cloud speech-to-text transcription using decibri and the Deepgram SDK. No model download required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Get an API key", "text": "Sign up at console.deepgram.com and create an API key. Free tier includes $200 in credits."},
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri @deepgram/sdk dotenv"},
+      {"@type": "HowToStep", "name": "Configure the client", "text": "Create a DeepgramClient with your API key and set up a WebSocket connection with audio parameters matching decibri."},
+      {"@type": "HowToStep", "name": "Open the microphone", "text": "Create a decibri instance at 16 kHz mono: new Decibri({ sampleRate: 16000, channels: 1 })"},
+      {"@type": "HowToStep", "name": "Stream audio", "text": "Send each audio chunk directly to Deepgram via socket.sendMedia(chunk). No format conversion needed."},
+      {"@type": "HowToStep", "name": "Handle transcription results", "text": "Listen for message events and extract transcripts from results with data.type === 'Results'."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone with mic.stop() and close the connection with socket.requestClose() on SIGINT."}
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>

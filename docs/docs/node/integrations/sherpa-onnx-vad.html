@@ -24,6 +24,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to detect speech and silence with Sherpa-ONNX Silero VAD in Node.js",
+    "description": "Detect speech and silence in real time using decibri and sherpa-onnx Silero VAD. Runs entirely offline with no API key required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri sherpa-onnx"},
+      {"@type": "HowToStep", "name": "Download the Silero VAD model", "text": "Download the Silero VAD ONNX model from the sherpa-onnx releases page."},
+      {"@type": "HowToStep", "name": "Configure the VAD", "text": "Create a sherpa-onnx VAD instance with the model path and detection parameters."},
+      {"@type": "HowToStep", "name": "Open the microphone", "text": "Create a decibri instance at 16 kHz mono: new Decibri({ sampleRate: 16000, channels: 1 })"},
+      {"@type": "HowToStep", "name": "Process audio", "text": "Convert each Int16 PCM chunk to Float32 and feed it to the VAD. React to speech start and speech end events."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone with mic.stop() and free resources on SIGINT."}
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>

@@ -24,6 +24,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to transcribe microphone audio with Whisper.cpp in Node.js",
+    "description": "Real-time local speech-to-text transcription using decibri and whisper.cpp. Runs entirely offline with no API key required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri @kutalia/whisper-node-addon"},
+      {"@type": "HowToStep", "name": "Download a Whisper model", "text": "Download a GGML model file, for example: curl -L -o ggml-tiny.en.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.en.bin"},
+      {"@type": "HowToStep", "name": "Configure the transcriber", "text": "Set the model path, buffer duration, and sample rate. The addon accepts Float32 PCM audio at 16 kHz."},
+      {"@type": "HowToStep", "name": "Open the microphone", "text": "Create a decibri instance at 16 kHz mono: new Decibri({ sampleRate: 16000, channels: 1 })"},
+      {"@type": "HowToStep", "name": "Buffer and transcribe audio", "text": "Accumulate audio chunks, convert Int16 PCM to Float32, and call transcribe() with the pcmf32 buffer when the target duration is reached."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone with mic.stop() and process any remaining buffered audio on SIGINT."}
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>

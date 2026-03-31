@@ -468,6 +468,18 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.doc-content .category-label {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  margin-top: 32px;
+  margin-bottom: 4px;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
 .doc-content h3 {
   font-size: 17px;
   font-weight: 600;

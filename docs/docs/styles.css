@@ -90,6 +90,33 @@ body {
 
 .sidebar-logo span { color: var(--accent); }
 
+.sidebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.sidebar-github:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.sidebar-github svg { width: 14px; height: 14px; }
+
 .sidebar-theme-toggle {
   display: flex;
   align-items: center;
@@ -121,6 +148,15 @@ body {
   flex: 1;
   padding: 0 12px;
 }
+
+.sidebar-section-link {
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.sidebar-section-link:hover { color: var(--accent); }
+.sidebar-section-link.active { color: var(--accent); }
 
 .sidebar-section {
   margin-bottom: 8px;
@@ -339,6 +375,25 @@ body {
 
 .mobile-menu-section:first-child { padding-top: 0; }
 
+.mobile-menu-subsection {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 0 4px;
+}
+
+.mobile-menu-sub-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-sub-links a {
+  padding-left: 12px;
+}
+
 .mobile-menu-divider {
   height: 1px;
   background: var(--border);
@@ -536,6 +591,8 @@ body {
   gap: 10px;
   font-family: var(--font-mono);
   font-size: 13px;
+  max-width: 100%;
+  overflow-x: auto;
   color: var(--text-secondary);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -562,10 +619,14 @@ body {
 .install-cmd:hover .copy-icon { color: var(--accent); }
 
 /* ── Tables ── */
+.doc-content .table-wrap {
+  overflow-x: auto;
+  margin: 16px 0 24px;
+}
+
 .doc-content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 16px 0 24px;
   font-size: 14px;
 }
 
@@ -753,7 +814,7 @@ body {
     display: flex;
   }
 
-  .sidebar-theme-toggle {
+  .sidebar-actions {
     display: none;
   }
 

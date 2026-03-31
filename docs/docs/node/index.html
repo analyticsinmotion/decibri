@@ -45,17 +45,7 @@
     </div>
   </nav>
   <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
-  <div class="mobile-menu">
-    <div class="mobile-menu-section">Node.js</div>
-    <a href="/docs/node/index.html" onclick="toggleMobileMenu()">Getting Started</a>
-    <a href="/docs/node/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>
-    <div class="mobile-menu-section">Integrations</div>
-    <a href="/docs/node/integrations/sherpa-onnx-stt.html" onclick="toggleMobileMenu()">Speech-to-Text</a>
-    <a href="/docs/node/integrations/sherpa-onnx-kws.html" onclick="toggleMobileMenu()">Keyword Spotting</a>
-    <a href="/docs/node/integrations/sherpa-onnx-vad.html" onclick="toggleMobileMenu()">Voice Activity Detection</a>
-    <div class="mobile-menu-divider"></div>
-    <a href="/">Back to decibri.dev</a>
-  </div>
+  <div class="mobile-menu"></div>
   <div class="sidebar-overlay"></div>
   <aside id="sidebar" class="sidebar"></aside>
 
@@ -170,9 +160,13 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
           <h3>API Reference</h3>
           <p>Full constructor options, methods, events, and audio format details</p>
         </a>
+      </div>
+
+      <h3>Sherpa-ONNX</h3>
+      <div class="cards-grid">
         <a href="integrations/sherpa-onnx-stt.html" class="doc-card">
           <h3>Speech-to-Text</h3>
-          <p>Real-time local transcription with sherpa-onnx</p>
+          <p>Real-time local transcription</p>
         </a>
         <a href="integrations/sherpa-onnx-kws.html" class="doc-card">
           <h3>Keyword Spotting</h3>
@@ -180,7 +174,15 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
         </a>
         <a href="integrations/sherpa-onnx-vad.html" class="doc-card">
           <h3>Voice Activity Detection</h3>
-          <p>Detect speech vs silence with sherpa-onnx Silero VAD</p>
+          <p>Detect speech vs silence with Silero VAD</p>
+        </a>
+      </div>
+
+      <h3>Whisper.cpp</h3>
+      <div class="cards-grid">
+        <a href="integrations/whisper-cpp.html" class="doc-card">
+          <h3>Speech-to-Text</h3>
+          <p>Local transcription with OpenAI's Whisper model</p>
         </a>
       </div>
 

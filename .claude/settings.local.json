@@ -7,7 +7,12 @@
       "Bash(curl -s -o /tmp/decibri_llms.txt -w \"%{http_code}\" https://decibri.dev/llms.txt)",
       "Bash(curl -s -o /tmp/decibri_og.png -w \"%{http_code}\" https://decibri.dev/decibri-social-og.png)",
       "Bash(find /c/development/aim/npm/decibri/repository/decibri/docs -type f -exec ls -lh {})",
-      "Read(//c/development/aim/npm/decibri/repository/decibri/**)"
+      "Read(//c/development/aim/npm/decibri/repository/decibri/**)",
+      "WebFetch(domain:github.com)",
+      "Read(//tmp/**)",
+      "Bash(npm pack:*)",
+      "Bash(tar xzf:*)",
+      "Bash(find package:*)"
     ]
   }
 }

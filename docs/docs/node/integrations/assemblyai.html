@@ -24,6 +24,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to transcribe microphone audio with AssemblyAI in Node.js",
+    "description": "Real-time cloud speech-to-text transcription using decibri and the AssemblyAI SDK. Turn-based results with no model download required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Get an API key", "text": "Sign up at assemblyai.com and upgrade your account. Streaming requires an upgraded account with a payment method."},
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri assemblyai dotenv"},
+      {"@type": "HowToStep", "name": "Configure the client", "text": "Create an AssemblyAI client with your API key and a streaming transcriber with speechModel and sampleRate."},
+      {"@type": "HowToStep", "name": "Register event handlers", "text": "Register handlers for open, turn, error, and close events before calling connect()."},
+      {"@type": "HowToStep", "name": "Connect and open the microphone", "text": "Call await transcriber.connect(), then create a decibri instance at 16 kHz mono."},
+      {"@type": "HowToStep", "name": "Stream audio", "text": "Send each audio chunk directly to AssemblyAI via transcriber.sendAudio(chunk). No format conversion needed."},
+      {"@type": "HowToStep", "name": "Handle turn-based results", "text": "Listen for turn events. Filter on turn.end_of_turn for final transcripts or show progressive results."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone with mic.stop() and close with await transcriber.close() on SIGINT."}
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>

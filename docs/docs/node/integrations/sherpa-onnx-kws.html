@@ -24,6 +24,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to detect spoken keywords with Sherpa-ONNX in Node.js",
+    "description": "Detect specific spoken keywords and wake phrases locally using decibri and sherpa-onnx. Runs entirely offline with no API key required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri sherpa-onnx"},
+      {"@type": "HowToStep", "name": "Download a keyword spotting model", "text": "Download a keyword spotting model from the sherpa-onnx releases page."},
+      {"@type": "HowToStep", "name": "Configure the keyword spotter", "text": "Define model file paths and create a sherpa-onnx KeywordSpotter with your configuration and keywords file."},
+      {"@type": "HowToStep", "name": "Open the microphone", "text": "Create a decibri instance at 16 kHz mono: new Decibri({ sampleRate: 16000, channels: 1 })"},
+      {"@type": "HowToStep", "name": "Process audio", "text": "Convert each Int16 PCM chunk to Float32 and feed it to the keyword spotter. Print detected keywords as they are recognized."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone with mic.stop() and free resources on SIGINT."}
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>

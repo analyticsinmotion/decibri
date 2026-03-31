@@ -29,6 +29,16 @@
         <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Linux%20ARM64&label=Linux%20ARM64&logo=linux&logoColor=white" alt="Linux ARM64"></a>
       </td>
     </tr>
+    <tr>
+  <td><strong>Integrations</strong></td>
+  <td>
+    <a href="https://decibri.dev/docs/node/integrations/openai-realtime.html"><img src="https://img.shields.io/badge/OpenAI-cloud-blue" alt="OpenAI"></a>&nbsp;
+    <a href="https://decibri.dev/docs/node/integrations/deepgram.html"><img src="https://img.shields.io/badge/Deepgram-cloud-blue" alt="Deepgram"></a>&nbsp;
+    <a href="https://decibri.dev/docs/node/integrations/assemblyai.html"><img src="https://img.shields.io/badge/AssemblyAI-cloud-blue" alt="AssemblyAI"></a>&nbsp;
+    <a href="https://decibri.dev/docs/node/integrations/sherpa-onnx-stt.html"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
+    <a href="https://decibri.dev/docs/node/integrations/whisper-cpp.html"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
+  </td>
+</tr>
   </table>
   <!-- badges: end -->
 </div>

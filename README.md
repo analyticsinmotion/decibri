@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <div align="center">
-  <img width="85" height="85" alt="Image" src="https://github.com/user-attachments/assets/2dce8788-02b4-4877-849c-274f776e063d" />
+  <!-- <img width="85" height="85" alt="Image" src="https://github.com/user-attachments/assets/2dce8788-02b4-4877-849c-274f776e063d" /> -->
 
 # decibri
 

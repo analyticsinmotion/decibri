@@ -121,37 +121,39 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h2>Platform support</h2>
       <p>Pre-built binaries ship inside the npm package. No build tools, no compilation, no post-install downloads.</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Platform</th>
-            <th>Architecture</th>
-            <th>Audio backend</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Windows 11</td>
-            <td>x64</td>
-            <td>WASAPI</td>
-          </tr>
-          <tr>
-            <td>macOS</td>
-            <td>arm64 (Apple Silicon)</td>
-            <td>CoreAudio</td>
-          </tr>
-          <tr>
-            <td>Linux</td>
-            <td>x64</td>
-            <td>ALSA</td>
-          </tr>
-          <tr>
-            <td>Linux</td>
-            <td>arm64</td>
-            <td>ALSA</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Architecture</th>
+              <th>Audio backend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Windows 11</td>
+              <td>x64</td>
+              <td>WASAPI</td>
+            </tr>
+            <tr>
+              <td>macOS</td>
+              <td>arm64 (Apple Silicon)</td>
+              <td>CoreAudio</td>
+            </tr>
+            <tr>
+              <td>Linux</td>
+              <td>x64</td>
+              <td>ALSA</td>
+            </tr>
+            <tr>
+              <td>Linux</td>
+              <td>arm64</td>
+              <td>ALSA</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p>If no pre-built binary is available for your platform, decibri falls back to compiling from source.</p>
 
       <h2>Next steps</h2>

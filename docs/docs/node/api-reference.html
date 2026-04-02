@@ -67,66 +67,68 @@
       <h3><code>new Decibri(options?)</code></h3>
       <p>Creates a Node.js Readable stream that captures raw PCM audio from the system microphone.</p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Option</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>sampleRate</code></td>
-            <td><code>number</code></td>
-            <td><code>16000</code></td>
-            <td>Samples per second (1,000 to 384,000 Hz)</td>
-          </tr>
-          <tr>
-            <td><code>channels</code></td>
-            <td><code>number</code></td>
-            <td><code>1</code></td>
-            <td>Number of input channels (1 to 32)</td>
-          </tr>
-          <tr>
-            <td><code>framesPerBuffer</code></td>
-            <td><code>number</code></td>
-            <td><code>1600</code></td>
-            <td>Frames per audio callback. Controls chunk size and latency (64 to 65,536)</td>
-          </tr>
-          <tr>
-            <td><code>device</code></td>
-            <td><code>number | string</code></td>
-            <td>system default</td>
-            <td>Device index from <code>Decibri.devices()</code> or case-insensitive name substring</td>
-          </tr>
-          <tr>
-            <td><code>format</code></td>
-            <td><code>'int16' | 'float32'</code></td>
-            <td><code>'int16'</code></td>
-            <td>Sample encoding format</td>
-          </tr>
-          <tr>
-            <td><code>vad</code></td>
-            <td><code>boolean</code></td>
-            <td><code>false</code></td>
-            <td>Enable built-in voice activity detection</td>
-          </tr>
-          <tr>
-            <td><code>vadThreshold</code></td>
-            <td><code>number</code></td>
-            <td><code>0.01</code></td>
-            <td>RMS energy threshold for speech detection (0 to 1)</td>
-          </tr>
-          <tr>
-            <td><code>vadHoldoff</code></td>
-            <td><code>number</code></td>
-            <td><code>300</code></td>
-            <td>Milliseconds of sub-threshold audio before <code>'silence'</code> is emitted</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>sampleRate</code></td>
+              <td><code>number</code></td>
+              <td><code>16000</code></td>
+              <td>Samples per second (1,000 to 384,000 Hz)</td>
+            </tr>
+            <tr>
+              <td><code>channels</code></td>
+              <td><code>number</code></td>
+              <td><code>1</code></td>
+              <td>Number of input channels (1 to 32)</td>
+            </tr>
+            <tr>
+              <td><code>framesPerBuffer</code></td>
+              <td><code>number</code></td>
+              <td><code>1600</code></td>
+              <td>Frames per audio callback. Controls chunk size and latency (64 to 65,536)</td>
+            </tr>
+            <tr>
+              <td><code>device</code></td>
+              <td><code>number | string</code></td>
+              <td>system default</td>
+              <td>Device index from <code>Decibri.devices()</code> or case-insensitive name substring</td>
+            </tr>
+            <tr>
+              <td><code>format</code></td>
+              <td><code>'int16' | 'float32'</code></td>
+              <td><code>'int16'</code></td>
+              <td>Sample encoding format</td>
+            </tr>
+            <tr>
+              <td><code>vad</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Enable built-in voice activity detection</td>
+            </tr>
+            <tr>
+              <td><code>vadThreshold</code></td>
+              <td><code>number</code></td>
+              <td><code>0.01</code></td>
+              <td>RMS energy threshold for speech detection (0 to 1)</td>
+            </tr>
+            <tr>
+              <td><code>vadHoldoff</code></td>
+              <td><code>number</code></td>
+              <td><code>300</code></td>
+              <td>Milliseconds of sub-threshold audio before <code>'silence'</code> is emitted</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <p>Standard Node.js <code>ReadableOptions</code> (e.g., <code>highWaterMark</code>) are also accepted.</p>
 
@@ -146,42 +148,44 @@ console.log(devices);
 // ]</code></pre>
 
       <p>Each device object contains:</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>index</code></td>
-            <td><code>number</code></td>
-            <td>PortAudio device index, used as <code>options.device</code></td>
-          </tr>
-          <tr>
-            <td><code>name</code></td>
-            <td><code>string</code></td>
-            <td>Human-readable device name reported by the OS</td>
-          </tr>
-          <tr>
-            <td><code>maxInputChannels</code></td>
-            <td><code>number</code></td>
-            <td>Maximum number of input channels supported</td>
-          </tr>
-          <tr>
-            <td><code>defaultSampleRate</code></td>
-            <td><code>number</code></td>
-            <td>Device's native/preferred sample rate in Hz</td>
-          </tr>
-          <tr>
-            <td><code>isDefault</code></td>
-            <td><code>boolean</code></td>
-            <td>Whether this is the current system default input device</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>index</code></td>
+              <td><code>number</code></td>
+              <td>PortAudio device index, used as <code>options.device</code></td>
+            </tr>
+            <tr>
+              <td><code>name</code></td>
+              <td><code>string</code></td>
+              <td>Human-readable device name reported by the OS</td>
+            </tr>
+            <tr>
+              <td><code>maxInputChannels</code></td>
+              <td><code>number</code></td>
+              <td>Maximum number of input channels supported</td>
+            </tr>
+            <tr>
+              <td><code>defaultSampleRate</code></td>
+              <td><code>number</code></td>
+              <td>Device's native/preferred sample rate in Hz</td>
+            </tr>
+            <tr>
+              <td><code>isDefault</code></td>
+              <td><code>boolean</code></td>
+              <td>Whether this is the current system default input device</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3><code>Decibri.version()</code></h3>
       <p>Returns version information for decibri and the bundled PortAudio library.</p>

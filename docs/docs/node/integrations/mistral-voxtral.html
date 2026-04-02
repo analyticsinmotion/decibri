@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f8fb" media="(prefers-color-scheme: light)">
+  <script>
+    (function() {
+      var t = localStorage.getItem('decibri-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>Mistral Voxtral Real-Time Transcription | decibri docs</title>
+  <meta name="description" content="Real-time cloud speech-to-text transcription using decibri and Mistral's Voxtral model in Node.js.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Mistral Voxtral Real-Time Transcription | decibri docs">
+  <meta property="og:description" content="Real-time cloud speech-to-text transcription using decibri and Mistral's Voxtral model in Node.js.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://decibri.dev/docs/node/integrations/mistral-voxtral.html">
+  <link rel="canonical" href="https://decibri.dev/docs/node/integrations/mistral-voxtral.html">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to transcribe microphone audio with Mistral Voxtral in Node.js",
+    "description": "Real-time cloud speech-to-text transcription using decibri and the Mistral AI SDK. Open-weights model with no SoX or system dependencies required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Get an API key", "text": "Sign up at console.mistral.ai and create an API key."},
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri @mistralai/mistralai dotenv"},
+      {"@type": "HowToStep", "name": "Configure imports", "text": "Import RealtimeTranscription and AudioEncoding from @mistralai/mistralai/extra/realtime using ES module syntax."},
+      {"@type": "HowToStep", "name": "Create audio stream", "text": "Wrap decibri as an AsyncGenerator that yields Uint8Array chunks at 16 kHz mono."},
+      {"@type": "HowToStep", "name": "Connect and transcribe", "text": "Create a RealtimeTranscription client and call transcribeStream() with the audio stream, model, and audio format."},
+      {"@type": "HowToStep", "name": "Handle transcription events", "text": "Process transcription.text.delta events for progressive text and transcription.done for completion."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone and call audioStream.return() to clean up."}
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <div class="nav-inner">
+      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu"></div>
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+
+  <div class="doc-content">
+    <div class="doc-container">
+
+      <div class="breadcrumb">
+        <a href="/docs/index.html">Docs</a>
+        <span class="sep">/</span>
+        <a href="/docs/node/index.html">Node.js</a>
+        <span class="sep">/</span>
+        <span class="current">Mistral Voxtral Real-Time Transcription</span>
+      </div>
+
+      <h1>Mistral Voxtral Real-Time Transcription</h1>
+      <p class="lead">Stream live microphone audio to Mistral's Voxtral model for real-time cloud transcription using decibri and the official Mistral AI SDK.</p>
+
+      <h2>What this does</h2>
+      <p>This integration captures live audio from your microphone using decibri and streams it to Mistral's Voxtral Realtime API via the official SDK. Transcription text arrives progressively as you speak. No model download, no local inference, and no audio format conversion. decibri's default output matches Voxtral's expected input exactly.</p>
+      <p>Voxtral is an open-weights model (Apache 2.0) built by Mistral, a European AI company. It supports 13 languages with automatic detection. Choose this when you want a cloud STT with open-weights transparency, or when you plan to self-host via vLLM. For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt.html">sherpa-onnx</a> or <a href="whisper-cpp.html">whisper.cpp</a> local integrations instead.</p>
+
+      <h2>ES Modules required</h2>
+      <div class="callout">
+        <strong>Important:</strong> The Mistral AI SDK is ESM-only. You must use <code>import</code> syntax, not <code>require()</code>. Add <code>"type": "module"</code> to your <code>package.json</code>, or use a <code>.mjs</code> file extension. This is different from the other decibri integration examples which use CommonJS. For environment variables, use <code>import 'dotenv/config'</code> instead of <code>require('dotenv').config()</code>.
+      </div>
+
+      <h2>Cloud vs local</h2>
+      <div class="callout">
+        <strong>Note:</strong> Mistral Voxtral is a cloud service. Audio is sent to Mistral's servers for processing. Mistral is a European company. See Mistral's privacy documentation for data handling details. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt.html">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp.html">whisper.cpp</a> (batch transcription).
+      </div>
+
+      <h2>Prerequisites</h2>
+
+      <h3>Get an API key</h3>
+      <ol>
+        <li>Sign up at <a href="https://console.mistral.ai" target="_blank" rel="noopener noreferrer">console.mistral.ai</a></li>
+        <li>Create an API key from the dashboard</li>
+        <li>Store it in a <code>.env</code> file in your project root:</li>
+      </ol>
+      <pre><code class="language-bash">MISTRAL_API_KEY=your_key_here</code></pre>
+
+      <h3>Install packages</h3>
+      <div class="install-cmd" onclick="navigator.clipboard.writeText('npm install decibri @mistralai/mistralai dotenv')" role="button" tabindex="0" aria-label="Copy install command">
+        <span class="dollar">$</span>
+        <span class="cmd">npm install decibri @mistralai/mistralai dotenv</span>
+        <svg class="copy-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+      <p>The <code>dotenv</code> package loads your API key from the <code>.env</code> file. If you set environment variables another way, you can omit dotenv from the install command.</p>
+      <p>No model download is required. All processing happens in Mistral's cloud.</p>
+
+      <h2>Code walkthrough</h2>
+
+      <h3>1. Configuration</h3>
+      <p>Import decibri, the Mistral Realtime SDK, and dotenv. decibri is a CommonJS package; the default import works in ESM via Node.js interop.</p>
+      <pre><code class="language-javascript">import 'dotenv/config';
+import Decibri from 'decibri';
+import { RealtimeTranscription, AudioEncoding } from '@mistralai/mistralai/extra/realtime';
+
+const API_KEY = process.env.MISTRAL_API_KEY;
+const MODEL = 'voxtral-mini-transcribe-realtime-2602';
+
+const audioFormat = {
+  encoding: AudioEncoding.PcmS16le,
+  sampleRate: 16000,
+};</code></pre>
+      <p>The audio format matches decibri's default output exactly: 16-bit signed integer PCM, little-endian, 16 kHz mono. No configuration needed on the decibri side.</p>
+
+      <h3>2. Create audio stream</h3>
+      <p>The Mistral SDK expects an <code>AsyncGenerator&lt;Uint8Array&gt;</code> as its audio input. Wrap decibri's Readable stream as an async generator that yields each chunk as a <code>Uint8Array</code>.</p>
+      <pre><code class="language-javascript">async function* createAudioStream() {
+  const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+  console.log('Listening... Speak into your microphone. (Ctrl+C to stop)');
+
+  try {
+    for await (const chunk of mic) {
+      yield new Uint8Array(chunk);
+    }
+  } finally {
+    mic.stop();
+  }
+}</code></pre>
+      <p>The <code>for await...of</code> loop consumes decibri as an async iterable (all Node.js Readable streams support this). The <code>finally</code> block ensures the microphone is stopped when the generator is closed.</p>
+
+      <h3>3. Create client and transcribe</h3>
+      <p>Create a <code>RealtimeTranscription</code> client and call <code>transcribeStream()</code> with the audio generator, model, and format. The SDK handles the WebSocket connection internally.</p>
+      <pre><code class="language-javascript">const client = new RealtimeTranscription({ apiKey: API_KEY });
+const audioStream = createAudioStream();
+
+for await (const event of client.transcribeStream(
+  audioStream,
+  MODEL,
+  { audioFormat }
+)) {
+  // handle events
+}</code></pre>
+
+      <h3>4. Handle events</h3>
+      <p>The SDK emits three event types. Handle progressive text deltas, completion, and errors.</p>
+      <pre><code class="language-javascript">if (event.type === 'transcription.text.delta') {
+  process.stdout.write(event.text);
+} else if (event.type === 'transcription.done') {
+  process.stdout.write('\n');
+  break;
+} else if (event.type === 'error') {
+  const msg = typeof event.error.message === 'string'
+    ? event.error.message
+    : JSON.stringify(event.error.message);
+  console.error('\nError:', msg);
+  break;
+}</code></pre>
+      <p><code>transcription.text.delta</code> events contain partial transcription text that arrives word-by-word as you speak. <code>transcription.done</code> signals the end of a transcription segment.</p>
+
+      <h3>5. Clean shutdown</h3>
+      <p>Wrap the transcription loop in a <code>try/finally</code> block. Calling <code>audioStream.return()</code> triggers the generator's <code>finally</code> block, which stops the microphone. Ctrl+C interrupts the async iterator and flows through the same cleanup path.</p>
+      <pre><code class="language-javascript">try {
+  for await (const event of client.transcribeStream(audioStream, MODEL, { audioFormat })) {
+    // ... handle events
+  }
+} finally {
+  await audioStream.return?.();
+}</code></pre>
+
+      <h2>Full example</h2>
+      <details>
+        <summary>View complete code</summary>
+        <pre><code class="language-javascript">import 'dotenv/config';
+import Decibri from 'decibri';
+import { RealtimeTranscription, AudioEncoding } from '@mistralai/mistralai/extra/realtime';
+
+const API_KEY = process.env.MISTRAL_API_KEY;
+const MODEL = 'voxtral-mini-transcribe-realtime-2602';
+
+const audioFormat = {
+  encoding: AudioEncoding.PcmS16le,
+  sampleRate: 16000,
+};
+
+async function* createAudioStream() {
+  const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+  console.log('Listening... Speak into your microphone. (Ctrl+C to stop)');
+
+  try {
+    for await (const chunk of mic) {
+      yield new Uint8Array(chunk);
+    }
+  } finally {
+    mic.stop();
+  }
+}
+
+const client = new RealtimeTranscription({ apiKey: API_KEY });
+const audioStream = createAudioStream();
+
+try {
+  for await (const event of client.transcribeStream(
+    audioStream,
+    MODEL,
+    { audioFormat }
+  )) {
+    if (event.type === 'transcription.text.delta') {
+      process.stdout.write(event.text);
+    } else if (event.type === 'transcription.done') {
+      process.stdout.write('\n');
+      break;
+    } else if (event.type === 'error') {
+      const msg = typeof event.error.message === 'string'
+        ? event.error.message
+        : JSON.stringify(event.error.message);
+      console.error('\nError:', msg);
+      break;
+    }
+  }
+} finally {
+  await audioStream.return?.();
+}</code></pre>
+      </details>
+      <p>Save this as a <code>.mjs</code> file (e.g. <code>transcribe.mjs</code>) or add <code>"type": "module"</code> to your <code>package.json</code>, then run with <code>node transcribe.mjs</code>.</p>
+
+      <h2>Configuration options</h2>
+      <p>Options passed to <code>transcribeStream()</code> and the <code>RealtimeTranscription</code> client.</p>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>model</code></td>
+            <td><code>'voxtral-mini-transcribe-realtime-2602'</code></td>
+            <td>Realtime transcription model. Currently the only realtime-capable model.</td>
+          </tr>
+          <tr>
+            <td><code>encoding</code></td>
+            <td><code>AudioEncoding.PcmS16le</code></td>
+            <td>Audio encoding. PCM 16-bit signed little-endian matches decibri's default.</td>
+          </tr>
+          <tr>
+            <td><code>sampleRate</code></td>
+            <td><code>16000</code></td>
+            <td>Sample rate in Hz. 16 kHz matches decibri's default.</td>
+          </tr>
+          <tr>
+            <td><code>targetStreamingDelayMs</code></td>
+            <td>none</td>
+            <td>Optional. Milliseconds to wait before starting transcription to gather context. 480 ms is a good balance between latency and accuracy. Range: 240–2400 ms.</td>
+          </tr>
+          <tr>
+            <td><code>serverURL</code></td>
+            <td><code>'wss://api.mistral.ai'</code></td>
+            <td>Optional. WebSocket endpoint. Override for self-hosted deployments via vLLM.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Check <a href="https://docs.mistral.ai/capabilities/audio/speech_to_text/realtime_transcription" target="_blank" rel="noopener noreferrer">Mistral's model documentation</a> for the latest model version and available options.</p>
+
+      <div class="related-links">
+        <h3>Related</h3>
+        <ul>
+          <li><a href="sherpa-onnx-stt.html">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
+          <li><a href="whisper-cpp.html">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
+          <li><a href="/docs/node/api-reference.html">API Reference</a>: full decibri API documentation</li>
+          <li><a href="https://docs.mistral.ai/capabilities/audio/speech_to_text/realtime_transcription" target="_blank" rel="noopener noreferrer">Mistral Voxtral Realtime docs</a></li>
+          <li><a href="https://github.com/mistralai/client-ts" target="_blank" rel="noopener noreferrer">Mistral AI Node.js SDK on GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/@mistralai/mistralai" target="_blank" rel="noopener noreferrer">@mistralai/mistralai on npm</a></li>
+          <li><a href="https://console.mistral.ai" target="_blank" rel="noopener noreferrer">Mistral console (sign up / API keys)</a></li>
+        </ul>
+      </div>
+
+      <footer class="doc-footer">
+        <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> &middot; <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="../../nav.js"></script>
+</body>
+</html>

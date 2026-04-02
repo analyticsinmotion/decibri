@@ -336,6 +336,7 @@ body {
   right: 0;
   width: 260px;
   height: 100vh;
+  height: 100dvh;
   background: var(--bg-elevated);
   border-left: 1px solid var(--border);
   z-index: 251;

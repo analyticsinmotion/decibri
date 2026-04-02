@@ -29,6 +29,7 @@
     +     link('/docs/node/index.html', 'Getting Started')
     +     link('/docs/node/api-reference.html', 'API Reference')
     +     '<div class="sidebar-section-title" style="margin-top:12px">Integrations</div>'
+    +     link('/docs/node/integrations/index.html', 'Choosing an Integration')
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Sherpa-ONNX</div>'
     +       '<div class="sidebar-sub">'
@@ -80,6 +81,7 @@
     + '<a href="/docs/node/index.html" onclick="toggleMobileMenu()">Getting Started</a>'
     + '<a href="/docs/node/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>'
     + '<div class="mobile-menu-section">Integrations</div>'
+    + '<a href="/docs/node/integrations/index.html" onclick="toggleMobileMenu()">Choosing an Integration</a>'
     + '<div class="mobile-menu-subsection">Sherpa-ONNX</div>'
     + '<div class="mobile-menu-sub-links">'
     + '<a href="/docs/node/integrations/sherpa-onnx-stt.html" onclick="toggleMobileMenu()">Speech-to-Text</a>'

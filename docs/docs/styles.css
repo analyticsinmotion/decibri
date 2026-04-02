@@ -345,6 +345,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mobile-menu.open { transform: translateX(0); }

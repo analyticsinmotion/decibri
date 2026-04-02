@@ -120,8 +120,10 @@
 
   // Mobile menu toggle
   window.toggleMobileMenu = function () {
-    document.querySelector('.mobile-menu').classList.toggle('open');
+    var menu = document.querySelector('.mobile-menu');
+    menu.classList.toggle('open');
     document.querySelector('.mobile-menu-overlay').classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
   };
 
   // Theme toggle

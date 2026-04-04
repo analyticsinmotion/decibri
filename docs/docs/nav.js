@@ -74,6 +74,12 @@
     +         link('/docs/node/integrations/aws-transcribe.html', 'Streaming Transcription')
     +       '</div>'
     +     '</div>'
+    +     '<div class="sidebar-sub">'
+    +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Google</div>'
+    +       '<div class="sidebar-sub">'
+    +         link('/docs/node/integrations/google-speech.html', 'Streaming Transcription')
+    +       '</div>'
+    +     '</div>'
     +   '</div>'
     + '</nav>'
     + '<div class="sidebar-back">'
@@ -123,6 +129,10 @@
     + '<div class="mobile-menu-subsection">AWS</div>'
     + '<div class="mobile-menu-sub-links">'
     + '<a href="/docs/node/integrations/aws-transcribe.html" onclick="toggleMobileMenu()">Streaming Transcription</a>'
+    + '</div>'
+    + '<div class="mobile-menu-subsection">Google</div>'
+    + '<div class="mobile-menu-sub-links">'
+    + '<a href="/docs/node/integrations/google-speech.html" onclick="toggleMobileMenu()">Streaming Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-divider"></div>'
     + '<a href="/">Back to decibri.dev</a>';

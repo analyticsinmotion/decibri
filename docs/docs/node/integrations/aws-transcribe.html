@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f8fb" media="(prefers-color-scheme: light)">
+  <script>
+    (function() {
+      var t = localStorage.getItem('decibri-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>AWS Transcribe Streaming | decibri docs</title>
+  <meta name="description" content="Real-time cloud speech-to-text streaming using decibri and AWS Transcribe in Node.js.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="AWS Transcribe Streaming | decibri docs">
+  <meta property="og:description" content="Real-time cloud speech-to-text streaming using decibri and AWS Transcribe in Node.js.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://decibri.dev/docs/node/integrations/aws-transcribe.html">
+  <link rel="canonical" href="https://decibri.dev/docs/node/integrations/aws-transcribe.html">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to transcribe microphone audio with AWS Transcribe in Node.js",
+    "description": "Real-time cloud speech-to-text streaming using decibri and the AWS SDK. No model download required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Set up AWS credentials", "text": "Create an IAM user with transcribe:StartStreamTranscription permission and configure credentials via environment variables or AWS credentials file."},
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri @aws-sdk/client-transcribe-streaming dotenv"},
+      {"@type": "HowToStep", "name": "Create the audio stream generator", "text": "Build an async iterator that wraps decibri's data events as AWS AudioEvent objects."},
+      {"@type": "HowToStep", "name": "Open the microphone", "text": "Create a decibri instance at 16 kHz mono: new Decibri({ sampleRate: 16000, channels: 1 })"},
+      {"@type": "HowToStep", "name": "Start transcription", "text": "Send a StartStreamTranscriptionCommand with PCM encoding at 16000 Hz."},
+      {"@type": "HowToStep", "name": "Handle results", "text": "Process partial and final transcription results from the TranscriptResultStream."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone and exit on SIGINT."}
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <div class="nav-inner">
+      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu"></div>
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+
+  <div class="doc-content">
+    <div class="doc-container">
+
+      <div class="breadcrumb">
+        <a href="/docs/index.html">Docs</a>
+        <span class="sep">/</span>
+        <a href="/docs/node/index.html">Node.js</a>
+        <span class="sep">/</span>
+        <span class="current">AWS Transcribe Streaming</span>
+      </div>
+
+      <h1>AWS Transcribe Streaming</h1>
+      <p class="lead">Stream live microphone audio to AWS Transcribe for real-time cloud transcription using decibri and the official AWS SDK.</p>
+
+      <h2>What this does</h2>
+      <p>This integration captures live audio from your microphone using decibri and streams it to Amazon Transcribe's cloud API via HTTP/2. Transcription results return in real-time as you speak, with both partial (in-progress) and final (confirmed) results. There is no model download, no local inference, and no format conversion required.</p>
+      <p>Choose this when you need managed cloud transcription with AWS IAM integration, support for 100+ languages, or features like automatic language detection and medical transcription. For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt.html">sherpa-onnx</a> or <a href="whisper-cpp.html">whisper.cpp</a> local integrations instead.</p>
+
+      <h2>Cloud vs local</h2>
+      <div class="callout">
+        <strong>Note:</strong> AWS Transcribe is a cloud service. Audio is sent to Amazon's servers for processing. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt.html">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp.html">whisper.cpp</a> (batch transcription).
+      </div>
+
+      <h2>Prerequisites</h2>
+
+      <h3>Set up AWS credentials</h3>
+      <p>AWS Transcribe uses IAM credentials, not a simple API key. You need an AWS account with an IAM user that has the <code>transcribe:StartStreamTranscription</code> permission.</p>
+
+      <p>Configure credentials using one of these methods:</p>
+
+      <p><strong>Option 1: Environment variables</strong></p>
+      <pre><code class="language-bash">export AWS_ACCESS_KEY_ID=AKIA...
+export AWS_SECRET_ACCESS_KEY=your_secret
+export AWS_REGION=us-east-1</code></pre>
+
+      <p><strong>Option 2: AWS credentials file</strong></p>
+      <pre><code class="language-bash"># ~/.aws/credentials
+[default]
+aws_access_key_id = AKIA...
+aws_secret_access_key = your_secret
+region = us-east-1</code></pre>
+
+      <p><strong>Option 3: .env file with dotenv</strong></p>
+      <pre><code class="language-bash">AWS_ACCESS_KEY_ID=AKIA...
+AWS_SECRET_ACCESS_KEY=your_secret
+AWS_REGION=us-east-1</code></pre>
+
+      <p>The SDK resolves credentials automatically in this order: environment variables, shared credentials file, IAM role (for EC2/Lambda). If you get a service endpoint error, check that your region supports <a href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html" target="_blank" rel="noopener noreferrer">AWS Transcribe Streaming</a>&mdash;not all regions do.</p>
+
+      <div class="callout">
+        <strong>IAM permissions:</strong> Your IAM user needs the <code>transcribe:StartStreamTranscription</code> action. For testing, you can use the managed policy <code>AmazonTranscribeFullAccess</code>. For production, use a minimal policy:
+      </div>
+      <pre><code class="language-javascript">{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "transcribe:StartStreamTranscription",
+      "Resource": "*"
+    }
+  ]
+}</code></pre>
+
+      <h3>Install packages</h3>
+      <div class="install-cmd" onclick="navigator.clipboard.writeText('npm install decibri @aws-sdk/client-transcribe-streaming dotenv')" role="button" tabindex="0" aria-label="Copy install command">
+        <span class="dollar">$</span>
+        <span class="cmd">npm install decibri @aws-sdk/client-transcribe-streaming dotenv</span>
+        <svg class="copy-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+      <p>The <code>dotenv</code> package loads your credentials from a <code>.env</code> file. If you set environment variables another way or use the AWS credentials file, you can skip it.</p>
+      <p>No model download is required. All processing happens in Amazon's cloud.</p>
+
+      <h2>Code walkthrough</h2>
+
+      <h3>1. Configuration</h3>
+      <p>Import decibri, the AWS Transcribe Streaming SDK, and dotenv. Create a client with your region.</p>
+      <pre><code class="language-javascript">'use strict';
+require('dotenv').config();
+
+const Decibri = require('decibri');
+const {
+  TranscribeStreamingClient,
+  StartStreamTranscriptionCommand,
+} = require('@aws-sdk/client-transcribe-streaming');
+
+const client = new TranscribeStreamingClient({
+  region: process.env.AWS_REGION || 'us-east-1',
+});</code></pre>
+
+      <h3>2. Create the audio stream generator</h3>
+      <p>AWS Transcribe requires an async iterator that yields <code>AudioEvent</code> objects. This generator bridges decibri's <code>data</code> events into the format the SDK expects. This is the key difference from other integrations, which send chunks directly over a WebSocket.</p>
+      <pre><code class="language-javascript">function createAudioStream(mic) {
+  const chunks = [];
+  let done = false;
+  let resolve;
+
+  mic.on('data', (chunk) => {
+    chunks.push(chunk);
+    if (resolve) {
+      resolve();
+      resolve = null;
+    }
+  });
+
+  mic.on('end', () => {
+    done = true;
+    if (resolve) {
+      resolve();
+      resolve = null;
+    }
+  });
+
+  return {
+    [Symbol.asyncIterator]() {
+      return {
+        async next() {
+          while (chunks.length === 0 && !done) {
+            await new Promise((r) => { resolve = r; });
+          }
+          if (chunks.length > 0) {
+            return { value: { AudioEvent: { AudioChunk: chunks.shift() } }, done: false };
+          }
+          return { done: true };
+        },
+      };
+    },
+  };
+}</code></pre>
+
+      <h3>3. Open the microphone</h3>
+      <p>Create a decibri instance at 16 kHz mono. The default format is 16-bit signed integer PCM, which matches AWS Transcribe's <code>pcm</code> encoding directly.</p>
+      <pre><code class="language-javascript">const mic = new Decibri({ sampleRate: 16000, channels: 1 });</code></pre>
+
+      <h3>4. Start transcription</h3>
+      <p>Send a <code>StartStreamTranscriptionCommand</code> with the audio parameters and the async generator as the <code>AudioStream</code>.</p>
+      <pre><code class="language-javascript">const command = new StartStreamTranscriptionCommand({
+  LanguageCode: 'en-US',
+  MediaEncoding: 'pcm',
+  MediaSampleRateHertz: '16000',
+  AudioStream: createAudioStream(mic),
+});
+
+const response = await client.send(command);</code></pre>
+      <div class="callout">
+        <strong>Note:</strong> <code>MediaSampleRateHertz</code> is passed as a string <code>'16000'</code>, not a number. This matches the AWS SDK's own JavaScript examples.
+      </div>
+
+      <h3>5. Handle results</h3>
+      <p>Iterate over the response stream. AWS Transcribe returns both partial and final results:</p>
+      <ul>
+        <li><strong>Partial results</strong> (<code>IsPartial: true</code>): Words as they're being recognized. Updates rapidly. Good for live caption display.</li>
+        <li><strong>Final results</strong> (<code>IsPartial: false</code>): Confirmed transcription. Won't change. Use these for command processing.</li>
+      </ul>
+      <pre><code class="language-javascript">for await (const event of response.TranscriptResultStream) {
+  if (event.TranscriptEvent) {
+    const results = event.TranscriptEvent.Transcript.Results;
+    for (const result of results) {
+      const transcript = result.Alternatives[0].Transcript;
+      if (result.IsPartial) {
+        process.stdout.write(`\r  [partial] ${transcript}                    `);
+      } else {
+        console.log(`\n  [final]   ${transcript}`);
+      }
+    }
+  }
+}</code></pre>
+
+      <h3>6. Clean shutdown</h3>
+      <p>Stop the microphone and exit when the user presses Ctrl+C.</p>
+      <pre><code class="language-javascript">process.on('SIGINT', () => {
+  console.log('\nStopping...');
+  process.exit(0);
+});</code></pre>
+
+      <h2>Full example</h2>
+      <details>
+        <summary>View complete code</summary>
+        <pre><code class="language-javascript">'use strict';
+require('dotenv').config();
+
+const Decibri = require('decibri');
+const {
+  TranscribeStreamingClient,
+  StartStreamTranscriptionCommand,
+} = require('@aws-sdk/client-transcribe-streaming');
+
+// ── Audio stream generator ──────────────────────────────────
+function createAudioStream(mic) {
+  const chunks = [];
+  let done = false;
+  let resolve;
+
+  mic.on('data', (chunk) => {
+    chunks.push(chunk);
+    if (resolve) {
+      resolve();
+      resolve = null;
+    }
+  });
+
+  mic.on('end', () => {
+    done = true;
+    if (resolve) {
+      resolve();
+      resolve = null;
+    }
+  });
+
+  return {
+    [Symbol.asyncIterator]() {
+      return {
+        async next() {
+          while (chunks.length === 0 && !done) {
+            await new Promise((r) => { resolve = r; });
+          }
+          if (chunks.length > 0) {
+            return { value: { AudioEvent: { AudioChunk: chunks.shift() } }, done: false };
+          }
+          return { done: true };
+        },
+      };
+    },
+  };
+}
+
+// ── Main ────────────────────────────────────────────────────
+async function main() {
+  const client = new TranscribeStreamingClient({
+    region: process.env.AWS_REGION || 'us-east-1',
+  });
+
+  const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+
+  console.log('Starting transcription. Speak into your microphone...');
+  console.log('Press Ctrl+C to stop.\n');
+
+  const command = new StartStreamTranscriptionCommand({
+    LanguageCode: 'en-US',
+    MediaEncoding: 'pcm',
+    MediaSampleRateHertz: '16000',
+    AudioStream: createAudioStream(mic),
+  });
+
+  const response = await client.send(command);
+
+  for await (const event of response.TranscriptResultStream) {
+    if (event.TranscriptEvent) {
+      const results = event.TranscriptEvent.Transcript.Results;
+      for (const result of results) {
+        const transcript = result.Alternatives[0].Transcript;
+        if (result.IsPartial) {
+          process.stdout.write(`\r  [partial] ${transcript}                    `);
+        } else {
+          console.log(`\n  [final]   ${transcript}`);
+        }
+      }
+    }
+  }
+}
+
+// ── Cleanup on Ctrl+C ──────────────────────────────────────
+process.on('SIGINT', () => {
+  console.log('\nStopping...');
+  process.exit(0);
+});
+
+main().catch(console.error);</code></pre>
+      </details>
+
+      <h2>Configuration options</h2>
+      <p>The command options control how AWS Transcribe processes your audio. Here are the most useful ones:</p>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>LanguageCode</code></td>
+            <td><code>'en-US'</code></td>
+            <td>Language code. Supports 100+ languages (e.g. <code>'es-US'</code>, <code>'fr-FR'</code>, <code>'de-DE'</code>).</td>
+          </tr>
+          <tr>
+            <td><code>MediaEncoding</code></td>
+            <td><code>'pcm'</code></td>
+            <td>Audio encoding. Use <code>'pcm'</code> for decibri's Int16 output.</td>
+          </tr>
+          <tr>
+            <td><code>MediaSampleRateHertz</code></td>
+            <td><code>'16000'</code></td>
+            <td>Sample rate as a string. Must match decibri's <code>sampleRate</code>. Supports 8000&ndash;48000 Hz.</td>
+          </tr>
+          <tr>
+            <td><code>IdentifyLanguage</code></td>
+            <td>omitted</td>
+            <td>Set to <code>true</code> to enable automatic language detection. Mutually exclusive with <code>LanguageCode</code>&mdash;use one or the other, not both.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p>See the <a href="https://docs.aws.amazon.com/transcribe/latest/dg/getting-started-sdk.html" target="_blank" rel="noopener noreferrer">AWS Transcribe SDK documentation</a> for the complete list of options.</p>
+
+      <div class="callout">
+        <strong>Free tier:</strong> AWS Transcribe includes 60 minutes of streaming transcription per month for the first 12 months.
+      </div>
+
+      <div class="related-links">
+        <h3>Related</h3>
+        <ul>
+          <li><a href="sherpa-onnx-stt.html">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
+          <li><a href="whisper-cpp.html">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
+          <li><a href="/docs/node/api-reference.html">API Reference</a>: full decibri API documentation</li>
+          <li><a href="https://docs.aws.amazon.com/transcribe/latest/dg/getting-started-sdk.html" target="_blank" rel="noopener noreferrer">AWS Transcribe developer docs</a></li>
+          <li><a href="https://github.com/aws/aws-sdk-js-v3" target="_blank" rel="noopener noreferrer">AWS SDK for JavaScript v3 on GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/@aws-sdk/client-transcribe-streaming" target="_blank" rel="noopener noreferrer">@aws-sdk/client-transcribe-streaming on npm</a></li>
+        </ul>
+      </div>
+
+      <footer class="doc-footer">
+        <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> &middot; <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="../../nav.js"></script>
+</body>
+</html>

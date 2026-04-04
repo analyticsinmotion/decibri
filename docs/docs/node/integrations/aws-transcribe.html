@@ -113,7 +113,7 @@ region = us-east-1</code></pre>
 AWS_SECRET_ACCESS_KEY=your_secret
 AWS_REGION=us-east-1</code></pre>
 
-      <p>The SDK resolves credentials automatically in this order: environment variables, shared credentials file, IAM role (for EC2/Lambda). If you get a service endpoint error, check that your region supports <a href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html" target="_blank" rel="noopener noreferrer">AWS Transcribe Streaming</a>&mdash;not all regions do.</p>
+      <p>The SDK resolves credentials automatically in this order: environment variables, shared credentials file, IAM role (for EC2/Lambda). If you get a service endpoint error, check that your region supports <a href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html" target="_blank" rel="noopener noreferrer">AWS Transcribe Streaming</a>. Not all regions support it.</p>
 
       <div class="callout">
         <strong>IAM permissions:</strong> Your IAM user needs the <code>transcribe:StartStreamTranscription</code> action. For testing, you can use the managed policy <code>AmazonTranscribeFullAccess</code>. For production, use a minimal policy:
@@ -365,7 +365,7 @@ main().catch(console.error);</code></pre>
           <tr>
             <td><code>IdentifyLanguage</code></td>
             <td>omitted</td>
-            <td>Set to <code>true</code> to enable automatic language detection. Mutually exclusive with <code>LanguageCode</code>&mdash;use one or the other, not both.</td>
+            <td>Set to <code>true</code> to enable automatic language detection. Mutually exclusive with <code>LanguageCode</code>. Use one or the other, not both.</td>
           </tr>
         </tbody>
       </table>

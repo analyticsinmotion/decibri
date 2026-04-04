@@ -145,13 +145,20 @@
               <td>Pay-per-use (free tier)</td>
               <td>No</td>
             </tr>
+            <tr>
+              <td>Real-time cloud STT</td>
+              <td><a href="azure-speech.html">Azure Speech-to-Text</a></td>
+              <td>Low</td>
+              <td>Pay-per-use (free tier)</td>
+              <td>No</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <h2>Local vs cloud</h2>
       <p><strong>Local integrations</strong> (Sherpa-ONNX, Whisper.cpp) run entirely on-device. No API key, no network, no usage fees. Audio never leaves the machine. Trade-off: you supply the compute and manage the model files.</p>
-      <p><strong>Cloud integrations</strong> (Deepgram, AssemblyAI, OpenAI, Mistral, AWS Transcribe, Google Speech-to-Text) stream audio to an external API. Higher accuracy on some benchmarks, no local GPU required, and managed model updates. Trade-off: requires an API key, network connectivity, and incurs per-use costs.</p>
+      <p><strong>Cloud integrations</strong> (Deepgram, AssemblyAI, OpenAI, Mistral, AWS Transcribe, Google Speech-to-Text, Azure Speech-to-Text) stream audio to an external API. Higher accuracy on some benchmarks, no local GPU required, and managed model updates. Trade-off: requires an API key, network connectivity, and incurs per-use costs.</p>
 
       <h2>Integration guides</h2>
 
@@ -228,6 +235,14 @@
         <a href="google-speech.html" class="doc-card">
           <h3>Streaming Transcription</h3>
           <p>Real-time cloud speech-to-text with Google Cloud Speech-to-Text</p>
+        </a>
+      </div>
+
+      <h3>Azure</h3>
+      <div class="cards-grid">
+        <a href="azure-speech.html" class="doc-card">
+          <h3>Streaming Transcription</h3>
+          <p>Real-time cloud speech-to-text with Azure Speech-to-Text</p>
         </a>
       </div>
 

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f8fb" media="(prefers-color-scheme: light)">
+  <script>
+    (function() {
+      var t = localStorage.getItem('decibri-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <title>Google Cloud Speech-to-Text Streaming | decibri docs</title>
+  <meta name="description" content="Real-time cloud speech-to-text streaming using decibri and Google Cloud Speech-to-Text in Node.js.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Google Cloud Speech-to-Text Streaming | decibri docs">
+  <meta property="og:description" content="Real-time cloud speech-to-text streaming using decibri and Google Cloud Speech-to-Text in Node.js.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://decibri.dev/docs/node/integrations/google-speech.html">
+  <link rel="canonical" href="https://decibri.dev/docs/node/integrations/google-speech.html">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to transcribe microphone audio with Google Cloud Speech-to-Text in Node.js",
+    "description": "Real-time cloud speech-to-text streaming using decibri and the Google Cloud Speech SDK. No model download required.",
+    "step": [
+      {"@type": "HowToStep", "name": "Set up Google Cloud credentials", "text": "Create a service account, download the JSON key file, and set GOOGLE_APPLICATION_CREDENTIALS."},
+      {"@type": "HowToStep", "name": "Install packages", "text": "npm install decibri @google-cloud/speech dotenv"},
+      {"@type": "HowToStep", "name": "Configure recognition", "text": "Set encoding to LINEAR16, sample rate to 16000, language code, and interimResults."},
+      {"@type": "HowToStep", "name": "Create the recognize stream and pipe audio", "text": "Create the streaming recognizer and pipe decibri directly into it with mic.pipe(recognizeStream)."},
+      {"@type": "HowToStep", "name": "Handle results", "text": "Process interim and final transcription results from the data event."},
+      {"@type": "HowToStep", "name": "Stop and clean up", "text": "Stop the microphone and exit on SIGINT."}
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <div class="nav-inner">
+      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <div class="mobile-nav">
+        <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="mobile-nav-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu"></div>
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar" class="sidebar"></aside>
+
+  <div class="doc-content">
+    <div class="doc-container">
+
+      <div class="breadcrumb">
+        <a href="/docs/index.html">Docs</a>
+        <span class="sep">/</span>
+        <a href="/docs/node/index.html">Node.js</a>
+        <span class="sep">/</span>
+        <span class="current">Google Cloud Speech-to-Text Streaming</span>
+      </div>
+
+      <h1>Google Cloud Speech-to-Text Streaming</h1>
+      <p class="lead">Stream live microphone audio to Google Cloud Speech-to-Text using decibri and a single <code>pipe()</code> call.</p>
+
+      <h2>What this does</h2>
+      <p>This is the simplest cloud integration in the decibri docs. Google's <code>streamingRecognize()</code> returns a standard Node.js writable stream. decibri is a Readable stream. The entire integration is one line:</p>
+      <pre><code class="language-javascript">mic.pipe(recognizeStream);</code></pre>
+      <p>No async generator (like AWS Transcribe), no WebSocket management (like Deepgram or OpenAI). Just standard Node.js streams piped together over gRPC.</p>
+      <p>Choose this when you need managed cloud transcription with Google's speech models, support for 125+ languages, or the simplest possible integration code. For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt.html">sherpa-onnx</a> or <a href="whisper-cpp.html">whisper.cpp</a> local integrations instead.</p>
+
+      <h2>Cloud vs local</h2>
+      <div class="callout">
+        <strong>Note:</strong> Google Cloud Speech-to-Text is a cloud service. Audio is sent to Google's servers for processing. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt.html">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp.html">whisper.cpp</a> (batch transcription).
+      </div>
+
+      <h2>Prerequisites</h2>
+
+      <h3>Set up Google Cloud credentials</h3>
+      <p>Google Cloud uses a <strong>service account JSON key file</strong> for authentication.</p>
+      <ol>
+        <li>Go to the <a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a></li>
+        <li>Create a project (or select an existing one)</li>
+        <li>Enable the <strong>Cloud Speech-to-Text API</strong>: go to APIs &amp; Services &gt; Library, search "Speech-to-Text", and click Enable</li>
+        <li>Create a service account: go to IAM &amp; Admin &gt; Service Accounts &gt; Create Service Account</li>
+        <li>Create a JSON key: click on the service account &gt; Keys tab &gt; Add Key &gt; Create new key &gt; JSON</li>
+        <li>A JSON file downloads automatically. Store it securely.</li>
+      </ol>
+
+      <p>Configure credentials using one of these methods:</p>
+
+      <p><strong>Option 1: Environment variable (recommended)</strong></p>
+      <pre><code class="language-bash">export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your-key-file.json"</code></pre>
+
+      <p><strong>Option 2: .env file with dotenv</strong></p>
+      <pre><code class="language-bash">GOOGLE_APPLICATION_CREDENTIALS=./your-key-file.json</code></pre>
+
+      <p><strong>Option 3: Direct in code (testing only)</strong></p>
+      <pre><code class="language-javascript">const client = new speech.SpeechClient({
+  keyFilename: './your-key-file.json'
+});</code></pre>
+
+      <p>The SDK checks for the <code>GOOGLE_APPLICATION_CREDENTIALS</code> environment variable automatically.</p>
+
+      <h3>Install packages</h3>
+      <div class="install-cmd" onclick="navigator.clipboard.writeText('npm install decibri @google-cloud/speech dotenv')" role="button" tabindex="0" aria-label="Copy install command">
+        <span class="dollar">$</span>
+        <span class="cmd">npm install decibri @google-cloud/speech dotenv</span>
+        <svg class="copy-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+      <p>The <code>dotenv</code> package loads your credentials path from a <code>.env</code> file. If you set the environment variable another way, you can skip it.</p>
+      <p>No model download is required. All processing happens in Google's cloud.</p>
+
+      <div class="callout">
+        <strong>Streaming limit:</strong> Google Cloud Speech-to-Text has a <strong>5-minute limit</strong> per streaming session. After 5 minutes, the stream closes and you must create a new one. This is fine for voice commands and short interactions. For continuous transcription, see Google's endless streaming tutorial.
+      </div>
+
+      <h2>Code walkthrough</h2>
+
+      <h3>1. Configuration</h3>
+      <p>Import decibri, the Google Cloud Speech SDK, and dotenv. Create a client.</p>
+      <pre><code class="language-javascript">'use strict';
+require('dotenv').config();
+
+const Decibri = require('decibri');
+const speech = require('@google-cloud/speech');
+
+const client = new speech.SpeechClient();</code></pre>
+
+      <h3>2. Configure the recognition request</h3>
+      <p>Set the audio encoding, sample rate, language, and whether you want interim (partial) results.</p>
+      <pre><code class="language-javascript">const request = {
+  config: {
+    encoding: 'LINEAR16',
+    sampleRateHertz: 16000,
+    languageCode: 'en-US',
+  },
+  interimResults: true,
+};</code></pre>
+      <div class="callout">
+        <strong>Note:</strong> <code>LINEAR16</code> is Google's name for PCM signed 16-bit little-endian &mdash; the exact format decibri outputs by default. No conversion needed.
+      </div>
+
+      <h3>3. Create the recognize stream</h3>
+      <p>Call <code>streamingRecognize()</code> to get a writable stream that accepts audio and emits transcription results.</p>
+      <pre><code class="language-javascript">const recognizeStream = client
+  .streamingRecognize(request)
+  .on('error', console.error)
+  .on('data', (data) => {
+    const result = data.results[0];
+    if (result && result.alternatives[0]) {
+      const transcript = result.alternatives[0].transcript;
+      if (result.isFinal) {
+        console.log(`\n  [final]   ${transcript}`);
+      } else {
+        process.stdout.write(`\r  [partial] ${transcript}                    `);
+      }
+    }
+  });</code></pre>
+
+      <h3>4. Open the microphone and pipe</h3>
+      <p>Create a decibri instance at 16 kHz mono and pipe it directly into the recognize stream. This is the entire integration &mdash; no bridge code, no async generator, no chunk wrapping.</p>
+      <pre><code class="language-javascript">const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+mic.pipe(recognizeStream);</code></pre>
+
+      <h3>5. Handle results</h3>
+      <p>Google Cloud Speech-to-Text returns both interim and final results in the stream:</p>
+      <ul>
+        <li><strong>Interim results</strong> (<code>isFinal: false</code>): Words as they're being recognized. Updates rapidly. Good for live caption display.</li>
+        <li><strong>Final results</strong> (<code>isFinal: true</code>): Confirmed transcription. Won't change. Use these for command processing.</li>
+      </ul>
+      <p>Results are handled in the <code>data</code> event listener on the recognize stream (shown in step 3). Each event contains a <code>results</code> array with one or more <code>alternatives</code>, each including a <code>transcript</code> string and <code>confidence</code> score.</p>
+
+      <h3>6. Clean shutdown</h3>
+      <p>Stop the microphone and exit when the user presses Ctrl+C.</p>
+      <pre><code class="language-javascript">process.on('SIGINT', () => {
+  console.log('\nStopping...');
+  process.exit(0);
+});</code></pre>
+
+      <h2>Full example</h2>
+      <details>
+        <summary>View complete code</summary>
+        <pre><code class="language-javascript">'use strict';
+require('dotenv').config();
+
+const Decibri = require('decibri');
+const speech = require('@google-cloud/speech');
+
+async function main() {
+  // Create client (uses GOOGLE_APPLICATION_CREDENTIALS env var)
+  const client = new speech.SpeechClient();
+
+  // Configure streaming recognition
+  const request = {
+    config: {
+      encoding: 'LINEAR16',
+      sampleRateHertz: 16000,
+      languageCode: 'en-US',
+    },
+    interimResults: true,
+  };
+
+  // Create the recognize stream
+  const recognizeStream = client
+    .streamingRecognize(request)
+    .on('error', console.error)
+    .on('data', (data) => {
+      const result = data.results[0];
+      if (result && result.alternatives[0]) {
+        const transcript = result.alternatives[0].transcript;
+        if (result.isFinal) {
+          console.log(`\n  [final]   ${transcript}`);
+        } else {
+          process.stdout.write(`\r  [partial] ${transcript}                    `);
+        }
+      }
+    });
+
+  // Open microphone and pipe to Google
+  const mic = new Decibri({ sampleRate: 16000, channels: 1 });
+  mic.pipe(recognizeStream);
+
+  console.log('Google Speech-to-Text streaming test');
+  console.log('Speak into your microphone. Press Ctrl+C to stop.\n');
+}
+
+// ── Cleanup on Ctrl+C ──────────────────────────────────────
+process.on('SIGINT', () => {
+  console.log('\nStopping...');
+  process.exit(0);
+});
+
+main().catch(console.error);</code></pre>
+      </details>
+
+      <h2>Configuration options</h2>
+      <p>The request config controls how Google processes your audio. Here are the most useful options:</p>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>encoding</code></td>
+            <td>(required)</td>
+            <td>Audio encoding. Use <code>'LINEAR16'</code> for decibri's Int16 output.</td>
+          </tr>
+          <tr>
+            <td><code>sampleRateHertz</code></td>
+            <td>(required)</td>
+            <td>Sample rate. Use <code>16000</code> to match decibri default. Supports 8000&ndash;48000 Hz.</td>
+          </tr>
+          <tr>
+            <td><code>languageCode</code></td>
+            <td>(required)</td>
+            <td>BCP-47 language code (e.g. <code>'en-US'</code>, <code>'fr-FR'</code>, <code>'de-DE'</code>). Supports 125+ languages.</td>
+          </tr>
+          <tr>
+            <td><code>interimResults</code></td>
+            <td><code>false</code></td>
+            <td>Set <code>true</code> for partial results as speech is recognized.</td>
+          </tr>
+          <tr>
+            <td><code>model</code></td>
+            <td><code>'default'</code></td>
+            <td>Recognition model. Options: <code>'default'</code>, <code>'latest_long'</code>, <code>'latest_short'</code>, <code>'phone_call'</code>, <code>'video'</code>.</td>
+          </tr>
+          <tr>
+            <td><code>singleUtterance</code></td>
+            <td><code>false</code></td>
+            <td>Set <code>true</code> to stop after detecting end of a single spoken phrase. Useful for voice commands.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p>See the <a href="https://cloud.google.com/speech-to-text/docs/reference/rest/v1/projects.locations/streamingRecognize" target="_blank" rel="noopener noreferrer">Google Cloud Speech-to-Text streaming API reference</a> for the complete list of options.</p>
+
+      <div class="callout">
+        <strong>Free tier:</strong> New Google Cloud accounts get $300 in credit. After that, the first 60 minutes of audio per month are free.
+      </div>
+
+      <div class="related-links">
+        <h3>Related</h3>
+        <ul>
+          <li><a href="sherpa-onnx-stt.html">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
+          <li><a href="whisper-cpp.html">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
+          <li><a href="/docs/node/api-reference.html">API Reference</a>: full decibri API documentation</li>
+          <li><a href="https://cloud.google.com/speech-to-text/docs" target="_blank" rel="noopener noreferrer">Google Cloud Speech-to-Text documentation</a></li>
+          <li><a href="https://github.com/googleapis/nodejs-speech" target="_blank" rel="noopener noreferrer">@google-cloud/speech on GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/@google-cloud/speech" target="_blank" rel="noopener noreferrer">@google-cloud/speech on npm</a></li>
+          <li><a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a></li>
+        </ul>
+      </div>
+
+      <footer class="doc-footer">
+        <p>Apache-2.0 &copy; <a href="https://analyticsinmotion.com" target="_blank" rel="noopener noreferrer">Analytics in Motion</a> &middot; <a href="https://github.com/analyticsinmotion/decibri" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://www.npmjs.com/package/decibri" target="_blank" rel="noopener noreferrer">npm</a></p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="../../nav.js"></script>
+</body>
+</html>

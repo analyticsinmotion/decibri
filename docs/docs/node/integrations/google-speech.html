@@ -154,7 +154,7 @@ const client = new speech.SpeechClient();</code></pre>
   interimResults: true,
 };</code></pre>
       <div class="callout">
-        <strong>Note:</strong> <code>LINEAR16</code> is Google's name for PCM signed 16-bit little-endian &mdash; the exact format decibri outputs by default. No conversion needed.
+        <strong>Note:</strong> <code>LINEAR16</code> is Google's name for PCM signed 16-bit little-endian, the exact format decibri outputs by default. No conversion needed.
       </div>
 
       <h3>3. Create the recognize stream</h3>
@@ -175,7 +175,7 @@ const client = new speech.SpeechClient();</code></pre>
   });</code></pre>
 
       <h3>4. Open the microphone and pipe</h3>
-      <p>Create a decibri instance at 16 kHz mono and pipe it directly into the recognize stream. This is the entire integration &mdash; no bridge code, no async generator, no chunk wrapping.</p>
+      <p>Create a decibri instance at 16 kHz mono and pipe it directly into the recognize stream. This is the entire integration. No bridge code, no async generator, no chunk wrapping.</p>
       <pre><code class="language-javascript">const mic = new Decibri({ sampleRate: 16000, channels: 1 });
 mic.pipe(recognizeStream);</code></pre>
 

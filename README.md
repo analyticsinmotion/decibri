@@ -38,6 +38,7 @@
     <a href="https://decibri.dev/docs/node/integrations/mistral-voxtral.html"><img src="https://img.shields.io/badge/Mistral-cloud-blue" alt="Mistral"></a>&nbsp;
     <a href="https://decibri.dev/docs/node/integrations/aws-transcribe.html"><img src="https://img.shields.io/badge/AWS_Transcribe-cloud-blue" alt="AWS Transcribe"></a>&nbsp;
     <a href="https://decibri.dev/docs/node/integrations/google-speech.html"><img src="https://img.shields.io/badge/Google_Speech-cloud-blue" alt="Google Speech-to-Text"></a>&nbsp;
+    <a href="https://decibri.dev/docs/node/integrations/azure-speech.html"><img src="https://img.shields.io/badge/Azure_Speech-cloud-blue" alt="Azure Speech-to-Text"></a>&nbsp;
     <a href="https://decibri.dev/docs/node/integrations/sherpa-onnx-stt.html"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
     <a href="https://decibri.dev/docs/node/integrations/whisper-cpp.html"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
   </td>

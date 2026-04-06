@@ -101,7 +101,7 @@
         "name": "Does decibri work in the browser?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. decibri is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package."
+          "text": "The Node.js package is a native addon for server-side and CLI use only. For browser-based capture, see decibri-web (https://decibri.dev/docs/browser/), which provides the same API using the Web Audio API with zero dependencies."
         }
       },
       {
@@ -1798,7 +1798,7 @@
     <section id="compare" class="fade-in">
       <div class="section-label">When to use decibri</div>
       <h2>The right tool for the job</h2>
-      <p class="when-to-use">Use decibri when you need raw PCM audio from a system microphone inside a Node.js process. For example, feeding audio to a local speech-to-text engine, a wake word detector, or a real-time WebSocket pipeline. If you need browser-based audio capture, use the Web Audio API or <code>microphone-stream</code> instead.</p>
+      <p class="when-to-use">Use decibri when you need raw PCM audio from a system microphone inside a Node.js process. For example, feeding audio to a local speech-to-text engine, a wake word detector, or a real-time WebSocket pipeline. For browser-based audio capture, see <a href="/docs/browser/" style="color: var(--accent);">decibri-web</a>, which provides the same API using the Web Audio API with zero dependencies.</p>
 
       <div class="compare-grid">
         <div class="compare-card alt">
@@ -1878,7 +1878,7 @@
         </div>
         <div class="faq-item">
           <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Does decibri work in the browser?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>
-          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">No. decibri is a native Node.js addon for server-side and CLI use. For browser-based audio capture, use the Web Audio API or the microphone-stream package.</p></div></div>
+          <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">The Node.js package is a native addon for server-side and CLI use only. For browser-based capture, see <a href="/docs/browser/" style="color: var(--accent);">decibri-web</a>, which provides the same API using the Web Audio API with zero dependencies.</p></div></div>
         </div>
         <div class="faq-item">
           <h3 class="faq-q"><button type="button" aria-expanded="false" onclick="toggleFaq(this)">Can I select a specific microphone?<svg class="faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></h3>

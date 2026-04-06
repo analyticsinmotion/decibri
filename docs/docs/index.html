@@ -13,10 +13,10 @@
     })();
   </script>
   <title>Documentation | decibri</title>
-  <meta name="description" content="decibri documentation. Guides, API reference, and integration examples for cross-platform microphone streaming in Node.js.">
+  <meta name="description" content="decibri documentation. Guides, API reference, and integration examples for microphone capture in Node.js and the browser.">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Documentation | decibri">
-  <meta property="og:description" content="decibri documentation. Guides, API reference, and integration examples for cross-platform microphone streaming in Node.js.">
+  <meta property="og:description" content="decibri documentation. Guides, API reference, and integration examples for microphone capture in Node.js and the browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://decibri.dev/docs/">
   <link rel="canonical" href="https://decibri.dev/docs/">
@@ -30,19 +30,21 @@
     "@type": "ItemList",
     "name": "decibri Integrations",
     "description": "Speech-to-text and audio processing integrations for decibri, a cross-platform Node.js microphone streaming library.",
-    "numberOfItems": 11,
+    "numberOfItems": 13,
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Sherpa-ONNX Speech-to-Text", "url": "https://decibri.dev/docs/node/integrations/sherpa-onnx-stt.html"},
-      {"@type": "ListItem", "position": 2, "name": "Sherpa-ONNX Keyword Spotting", "url": "https://decibri.dev/docs/node/integrations/sherpa-onnx-kws.html"},
-      {"@type": "ListItem", "position": 3, "name": "Sherpa-ONNX Voice Activity Detection", "url": "https://decibri.dev/docs/node/integrations/sherpa-onnx-vad.html"},
-      {"@type": "ListItem", "position": 4, "name": "Whisper.cpp Speech-to-Text", "url": "https://decibri.dev/docs/node/integrations/whisper-cpp.html"},
-      {"@type": "ListItem", "position": 5, "name": "Deepgram Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/deepgram.html"},
-      {"@type": "ListItem", "position": 6, "name": "AssemblyAI Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/assemblyai.html"},
-      {"@type": "ListItem", "position": 7, "name": "OpenAI Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/openai-realtime.html"},
-      {"@type": "ListItem", "position": 8, "name": "Mistral Voxtral Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/mistral-voxtral.html"},
-      {"@type": "ListItem", "position": 9, "name": "AWS Transcribe Streaming", "url": "https://decibri.dev/docs/node/integrations/aws-transcribe.html"},
-      {"@type": "ListItem", "position": 10, "name": "Google Cloud Speech-to-Text Streaming", "url": "https://decibri.dev/docs/node/integrations/google-speech.html"},
-      {"@type": "ListItem", "position": 11, "name": "Azure Speech-to-Text Streaming", "url": "https://decibri.dev/docs/node/integrations/azure-speech.html"}
+      {"@type": "ListItem", "position": 1, "name": "Browser Getting Started", "url": "https://decibri.dev/docs/browser/"},
+      {"@type": "ListItem", "position": 2, "name": "Browser API Reference", "url": "https://decibri.dev/docs/browser/api-reference.html"},
+      {"@type": "ListItem", "position": 3, "name": "Sherpa-ONNX Speech-to-Text", "url": "https://decibri.dev/docs/node/integrations/sherpa-onnx-stt.html"},
+      {"@type": "ListItem", "position": 4, "name": "Sherpa-ONNX Keyword Spotting", "url": "https://decibri.dev/docs/node/integrations/sherpa-onnx-kws.html"},
+      {"@type": "ListItem", "position": 5, "name": "Sherpa-ONNX Voice Activity Detection", "url": "https://decibri.dev/docs/node/integrations/sherpa-onnx-vad.html"},
+      {"@type": "ListItem", "position": 6, "name": "Whisper.cpp Speech-to-Text", "url": "https://decibri.dev/docs/node/integrations/whisper-cpp.html"},
+      {"@type": "ListItem", "position": 7, "name": "Deepgram Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/deepgram.html"},
+      {"@type": "ListItem", "position": 8, "name": "AssemblyAI Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/assemblyai.html"},
+      {"@type": "ListItem", "position": 9, "name": "OpenAI Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/openai-realtime.html"},
+      {"@type": "ListItem", "position": 10, "name": "Mistral Voxtral Real-Time Transcription", "url": "https://decibri.dev/docs/node/integrations/mistral-voxtral.html"},
+      {"@type": "ListItem", "position": 11, "name": "AWS Transcribe Streaming", "url": "https://decibri.dev/docs/node/integrations/aws-transcribe.html"},
+      {"@type": "ListItem", "position": 12, "name": "Google Cloud Speech-to-Text Streaming", "url": "https://decibri.dev/docs/node/integrations/google-speech.html"},
+      {"@type": "ListItem", "position": 13, "name": "Azure Speech-to-Text Streaming", "url": "https://decibri.dev/docs/node/integrations/azure-speech.html"}
     ]
   }
   </script>
@@ -78,7 +80,7 @@
       </div>
 
       <h1>Welcome to the decibri documentation</h1>
-      <p class="lead">This documentation is here to help you get up and running with decibri and integrate it into your voice and audio applications. decibri is a cross-platform Node.js package for real-time microphone audio capture, built on PortAudio with pre-built native binaries. No ffmpeg, no SoX, and no build tools required.</p>
+      <p class="lead">This documentation is here to help you get up and running with decibri and integrate it into your voice and audio applications. decibri is a cross-platform audio capture library for JavaScript. The Node.js package uses a native PortAudio addon with pre-built binaries. The browser package uses the Web Audio API with zero dependencies. Same API, different runtimes.</p>
 
       <h2>Node.js</h2>
       <div class="cards-grid">
@@ -89,6 +91,18 @@
         <a href="node/api-reference.html" class="doc-card">
           <h3>API Reference</h3>
           <p>Constructor options, methods, events, and audio format details</p>
+        </a>
+      </div>
+
+      <h2>Browser</h2>
+      <div class="cards-grid">
+        <a href="browser/index.html" class="doc-card">
+          <h3>Getting Started</h3>
+          <p>Install, capture audio in the browser, and stream to your backend</p>
+        </a>
+        <a href="browser/api-reference.html" class="doc-card">
+          <h3>API Reference</h3>
+          <p>Constructor options, methods, events, and browser compatibility</p>
         </a>
       </div>
 

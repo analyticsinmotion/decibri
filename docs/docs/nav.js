@@ -87,6 +87,11 @@
     +       '</div>'
     +     '</div>'
     +   '</div>'
+    +   '<div class="sidebar-section">'
+    +     '<div class="sidebar-section-title">Browser</div>'
+    +     link('/docs/browser/index.html', 'Getting Started')
+    +     link('/docs/browser/api-reference.html', 'API Reference')
+    +   '</div>'
     + '</nav>'
     + '<div class="sidebar-back">'
     +   '<a href="/">'
@@ -144,6 +149,9 @@
     + '<div class="mobile-menu-sub-links">'
     + '<a href="/docs/node/integrations/azure-speech.html" onclick="toggleMobileMenu()">Streaming Transcription</a>'
     + '</div>'
+    + '<div class="mobile-menu-section">Browser</div>'
+    + '<a href="/docs/browser/index.html" onclick="toggleMobileMenu()">Getting Started</a>'
+    + '<a href="/docs/browser/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>'
     + '<div class="mobile-menu-divider"></div>'
     + '<a href="/">Back to decibri.dev</a>';
 

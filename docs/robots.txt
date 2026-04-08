@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://decibri.dev/sitemap.xml
+Sitemap: https://decibri.com/sitemap.xml

@@ -18,8 +18,8 @@
   <meta property="og:title" content="OpenAI Real-Time Transcription | decibri docs">
   <meta property="og:description" content="Real-time speech-to-text transcription using decibri and OpenAI's Realtime API in Node.js.">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://decibri.com/docs/node/integrations/openai-realtime.html">
-  <link rel="canonical" href="https://decibri.com/docs/node/integrations/openai-realtime.html">
+  <meta property="og:url" content="https://decibri.com/docs/node/integrations/openai-realtime">
+  <link rel="canonical" href="https://decibri.com/docs/node/integrations/openai-realtime">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,7 +49,7 @@
 
   <nav class="docs-nav">
     <div class="nav-inner">
-      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <a href="/docs/" class="nav-logo">deci<span>bri</span> docs</a>
       <div class="mobile-nav">
         <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
         <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
@@ -71,9 +71,9 @@
     <div class="doc-container">
 
       <div class="breadcrumb">
-        <a href="/docs/index.html">Docs</a>
+        <a href="/docs/">Docs</a>
         <span class="sep">/</span>
-        <a href="/docs/node/index.html">Node.js</a>
+        <a href="/docs/node/">Node.js</a>
         <span class="sep">/</span>
         <span class="current">OpenAI Real-Time Transcription</span>
       </div>
@@ -83,7 +83,7 @@
 
       <h2>What this does</h2>
       <p>This integration captures live audio from your microphone using decibri and streams it to OpenAI's Realtime API over a WebSocket. Transcription results arrive progressively as word-by-word deltas, followed by a completed transcript after the server-side voice activity detection (VAD) detects a pause. There is no model download and no local inference required.</p>
-      <p>Choose this when you want to use OpenAI's transcription models directly. For cloud STT with an official SDK wrapper and simpler setup, see <a href="deepgram.html">Deepgram</a> or <a href="assemblyai.html">AssemblyAI</a>. For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt.html">sherpa-onnx</a> or <a href="whisper-cpp.html">whisper.cpp</a> local integrations.</p>
+      <p>Choose this when you want to use OpenAI's transcription models directly. For cloud STT with an official SDK wrapper and simpler setup, see <a href="deepgram">Deepgram</a> or <a href="assemblyai">AssemblyAI</a>. For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt">sherpa-onnx</a> or <a href="whisper-cpp">whisper.cpp</a> local integrations.</p>
 
       <h2>Why raw WebSocket</h2>
       <div class="callout">
@@ -92,7 +92,7 @@
 
       <h2>Cloud vs local</h2>
       <div class="callout">
-        <strong>Note:</strong> Audio is sent to OpenAI's servers for processing. Review <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">OpenAI's data usage policy</a> for details on how audio data is handled. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt.html">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp.html">whisper.cpp</a> (batch transcription).
+        <strong>Note:</strong> Audio is sent to OpenAI's servers for processing. Review <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">OpenAI's data usage policy</a> for details on how audio data is handled. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp">whisper.cpp</a> (batch transcription).
       </div>
 
       <h2>Prerequisites</h2>
@@ -360,11 +360,11 @@ run().catch(console.error);</code></pre>
       <div class="related-links">
         <h3>Related</h3>
         <ul>
-          <li><a href="deepgram.html">Deepgram Real-Time Transcription</a>: cloud speech-to-text with a free tier and SDK wrapper</li>
-          <li><a href="assemblyai.html">AssemblyAI Real-Time Transcription</a>: cloud speech-to-text with turn-based results and SDK wrapper</li>
-          <li><a href="sherpa-onnx-stt.html">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
-          <li><a href="whisper-cpp.html">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
-          <li><a href="/docs/node/api-reference.html">API Reference</a>: full decibri API documentation</li>
+          <li><a href="deepgram">Deepgram Real-Time Transcription</a>: cloud speech-to-text with a free tier and SDK wrapper</li>
+          <li><a href="assemblyai">AssemblyAI Real-Time Transcription</a>: cloud speech-to-text with turn-based results and SDK wrapper</li>
+          <li><a href="sherpa-onnx-stt">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
+          <li><a href="whisper-cpp">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
+          <li><a href="/docs/node/api-reference">API Reference</a>: full decibri API documentation</li>
           <li><a href="https://platform.openai.com/docs/guides/realtime" target="_blank" rel="noopener noreferrer">OpenAI Realtime API docs</a></li>
           <li><a href="https://platform.openai.com/docs/guides/speech-to-text" target="_blank" rel="noopener noreferrer">OpenAI Speech-to-Text docs</a></li>
           <li><a href="https://www.npmjs.com/package/ws" target="_blank" rel="noopener noreferrer">ws on npm</a></li>

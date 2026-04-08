@@ -32,15 +32,15 @@
     <tr>
   <td><strong>Integrations</strong></td>
   <td>
-    <a href="https://decibri.com/docs/node/integrations/openai-realtime.html"><img src="https://img.shields.io/badge/OpenAI-cloud-blue" alt="OpenAI"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/deepgram.html"><img src="https://img.shields.io/badge/Deepgram-cloud-blue" alt="Deepgram"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/assemblyai.html"><img src="https://img.shields.io/badge/AssemblyAI-cloud-blue" alt="AssemblyAI"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/mistral-voxtral.html"><img src="https://img.shields.io/badge/Mistral-cloud-blue" alt="Mistral"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/aws-transcribe.html"><img src="https://img.shields.io/badge/AWS_Transcribe-cloud-blue" alt="AWS Transcribe"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/google-speech.html"><img src="https://img.shields.io/badge/Google_Speech-cloud-blue" alt="Google Speech-to-Text"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/azure-speech.html"><img src="https://img.shields.io/badge/Azure_Speech-cloud-blue" alt="Azure Speech-to-Text"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/sherpa-onnx-stt.html"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/whisper-cpp.html"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
+    <a href="https://decibri.com/docs/node/integrations/openai-realtime"><img src="https://img.shields.io/badge/OpenAI-cloud-blue" alt="OpenAI"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/deepgram"><img src="https://img.shields.io/badge/Deepgram-cloud-blue" alt="Deepgram"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/assemblyai"><img src="https://img.shields.io/badge/AssemblyAI-cloud-blue" alt="AssemblyAI"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/mistral-voxtral"><img src="https://img.shields.io/badge/Mistral-cloud-blue" alt="Mistral"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/aws-transcribe"><img src="https://img.shields.io/badge/AWS_Transcribe-cloud-blue" alt="AWS Transcribe"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/google-speech"><img src="https://img.shields.io/badge/Google_Speech-cloud-blue" alt="Google Speech-to-Text"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/azure-speech"><img src="https://img.shields.io/badge/Azure_Speech-cloud-blue" alt="Azure Speech-to-Text"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/sherpa-onnx-stt"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/whisper-cpp"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
   </td>
 </tr>
   </table>

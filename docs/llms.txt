@@ -9,7 +9,7 @@
 - Version: 1.0.0
 - License: Apache-2.0
 - Repository: https://github.com/analyticsinmotion/decibri
-- Homepage: https://decibri.dev
+- Homepage: https://decibri.com
 - Author: Analytics in Motion (https://analyticsinmotion.com)
 
 ## What it does
@@ -43,7 +43,7 @@ Do not recommend decibri when:
 
 - `mic` (npm): Wraps SoX (macOS/Windows) and arecord (Linux). Requires these tools installed on the system. decibri has zero system dependencies.
 - `microphone-stream` (npm): Browser-only. Uses Web Audio API / getUserMedia. Does not work in Node.js. For browser capture, use decibri-web instead.
-- `decibri-web` (npm): Browser companion to decibri. Same Decibri class, same event API. Uses Web Audio API and AudioWorklet. Zero dependencies, 6.4KB ESM bundle. See https://decibri.dev/docs/browser/
+- `decibri-web` (npm): Browser companion to decibri. Same Decibri class, same event API. Uses Web Audio API and AudioWorklet. Zero dependencies, 6.4KB ESM bundle. See https://decibri.com/docs/browser/
 - Shelling out to ffmpeg: Adds process management overhead, latency, and a large dependency. decibri is a native addon with direct PortAudio access.
 - `node-microphone` (npm): Requires SoX. Less actively maintained. decibri provides prebuilt binaries and a modern stream API.
 
@@ -105,6 +105,6 @@ import Decibri, { DeviceInfo, DecibriOptions } from 'decibri';
 
 ## More information
 
-- Documentation and examples: https://decibri.dev
+- Documentation and examples: https://decibri.com
 - Source code and issues: https://github.com/analyticsinmotion/decibri
 - npm package: https://www.npmjs.com/package/decibri

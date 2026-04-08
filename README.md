@@ -15,8 +15,8 @@
       <td>
         <a href="https://www.npmjs.com/package/decibri"><img src="https://img.shields.io/npm/v/decibri" alt="npm version"></a>&nbsp;
         <a href="https://github.com/analyticsinmotion/decibri/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>&nbsp;
-        <a href="https://decibri.dev"><img src="https://img.shields.io/badge/Website-decibri.dev-blue" alt="decibri.dev"></a>&nbsp;
-        <a href="https://decibri.dev/docs/"><img src="https://img.shields.io/badge/docs-passing-brightgreen" alt="Docs"></a>&nbsp;
+        <a href="https://decibri.com"><img src="https://img.shields.io/badge/Website-decibri.com-blue" alt="decibri.com"></a>&nbsp;
+        <a href="https://decibri.com/docs/"><img src="https://img.shields.io/badge/docs-passing-brightgreen" alt="Docs"></a>&nbsp;
         <a href="https://github.com/analyticsinmotion"><img src="https://github.com/user-attachments/assets/616c530f-cf2a-4f26-8f6c-7397be513847" alt="Analytics in Motion" width="137" height="20"></a>
       </td>
     </tr>
@@ -32,15 +32,15 @@
     <tr>
   <td><strong>Integrations</strong></td>
   <td>
-    <a href="https://decibri.dev/docs/node/integrations/openai-realtime.html"><img src="https://img.shields.io/badge/OpenAI-cloud-blue" alt="OpenAI"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/deepgram.html"><img src="https://img.shields.io/badge/Deepgram-cloud-blue" alt="Deepgram"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/assemblyai.html"><img src="https://img.shields.io/badge/AssemblyAI-cloud-blue" alt="AssemblyAI"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/mistral-voxtral.html"><img src="https://img.shields.io/badge/Mistral-cloud-blue" alt="Mistral"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/aws-transcribe.html"><img src="https://img.shields.io/badge/AWS_Transcribe-cloud-blue" alt="AWS Transcribe"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/google-speech.html"><img src="https://img.shields.io/badge/Google_Speech-cloud-blue" alt="Google Speech-to-Text"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/azure-speech.html"><img src="https://img.shields.io/badge/Azure_Speech-cloud-blue" alt="Azure Speech-to-Text"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/sherpa-onnx-stt.html"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
-    <a href="https://decibri.dev/docs/node/integrations/whisper-cpp.html"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
+    <a href="https://decibri.com/docs/node/integrations/openai-realtime.html"><img src="https://img.shields.io/badge/OpenAI-cloud-blue" alt="OpenAI"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/deepgram.html"><img src="https://img.shields.io/badge/Deepgram-cloud-blue" alt="Deepgram"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/assemblyai.html"><img src="https://img.shields.io/badge/AssemblyAI-cloud-blue" alt="AssemblyAI"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/mistral-voxtral.html"><img src="https://img.shields.io/badge/Mistral-cloud-blue" alt="Mistral"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/aws-transcribe.html"><img src="https://img.shields.io/badge/AWS_Transcribe-cloud-blue" alt="AWS Transcribe"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/google-speech.html"><img src="https://img.shields.io/badge/Google_Speech-cloud-blue" alt="Google Speech-to-Text"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/azure-speech.html"><img src="https://img.shields.io/badge/Azure_Speech-cloud-blue" alt="Azure Speech-to-Text"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/sherpa-onnx-stt.html"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
+    <a href="https://decibri.com/docs/node/integrations/whisper-cpp.html"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
   </td>
 </tr>
   </table>

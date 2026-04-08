@@ -14,7 +14,7 @@
 
   var html = ''
     + '<div class="sidebar-header">'
-    +   '<a href="/docs/index.html" class="sidebar-logo">deci<span>bri</span> docs</a>'
+    +   '<a href="/docs/" class="sidebar-logo">deci<span>bri</span> docs</a>'
     +   '<div class="sidebar-actions">'
     +     '<a href="https://github.com/analyticsinmotion/decibri" class="sidebar-github" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>'
     +     '<button class="sidebar-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">'
@@ -26,71 +26,71 @@
     + '<nav class="sidebar-nav">'
     +   '<div class="sidebar-section">'
     +     '<div class="sidebar-section-title">Node.js</div>'
-    +     link('/docs/node/index.html', 'Getting Started')
-    +     link('/docs/node/api-reference.html', 'API Reference')
+    +     link('/docs/node/', 'Getting Started')
+    +     link('/docs/node/api-reference', 'API Reference')
     +     '<div class="sidebar-section-title" style="margin-top:12px">Integrations</div>'
-    +     link('/docs/node/integrations/index.html', 'Choosing an Integration')
+    +     link('/docs/node/integrations/', 'Choosing an Integration')
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Sherpa-ONNX</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/sherpa-onnx-stt.html', 'Speech-to-Text')
-    +         link('/docs/node/integrations/sherpa-onnx-kws.html', 'Keyword Spotting')
-    +         link('/docs/node/integrations/sherpa-onnx-vad.html', 'Voice Activity Detection')
+    +         link('/docs/node/integrations/sherpa-onnx-stt', 'Speech-to-Text')
+    +         link('/docs/node/integrations/sherpa-onnx-kws', 'Keyword Spotting')
+    +         link('/docs/node/integrations/sherpa-onnx-vad', 'Voice Activity Detection')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Whisper.cpp</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/whisper-cpp.html', 'Speech-to-Text')
+    +         link('/docs/node/integrations/whisper-cpp', 'Speech-to-Text')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Deepgram</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/deepgram.html', 'Real-Time Transcription')
+    +         link('/docs/node/integrations/deepgram', 'Real-Time Transcription')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">AssemblyAI</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/assemblyai.html', 'Real-Time Transcription')
+    +         link('/docs/node/integrations/assemblyai', 'Real-Time Transcription')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">OpenAI</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/openai-realtime.html', 'Real-Time Transcription')
+    +         link('/docs/node/integrations/openai-realtime', 'Real-Time Transcription')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Mistral</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/mistral-voxtral.html', 'Real-Time Transcription')
+    +         link('/docs/node/integrations/mistral-voxtral', 'Real-Time Transcription')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">AWS</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/aws-transcribe.html', 'Streaming Transcription')
+    +         link('/docs/node/integrations/aws-transcribe', 'Streaming Transcription')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Google</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/google-speech.html', 'Streaming Transcription')
+    +         link('/docs/node/integrations/google-speech', 'Streaming Transcription')
     +       '</div>'
     +     '</div>'
     +     '<div class="sidebar-sub">'
     +       '<div class="sidebar-section-title" style="font-size:10px;letter-spacing:1px">Azure</div>'
     +       '<div class="sidebar-sub">'
-    +         link('/docs/node/integrations/azure-speech.html', 'Streaming Transcription')
+    +         link('/docs/node/integrations/azure-speech', 'Streaming Transcription')
     +       '</div>'
     +     '</div>'
     +   '</div>'
     +   '<div class="sidebar-section">'
     +     '<div class="sidebar-section-title">Browser</div>'
-    +     link('/docs/browser/index.html', 'Getting Started')
-    +     link('/docs/browser/api-reference.html', 'API Reference')
+    +     link('/docs/browser/', 'Getting Started')
+    +     link('/docs/browser/api-reference', 'API Reference')
     +   '</div>'
     + '</nav>'
     + '<div class="sidebar-back">'
@@ -107,51 +107,51 @@
   // Inject mobile menu
   var mobileMenuHtml = ''
     + '<div class="mobile-menu-section">Node.js</div>'
-    + '<a href="/docs/node/index.html" onclick="toggleMobileMenu()">Getting Started</a>'
-    + '<a href="/docs/node/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>'
+    + '<a href="/docs/node/" onclick="toggleMobileMenu()">Getting Started</a>'
+    + '<a href="/docs/node/api-reference" onclick="toggleMobileMenu()">API Reference</a>'
     + '<div class="mobile-menu-section">Integrations</div>'
-    + '<a href="/docs/node/integrations/index.html" onclick="toggleMobileMenu()">Choosing an Integration</a>'
+    + '<a href="/docs/node/integrations/" onclick="toggleMobileMenu()">Choosing an Integration</a>'
     + '<div class="mobile-menu-subsection">Sherpa-ONNX</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/sherpa-onnx-stt.html" onclick="toggleMobileMenu()">Speech-to-Text</a>'
-    + '<a href="/docs/node/integrations/sherpa-onnx-kws.html" onclick="toggleMobileMenu()">Keyword Spotting</a>'
-    + '<a href="/docs/node/integrations/sherpa-onnx-vad.html" onclick="toggleMobileMenu()">Voice Activity Detection</a>'
+    + '<a href="/docs/node/integrations/sherpa-onnx-stt" onclick="toggleMobileMenu()">Speech-to-Text</a>'
+    + '<a href="/docs/node/integrations/sherpa-onnx-kws" onclick="toggleMobileMenu()">Keyword Spotting</a>'
+    + '<a href="/docs/node/integrations/sherpa-onnx-vad" onclick="toggleMobileMenu()">Voice Activity Detection</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">Whisper.cpp</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/whisper-cpp.html" onclick="toggleMobileMenu()">Speech-to-Text</a>'
+    + '<a href="/docs/node/integrations/whisper-cpp" onclick="toggleMobileMenu()">Speech-to-Text</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">Deepgram</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/deepgram.html" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
+    + '<a href="/docs/node/integrations/deepgram" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">AssemblyAI</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/assemblyai.html" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
+    + '<a href="/docs/node/integrations/assemblyai" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">OpenAI</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/openai-realtime.html" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
+    + '<a href="/docs/node/integrations/openai-realtime" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">Mistral</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/mistral-voxtral.html" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
+    + '<a href="/docs/node/integrations/mistral-voxtral" onclick="toggleMobileMenu()">Real-Time Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">AWS</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/aws-transcribe.html" onclick="toggleMobileMenu()">Streaming Transcription</a>'
+    + '<a href="/docs/node/integrations/aws-transcribe" onclick="toggleMobileMenu()">Streaming Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">Google</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/google-speech.html" onclick="toggleMobileMenu()">Streaming Transcription</a>'
+    + '<a href="/docs/node/integrations/google-speech" onclick="toggleMobileMenu()">Streaming Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-subsection">Azure</div>'
     + '<div class="mobile-menu-sub-links">'
-    + '<a href="/docs/node/integrations/azure-speech.html" onclick="toggleMobileMenu()">Streaming Transcription</a>'
+    + '<a href="/docs/node/integrations/azure-speech" onclick="toggleMobileMenu()">Streaming Transcription</a>'
     + '</div>'
     + '<div class="mobile-menu-section">Browser</div>'
-    + '<a href="/docs/browser/index.html" onclick="toggleMobileMenu()">Getting Started</a>'
-    + '<a href="/docs/browser/api-reference.html" onclick="toggleMobileMenu()">API Reference</a>'
+    + '<a href="/docs/browser/" onclick="toggleMobileMenu()">Getting Started</a>'
+    + '<a href="/docs/browser/api-reference" onclick="toggleMobileMenu()">API Reference</a>'
     + '<div class="mobile-menu-divider"></div>'
     + '<a href="/">Back to decibri.com</a>';
 

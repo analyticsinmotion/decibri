@@ -31,7 +31,7 @@
 
   <nav class="docs-nav">
     <div class="nav-inner">
-      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <a href="/docs/" class="nav-logo">deci<span>bri</span> docs</a>
       <div class="mobile-nav">
         <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
         <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
@@ -53,7 +53,7 @@
     <div class="doc-container">
 
       <div class="breadcrumb">
-        <a href="/docs/index.html">Docs</a>
+        <a href="/docs/">Docs</a>
         <span class="sep">/</span>
         <span class="current">Getting Started</span>
       </div>
@@ -117,7 +117,7 @@ const mic2 = new Decibri({ device: 'USB', sampleRate: 16000, channels: 1 });</co
 
 mic.on('speech', () => console.log('Speech detected'));
 mic.on('silence', () => console.log('Silence detected'));</code></pre>
-      <p>For more accurate detection in noisy environments, see the <a href="integrations/sherpa-onnx-vad.html">Sherpa-ONNX Silero VAD integration</a>.</p>
+      <p>For more accurate detection in noisy environments, see the <a href="integrations/sherpa-onnx-vad">Sherpa-ONNX Silero VAD integration</a>.</p>
 
       <h2>Platform support</h2>
       <p>Pre-built binaries ship inside the npm package. No build tools, no compilation, no post-install downloads.</p>
@@ -158,7 +158,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h2>Next steps</h2>
       <div class="cards-grid">
-        <a href="api-reference.html" class="doc-card">
+        <a href="api-reference" class="doc-card">
           <h3>API Reference</h3>
           <p>Full constructor options, methods, events, and audio format details</p>
         </a>
@@ -168,15 +168,15 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>Sherpa-ONNX</h3>
       <div class="cards-grid">
-        <a href="integrations/sherpa-onnx-stt.html" class="doc-card">
+        <a href="integrations/sherpa-onnx-stt" class="doc-card">
           <h3>Speech-to-Text</h3>
           <p>Real-time local transcription</p>
         </a>
-        <a href="integrations/sherpa-onnx-kws.html" class="doc-card">
+        <a href="integrations/sherpa-onnx-kws" class="doc-card">
           <h3>Keyword Spotting</h3>
           <p>Detect spoken keywords with sherpa-onnx</p>
         </a>
-        <a href="integrations/sherpa-onnx-vad.html" class="doc-card">
+        <a href="integrations/sherpa-onnx-vad" class="doc-card">
           <h3>Voice Activity Detection</h3>
           <p>Detect speech vs silence with Silero VAD</p>
         </a>
@@ -184,7 +184,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>Whisper.cpp</h3>
       <div class="cards-grid">
-        <a href="integrations/whisper-cpp.html" class="doc-card">
+        <a href="integrations/whisper-cpp" class="doc-card">
           <h3>Speech-to-Text</h3>
           <p>Local transcription with OpenAI's Whisper model</p>
         </a>
@@ -194,7 +194,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>Deepgram</h3>
       <div class="cards-grid">
-        <a href="integrations/deepgram.html" class="doc-card">
+        <a href="integrations/deepgram" class="doc-card">
           <h3>Real-Time Transcription</h3>
           <p>Cloud speech-to-text with Deepgram's Nova-3 model</p>
         </a>
@@ -202,7 +202,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>AssemblyAI</h3>
       <div class="cards-grid">
-        <a href="integrations/assemblyai.html" class="doc-card">
+        <a href="integrations/assemblyai" class="doc-card">
           <h3>Real-Time Transcription</h3>
           <p>Cloud speech-to-text with AssemblyAI's Universal-3 Pro model</p>
         </a>
@@ -210,7 +210,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>OpenAI</h3>
       <div class="cards-grid">
-        <a href="integrations/openai-realtime.html" class="doc-card">
+        <a href="integrations/openai-realtime" class="doc-card">
           <h3>Real-Time Transcription</h3>
           <p>Stream audio to OpenAI's Realtime API for speech-to-text</p>
         </a>
@@ -218,7 +218,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>Mistral</h3>
       <div class="cards-grid">
-        <a href="integrations/mistral-voxtral.html" class="doc-card">
+        <a href="integrations/mistral-voxtral" class="doc-card">
           <h3>Real-Time Transcription</h3>
           <p>Cloud speech-to-text with Mistral's Voxtral open-weights model</p>
         </a>
@@ -226,7 +226,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>AWS</h3>
       <div class="cards-grid">
-        <a href="integrations/aws-transcribe.html" class="doc-card">
+        <a href="integrations/aws-transcribe" class="doc-card">
           <h3>Streaming Transcription</h3>
           <p>Real-time cloud speech-to-text with AWS Transcribe</p>
         </a>
@@ -234,7 +234,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>Google</h3>
       <div class="cards-grid">
-        <a href="integrations/google-speech.html" class="doc-card">
+        <a href="integrations/google-speech" class="doc-card">
           <h3>Streaming Transcription</h3>
           <p>Real-time cloud speech-to-text with Google Cloud Speech-to-Text</p>
         </a>
@@ -242,7 +242,7 @@ mic.on('silence', () => console.log('Silence detected'));</code></pre>
 
       <h3>Azure</h3>
       <div class="cards-grid">
-        <a href="integrations/azure-speech.html" class="doc-card">
+        <a href="integrations/azure-speech" class="doc-card">
           <h3>Streaming Transcription</h3>
           <p>Real-time cloud speech-to-text with Azure Speech-to-Text</p>
         </a>

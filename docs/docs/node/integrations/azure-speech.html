@@ -18,8 +18,8 @@
   <meta property="og:title" content="Azure Speech-to-Text Streaming | decibri docs">
   <meta property="og:description" content="Real-time cloud speech-to-text streaming using decibri and Azure Speech-to-Text in Node.js.">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://decibri.com/docs/node/integrations/azure-speech.html">
-  <link rel="canonical" href="https://decibri.com/docs/node/integrations/azure-speech.html">
+  <meta property="og:url" content="https://decibri.com/docs/node/integrations/azure-speech">
+  <link rel="canonical" href="https://decibri.com/docs/node/integrations/azure-speech">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +47,7 @@
 
   <nav class="docs-nav">
     <div class="nav-inner">
-      <a href="/docs/index.html" class="nav-logo">deci<span>bri</span> docs</a>
+      <a href="/docs/" class="nav-logo">deci<span>bri</span> docs</a>
       <div class="mobile-nav">
         <a href="https://github.com/analyticsinmotion/decibri" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
         <button class="mobile-nav-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
@@ -69,9 +69,9 @@
     <div class="doc-container">
 
       <div class="breadcrumb">
-        <a href="/docs/index.html">Docs</a>
+        <a href="/docs/">Docs</a>
         <span class="sep">/</span>
-        <a href="/docs/node/index.html">Node.js</a>
+        <a href="/docs/node/">Node.js</a>
         <span class="sep">/</span>
         <span class="current">Azure Speech-to-Text Streaming</span>
       </div>
@@ -86,11 +86,11 @@
         <strong>Important:</strong> Azure's Speech SDK does not support microphone input in Node.js. The <code>fromDefaultMicrophoneInput()</code> method is browser-only. decibri provides the missing audio capture layer, feeding PCM audio into Azure's <code>PushAudioInputStream</code>.
       </div>
 
-      <p>Choose this when you need Azure's speech models, enterprise Azure integration, or the most generous free tier (5 hours/month). For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt.html">sherpa-onnx</a> or <a href="whisper-cpp.html">whisper.cpp</a> local integrations instead.</p>
+      <p>Choose this when you need Azure's speech models, enterprise Azure integration, or the most generous free tier (5 hours/month). For use cases where audio must stay on your device, see the <a href="sherpa-onnx-stt">sherpa-onnx</a> or <a href="whisper-cpp">whisper.cpp</a> local integrations instead.</p>
 
       <h2>Cloud vs local</h2>
       <div class="callout">
-        <strong>Note:</strong> Azure Speech-to-Text is a cloud service. Audio is sent to Microsoft's servers for processing. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt.html">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp.html">whisper.cpp</a> (batch transcription).
+        <strong>Note:</strong> Azure Speech-to-Text is a cloud service. Audio is sent to Microsoft's servers for processing. If your use case requires audio to stay entirely on-device, use the local integrations: <a href="sherpa-onnx-stt">sherpa-onnx</a> (real-time streaming) or <a href="whisper-cpp">whisper.cpp</a> (batch transcription).
       </div>
 
       <h2>Prerequisites</h2>
@@ -312,9 +312,9 @@ main().catch(console.error);</code></pre>
       <div class="related-links">
         <h3>Related</h3>
         <ul>
-          <li><a href="sherpa-onnx-stt.html">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
-          <li><a href="whisper-cpp.html">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
-          <li><a href="/docs/node/api-reference.html">API Reference</a>: full decibri API documentation</li>
+          <li><a href="sherpa-onnx-stt">Sherpa-ONNX Speech-to-Text</a>: real-time local transcription, no cloud required</li>
+          <li><a href="whisper-cpp">Whisper.cpp Speech-to-Text</a>: local batch transcription with OpenAI's Whisper model</li>
+          <li><a href="/docs/node/api-reference">API Reference</a>: full decibri API documentation</li>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/" target="_blank" rel="noopener noreferrer">Azure Speech Service documentation</a></li>
           <li><a href="https://github.com/Microsoft/cognitive-services-speech-sdk-js" target="_blank" rel="noopener noreferrer">Azure Speech SDK for JavaScript on GitHub</a></li>
           <li><a href="https://www.npmjs.com/package/microsoft-cognitiveservices-speech-sdk" target="_blank" rel="noopener noreferrer">microsoft-cognitiveservices-speech-sdk on npm</a></li>

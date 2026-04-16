@@ -8,7 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [Unreleased] — Repository Archived
+
+This repository is preserved for historical reference. The C++ implementation has been superseded by decibri v3 (Rust rewrite) at [github.com/decibri/decibri](https://github.com/decibri/decibri).
+
+- Repository transferred from `github.com/analyticsinmotion/decibri` to `github.com/decibri/decibri.cpp` (April 2026)
+- Automated workflows disabled
+- No further releases will be published under this package name from this repository
+- See [github.com/decibri/decibri](https://github.com/decibri/decibri) or [decibri.com](https://decibri.com) for current development
 
 ---
 

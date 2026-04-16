@@ -12,7 +12,9 @@
       "Read(//tmp/**)",
       "Bash(npm pack:*)",
       "Bash(tar xzf:*)",
-      "Bash(find package:*)"
+      "Bash(find package:*)",
+      "Bash(git -C /c/development/decibri/npm/decibri.cpp/repository/decibri.cpp log --oneline --decorate -20)",
+      "Bash(git config *)"
     ]
   }
 }

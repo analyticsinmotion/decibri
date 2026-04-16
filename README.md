@@ -8,42 +8,6 @@
 
   Pre-built binaries for Windows, macOS, and Linux. No build tools, no SoX, no system dependencies required.
 
-  <!-- badges: start -->
-  <table>
-    <tr>
-      <td><strong>Meta</strong></td>
-      <td>
-        <a href="https://www.npmjs.com/package/decibri"><img src="https://img.shields.io/npm/v/decibri" alt="npm version"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/decibri/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>&nbsp;
-        <a href="https://decibri.com"><img src="https://img.shields.io/badge/Website-decibri.com-blue" alt="decibri.com"></a>&nbsp;
-        <a href="https://decibri.com/docs/"><img src="https://img.shields.io/badge/docs-passing-brightgreen" alt="Docs"></a>&nbsp;
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Binaries</strong></td>
-      <td>
-        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Windows%20x64&label=Windows%20x64&logo=microsoft&logoColor=white" alt="Windows x64"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=macOS%20ARM64&label=macOS%20ARM64&logo=apple" alt="macOS ARM64"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Linux%20x64&label=Linux%20x64&logo=linux&logoColor=white" alt="Linux x64"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion/decibri/actions/workflows/prebuild.yml"><img src="https://img.shields.io/github/actions/workflow/status/analyticsinmotion/decibri/prebuild.yml?job=Linux%20ARM64&label=Linux%20ARM64&logo=linux&logoColor=white" alt="Linux ARM64"></a>
-      </td>
-    </tr>
-    <tr>
-  <td><strong>Integrations</strong></td>
-  <td>
-    <a href="https://decibri.com/docs/node/integrations/openai-realtime"><img src="https://img.shields.io/badge/OpenAI-cloud-blue" alt="OpenAI"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/deepgram"><img src="https://img.shields.io/badge/Deepgram-cloud-blue" alt="Deepgram"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/assemblyai"><img src="https://img.shields.io/badge/AssemblyAI-cloud-blue" alt="AssemblyAI"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/mistral-voxtral"><img src="https://img.shields.io/badge/Mistral-cloud-blue" alt="Mistral"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/aws-transcribe"><img src="https://img.shields.io/badge/AWS_Transcribe-cloud-blue" alt="AWS Transcribe"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/google-speech"><img src="https://img.shields.io/badge/Google_Speech-cloud-blue" alt="Google Speech-to-Text"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/azure-speech"><img src="https://img.shields.io/badge/Azure_Speech-cloud-blue" alt="Azure Speech-to-Text"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/sherpa-onnx-stt"><img src="https://img.shields.io/badge/Sherpa--ONNX-local-brightgreen" alt="Sherpa-ONNX"></a>&nbsp;
-    <a href="https://decibri.com/docs/node/integrations/whisper-cpp"><img src="https://img.shields.io/badge/Whisper.cpp-local-brightgreen" alt="Whisper.cpp"></a>
-  </td>
-</tr>
-  </table>
-  <!-- badges: end -->
 </div>
 
 ---
@@ -300,7 +264,7 @@ Install [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-b
 Then:
 
 ```bash
-git clone --recurse-submodules https://github.com/analyticsinmotion/decibri.git
+git clone --recurse-submodules https://github.com/decibri/decibri.cpp.git
 cd decibri
 npm install
 npm run build

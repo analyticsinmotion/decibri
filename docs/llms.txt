@@ -8,9 +8,9 @@
 - Install: npm install decibri
 - Version: 1.0.0
 - License: Apache-2.0
-- Repository: https://github.com/analyticsinmotion/decibri
+- Repository: https://github.com/decibri/decibri.cpp
 - Homepage: https://decibri.com
-- Author: Analytics in Motion (https://analyticsinmotion.com)
+- Author: Analytics in Motion (https://decibri.com)
 
 ## What it does
 
@@ -106,5 +106,5 @@ import Decibri, { DeviceInfo, DecibriOptions } from 'decibri';
 ## More information
 
 - Documentation and examples: https://decibri.com
-- Source code and issues: https://github.com/analyticsinmotion/decibri
+- Source code and issues: https://github.com/decibri/decibri.cpp
 - npm package: https://www.npmjs.com/package/decibri

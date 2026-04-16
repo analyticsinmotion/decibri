@@ -17,7 +17,6 @@
         <a href="https://github.com/analyticsinmotion/decibri/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>&nbsp;
         <a href="https://decibri.com"><img src="https://img.shields.io/badge/Website-decibri.com-blue" alt="decibri.com"></a>&nbsp;
         <a href="https://decibri.com/docs/"><img src="https://img.shields.io/badge/docs-passing-brightgreen" alt="Docs"></a>&nbsp;
-        <a href="https://github.com/analyticsinmotion"><img src="https://github.com/user-attachments/assets/616c530f-cf2a-4f26-8f6c-7397be513847" alt="Analytics in Motion" width="137" height="20"></a>
       </td>
     </tr>
     <tr>
@@ -46,6 +45,19 @@
   </table>
   <!-- badges: end -->
 </div>
+
+---
+
+ **PLEASE NOTE**
+ 
+This repository contains the original C++ implementation of decibri (v1).
+ 
+**Active development has moved to [github.com/decibri/decibri](https://github.com/decibri/decibri)** — a full Rust rewrite published as v3 with Node.js, browser, and Python support.
+ 
+This repository is preserved for historical reference and is not actively maintained. For current decibri, see:
+- [npmjs.com/package/decibri](https://www.npmjs.com/package/decibri) — the current Node.js/browser package
+- [crates.io/crates/decibri](https://crates.io/crates/decibri) — the current Rust crate
+- [decibri.com](https://decibri.com) — documentation and guides
 
 ---
 
